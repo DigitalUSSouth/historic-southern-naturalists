@@ -2,11 +2,9 @@
   "name": "cdh-temp",
   "description": "This is a placeholder description.",
   "version": "1.0.0",
+  "author": "Center for Digital Humanities",
   "license": "MIT",
   "private": true,
-  "scripts": {
-    "start": "meteor run"
-  },
   "dependencies": {
     "meteor-node-stubs": "~0.2.0"
   }
