@@ -1,0 +1,45 @@
+{
+  "timeline": {
+    "headline": "Collin Haines",
+    "type": "default",
+    "text": "The timeline of Collin.",
+    "startDate": "1994,4,15",
+    "date": [
+      {
+        "startDate": "1994,4,15",
+        "endDate": "1994,4,15",
+        "headline": "Birth",
+        "text": "Well, I was born."
+      },
+      {
+        "startDate": "1999,8",
+        "endDate": "2000,6",
+        "headline": "Kindergarten",
+        "text": "<p>Paragraph text</p>"
+      },
+      {
+        "startDate": "2003,12",
+        "endDate":"2004,1",
+        "headline": "Move Schools",
+        "text": "<small>Small text</small>"
+      },
+      {
+        "startDate": "2005,8,19",
+        "endDate": "2006,6,2",
+        "headline": "Math and Stress",
+        "text": "<strong>Strong text</strong>",
+        "asset": {
+          "media": "/img/stock-photo-stress-at-school.jpg",
+          "credit": "Google",
+          "caption": "He probably has a headache."
+        }
+      },
+      {
+        "startDate": "2007,1,1,1,1,1,1",
+        "endDate": "2007,2,2,2,2,2,2",
+        "headline": "Specific Timing",
+        "text": "This event took:<ul><li>one month</li><li>one day</li><li>one hour</li><li>one minute</li><li>one second</li><li>one millisecond</li></ul>"
+      }
+    ]
+  }
+}
