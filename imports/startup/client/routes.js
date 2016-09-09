@@ -9,12 +9,19 @@ import '/imports/ui/components/navigation.js';
 
 // Import pages.
 import '/imports/ui/pages/home.js';
+import '/imports/ui/pages/search.js';
 import '/imports/ui/pages/timeline.js';
 import '/imports/ui/pages/video.js';
 
 FlowRouter.route('/', {
   action() {
     BlazeLayout.render('scaffolding', { main: 'home' });
+  }
+});
+
+FlowRouter.route('/search', {
+  action() {
+    BlazeLayout.render('scaffolding', { main: 'search' });
   }
 });
 
