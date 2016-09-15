@@ -10,6 +10,7 @@ import '/imports/ui/components/navigation.js';
 
 // Import pages.
 import '/imports/ui/pages/home.js';
+import '/imports/ui/pages/results.js';
 import '/imports/ui/pages/search.js';
 import '/imports/ui/pages/timeline.js';
 import '/imports/ui/pages/video.js';
@@ -21,12 +22,18 @@ FlowRouter.route('/', {
 });
 
 FlowRouter.route('/search', {
-  subscriptions() {
-   this.register('subscribePlants', Meteor.subscribe('plants'));
+  action() {
+    BlazeLayout.render('scaffolding', { main: 'search' });
+  }
+});
+
+FlowRouter.route('/search/:query', {
+  subscriptions(params) {
+    this.register('subscribePlants', Meteor.subscribe('plants', params.query));
   },
 
   action() {
-    BlazeLayout.render('scaffolding', { main: 'search' });
+    BlazeLayout.render('scaffolding', { main: 'results' });
   }
 });
 

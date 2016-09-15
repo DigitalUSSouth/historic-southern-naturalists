@@ -12,10 +12,10 @@
 
             <div class="col-xs-10">
               <div class="input-group">
-                <input type="text" class="form-control" id="search" data-search-query="" disabled>
+                <input type="text" class="form-control" id="search" value="{{query}}" data-search-query="">
 
                 <span class="input-group-btn">
-                  <button type="submit" class="btn btn-default" disabled>Search</button>
+                  <button type="submit" class="btn btn-default">Search</button>
                 </span>
               </div>
             </div>
@@ -24,8 +24,4 @@
       </form>
     </div>
   </div>
-
-  {{#if resultsExist}}
-    {{> reactiveTable class="table table-bordered table-hover" collection=plantResults settings=tableSettings}}
-  {{/if}}
 </template>
