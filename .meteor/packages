@@ -22,4 +22,5 @@ kadira:flow-router            # Carefully Designed Client Side Router for Meteor
 kadira:blaze-layout           # Layout Manager for Blaze (works well with FlowRouter)
 less                          # Leaner CSS language
 agnito:timeline               # Timeline.js by NUKnightLab packaged for Meteor
-check                         # Check whether a value matches a pattern
+aslagle:reactive-table        # A reactive table designed for Meteor
+fortawesome:fontawesome       # Font Awesome (official): 500+ scalable vector icons, customizable via CSS, Retina friendly

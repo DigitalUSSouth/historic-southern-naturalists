@@ -1,5 +1,6 @@
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
+import { Meteor } from 'meteor/meteor';
 
 // Import layout.
 import '/imports/ui/layouts/scaffolding.js';
@@ -20,6 +21,10 @@ FlowRouter.route('/', {
 });
 
 FlowRouter.route('/search', {
+  subscriptions() {
+   this.register('subscribePlants', Meteor.subscribe('plants'));
+  },
+
   action() {
     BlazeLayout.render('scaffolding', { main: 'search' });
   }

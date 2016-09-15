@@ -1,3 +1,31 @@
 <template name="search">
   <h1>Search</h1>
+
+  <div class="row">
+    <div class="col-xs-6">
+      <form class="form-horizontal" id="form-search" autocomplete="off">
+        <legend class="hide">Search</legend>
+
+        <fieldset>
+          <div class="form-group">
+            <label for="search" class="control-label col-xs-2">Search</label>
+
+            <div class="col-xs-10">
+              <div class="input-group">
+                <input type="text" class="form-control" id="search" data-search-query="" disabled>
+
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default" disabled>Search</button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  {{#if resultsExist}}
+    {{> reactiveTable class="table table-bordered table-hover" collection=plantResults settings=tableSettings}}
+  {{/if}}
 </template>
