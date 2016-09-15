@@ -1,7 +1,6 @@
 import './video.html';
 
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
 
 Template.video.events({
   // WebKit Affects:   Chrome, Safari

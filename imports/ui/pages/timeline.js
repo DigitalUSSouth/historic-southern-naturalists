@@ -1,7 +1,6 @@
 import './timeline.html';
 
 import { Template } from 'meteor/templating';
-import { $ } from 'meteor/jquery';
 
 Template.timeline.onRendered(function timelineRendered() {
   // JSON Docs: https://timeline.knightlab.com/docs/json-format.html
