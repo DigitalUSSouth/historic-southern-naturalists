@@ -5,9 +5,6 @@ import { Meteor } from 'meteor/meteor';
 // Import layout.
 import '/imports/ui/layouts/scaffolding.js';
 
-// Import component.
-import '/imports/ui/components/navigation.js';
-
 // Import pages.
 import '/imports/ui/pages/home.js';
 import '/imports/ui/pages/results.js';
