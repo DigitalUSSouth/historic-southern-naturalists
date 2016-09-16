@@ -6,7 +6,7 @@ import { $ } from 'meteor/jquery';
 
 Template.search.helpers({
   query() {
-    return FlowRouter.current().params.query;
+    return FlowRouter.getParam('query');
   }
 });
 
