@@ -12,29 +12,10 @@ Meteor.startup(function () {
     const current = Plants.findOne({ id: plant.id });
 
     if (current) {
-      // Iterate through the file.
-      let setter = {};
-
-      for (let key in plant) {
-        // Always assume the file is the correct version vs the database.
-        if (current[key] !== plant[key]) {
-          // Store temporarily.
-          setter[key] = plant[key];
-        }
-      }
-
-      // If there's something new, update the database.
-      if (Object.getOwnPropertyNames(setter).length) {
-        // Queue the database once so we don't have to download more RAM.
-        Plants.update({
-          _id: plant._id,
-           id: plant.id
-        }, {
-          $set: setter
-        });
-
-        console.log('Updated:', plant.id);
-      }
+      updateDocument(plant, current, Plants, {
+        _id: plant._id,
+         id: plant.id
+      });
     } else {
       Plants.insert(plant);
     }
@@ -42,3 +23,23 @@ Meteor.startup(function () {
 
   console.log('Startup:', new Date());
 });
+
+function updateDocument(incoming, database, collection, update) {
+  // Iterate through the file.
+  let setter = {};
+
+  for (let key in incoming) {
+    // Always assume the file is the correct version vs the database.
+    if (incoming[key] !== database[key]) {
+      // Store temporarily.
+      setter[key] = incoming[key];
+    }
+  }
+
+  // If there's something new, update the database.
+  if (Object.getOwnPropertyNames(setter).length) {
+    collection.update(update, {
+      $set: setter
+    });
+  }
+};
