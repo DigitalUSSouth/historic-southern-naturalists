@@ -1,11 +1,19 @@
 import './results.html';
 
 import { Template } from 'meteor/templating';
+import { Tracker } from 'meteor/tracker';
+import { Meteor } from 'meteor/meteor';
 
 import { Plants } from '/imports/api/plants.js';
 
 import '/imports/ui/components/no-search-results.js';
 import '/imports/ui/components/results-link.js';
+
+Template.results.onCreated(function () {
+  Tracker.autorun(function () {
+    Meteor.subscribe('plants', FlowRouter.getParam('query'));
+  });
+});
 
 Template.results.helpers({
   results() {

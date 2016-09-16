@@ -1,6 +1,5 @@
 import { BlazeLayout } from 'meteor/kadira:blaze-layout';
 import { FlowRouter } from 'meteor/kadira:flow-router';
-import { Meteor } from 'meteor/meteor';
 
 // Import layout.
 import '/imports/ui/layouts/scaffolding.js';
@@ -26,20 +25,12 @@ FlowRouter.route('/search', {
 });
 
 FlowRouter.route('/search/:query', {
-  subscriptions(params) {
-    this.register('subscribePlants', Meteor.subscribe('plants', params.query));
-  },
-
   action() {
     BlazeLayout.render('scaffolding', { main: 'results' });
   }
 });
 
 FlowRouter.route('/viewer/:id', {
-  subscriptions(params) {
-    this.register('subscribeViewer', Meteor.subscribe('plant-viewer', params.id));
-  },
-
   action() {
     BlazeLayout.render('scaffolding', { main: 'viewer' });
   }
