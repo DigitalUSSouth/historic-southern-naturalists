@@ -24,7 +24,7 @@ FlowRouter.route('/search', {
   }
 });
 
-FlowRouter.route('/search/:query', {
+FlowRouter.route('/search/:type/:query', {
   action() {
     BlazeLayout.render('scaffolding', { main: 'results' });
   }

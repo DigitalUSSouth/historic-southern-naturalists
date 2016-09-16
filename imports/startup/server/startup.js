@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 
 import { Plants } from '/imports/api/plants.js';
+import { Rocks } from '/imports/api/rocks.js';
 
 Meteor.startup(function () {
   console.log('Initial:', new Date());
@@ -18,6 +19,19 @@ Meteor.startup(function () {
       });
     } else {
       Plants.insert(plant);
+    }
+  });
+
+  _.each(JSON.parse(Assets.getText('hsn-test-objects.json')), function (rock) {
+    const current = Rocks.findOne({ identifier: rock.identifier });
+
+    if (current) {
+      updateDocument(rock, current, Rocks, {
+        _id:        rock._id,
+        identifier: rock.identifier
+      });
+    } else {
+      Rocks.insert(rock);
     }
   });
 

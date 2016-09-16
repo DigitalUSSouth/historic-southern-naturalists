@@ -7,6 +7,11 @@ import { $ } from 'meteor/jquery';
 Template.search.helpers({
   query() {
     return FlowRouter.getParam('query');
+  },
+
+  // TODO: Determine if this should be renamed to `isGeodude`
+  isRockType() {
+    return FlowRouter.getParam('type') === undefined || FlowRouter.getParam('type') === 'rocks';
   }
 });
 
@@ -14,10 +19,16 @@ Template.search.events({
   'submit #form-search'(event) {
     event.preventDefault();
 
+    // If we search for nothing, then what is the point of searching?
     if ($('#search').val().trim() === '') {
       return;
     }
 
-    FlowRouter.go('/search/' + $('#search').val().trim());
+    // This'll make the URL /search/undefined/:query and who likes that?
+    if ($('[name="collection"]:checked').length === 0) {
+      return;
+    }
+
+    FlowRouter.go('/search/' + $('[name="collection"]:checked').val() + '/' + $('#search').val().trim());
   }
 });

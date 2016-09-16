@@ -3,13 +3,13 @@
     <div class="col-xs-12">
       <h1>Search</h1>
 
-      <p class="lead">Search within a localized plant collection.</p>
+      <p class="lead">Search within a localized plant or rock collection.</p>
     </div>
   </div>
 
   <div class="row">
-    <div class="col-sm-6 col-xs-12">
-      <form class="form-horizontal" id="form-search" autocomplete="off">
+    <div class="col-xs-12">
+      <form class="form-inline" id="form-search" autocomplete="off">
         <legend class="hide">Search</legend>
 
         <fieldset>
@@ -24,6 +24,18 @@
                   <button type="submit" class="btn btn-default">Search</button>
                 </span>
               </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-xs-12">
+              <label class="radio-inline">
+                <input type="radio" name="collection" value="plants" checked="{{!isRockType}}"> Plant Collection
+              </label>
+
+              <label class="radio-inline">
+                <input type="radio" name="collection" value="rocks" checked="{{isRockType}}"> Rock Collection
+              </label>
             </div>
           </div>
         </fieldset>
