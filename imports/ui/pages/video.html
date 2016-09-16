@@ -1,7 +1,17 @@
 <template name="video">
-  <h1>Video</h1>
+  <div class="row page-header">
+    <div class="col-xs-12">
+      <h1>Video</h1>
 
-  <video id="video" autoplay controls loop muted preload="auto" width="700px">
-    <source src="/videos/mountain.mp4" type="video/mp4">
-  </video>
+      <p class="lead">Options: autoplay, controls, loop, preload, and for this example, muted.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <video id="video" autoplay controls loop muted preload="auto" width="700px">
+        <source src="/videos/mountain.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
 </template>
