@@ -11,6 +11,7 @@ import '/imports/ui/pages/results.js';
 import '/imports/ui/pages/search.js';
 import '/imports/ui/pages/timeline.js';
 import '/imports/ui/pages/video.js';
+import '/imports/ui/pages/viewer.js';
 
 FlowRouter.route('/', {
   action() {
@@ -31,6 +32,16 @@ FlowRouter.route('/search/:query', {
 
   action() {
     BlazeLayout.render('scaffolding', { main: 'results' });
+  }
+});
+
+FlowRouter.route('/viewer/:id', {
+  subscriptions(params) {
+    this.register('subscribeViewer', Meteor.subscribe('plant-viewer', params.id));
+  },
+
+  action() {
+    BlazeLayout.render('scaffolding', { main: 'viewer' });
   }
 });
 

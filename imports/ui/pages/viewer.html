@@ -1,0 +1,44 @@
+<template name="viewer">
+  {{#if plant}}
+    <div class="row">
+      <div class="col-xs-12">
+        <h2>{{plant.scientificName}}</h2>
+      </div>
+
+      <div class="col-sm-6">
+        <dl class="dl-horizontal">
+          <dt>Family</dt>
+          <dd>{{plant.family}}</dd>
+
+          <dt>Genus</dt>
+          <dd>{{plant.genus}}</dd>
+
+          <dt>Habitat</dt>
+          <dd>{{plant.habitat}}</dd>
+
+          <dt>Identified By</dt>
+          <dd>{{plant.identifiedBy}}</dd>
+
+          <dt>Recorded By</dt>
+          <dd>{{plant.recordedBy}}</dd>
+        </dl>
+      </div>
+
+      <div class="col-sm-6">
+        <dl class="dl-horizontal">
+          <dt>Country</dt>
+          <dd>{{plant.country}}</dd>
+
+          <dt>County</dt>
+          <dd>{{plant.county}}</dd>
+
+          <dt>Locality</dt>
+          <dd>{{plant.locality}}</dd>
+
+          <dt>State</dt>
+          <dd>{{plant.stateProvince}}</dd>
+        </dl>
+      </div>
+    </div>
+  {{/if}}
+</template>

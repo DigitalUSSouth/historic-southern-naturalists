@@ -5,6 +5,7 @@ import { Template } from 'meteor/templating';
 import { Plants } from '/imports/api/plants.js';
 
 import '/imports/ui/components/no-search-results.js';
+import '/imports/ui/components/results-link.js';
 
 Template.results.helpers({
   results() {
@@ -23,6 +24,7 @@ Template.results.helpers({
       fields: [
         {
           key:   'scientificName',
+          tmpl:  Template.resultsLink,
           label: 'Scientific Name'
         }, {
           key:   'family',

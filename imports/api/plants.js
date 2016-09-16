@@ -21,6 +21,12 @@ if (Meteor.isServer) {
       ]
     });
   });
+
+  Meteor.publish('plant-viewer', function (id) {
+    return Plants.find({
+      id: parseInt(id, 10)
+    });
+  })
 }
 
 Plants.deny({
