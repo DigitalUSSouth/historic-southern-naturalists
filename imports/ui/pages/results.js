@@ -11,10 +11,14 @@ Template.results.helpers({
     return Plants.find();
   },
 
+  // https://github.com/aslagle/reactive-table#settings
   settings() {
     return {
+      class:          'table table-bordered table-hover table-responsive',
       noDataTmpl:     Template.noSearchResults,
+      rowsPerPage:    5,
       showRowCount:   true,
+      showNavigation: 'auto',
       useFontAwesome: true,
       fields: [
         {
