@@ -19,7 +19,10 @@ if (Meteor.isServer) {
         { family:         regex },
         { identifiedBy:   regex },
         { scientificName: regex }
-      ]
+      ],
+      scientificName: {
+        $ne: ''
+      }
     });
   });
 
