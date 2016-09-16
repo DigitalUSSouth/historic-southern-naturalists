@@ -4,6 +4,8 @@ import { Template } from 'meteor/templating';
 
 import { Plants } from '/imports/api/plants.js';
 
+import '/imports/ui/components/no-search-results.js';
+
 Template.results.helpers({
   results() {
     return Plants.find();
@@ -11,6 +13,7 @@ Template.results.helpers({
 
   settings() {
     return {
+      noDataTmpl:     Template.noSearchResults,
       showRowCount:   true,
       useFontAwesome: true,
       fields: [
