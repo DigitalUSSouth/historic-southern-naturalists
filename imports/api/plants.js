@@ -14,9 +14,10 @@ if (Meteor.isServer) {
     };
 
     return Plants.find({
+      collectionCode: 'ACM',
       $or: [
         { family:         regex },
-        { recordedBy:     regex },
+        { identifiedBy:   regex },
         { scientificName: regex }
       ]
     });

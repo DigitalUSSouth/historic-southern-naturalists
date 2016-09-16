@@ -30,8 +30,8 @@ Template.results.helpers({
           key:   'family',
           label: 'Family'
         }, {
-          key:   'recordedBy',
-          label: 'Recorded By'
+          key:   'identifiedBy',
+          label: 'Identified By'
         }
       ]
     };
