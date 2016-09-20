@@ -10,6 +10,7 @@ import '/imports/ui/pages/results.js';
 import '/imports/ui/pages/search.js';
 import '/imports/ui/pages/timeline.js';
 import '/imports/ui/pages/video.js';
+import '/imports/ui/pages/view-rocks.js';
 import '/imports/ui/pages/viewer.js';
 
 FlowRouter.route('/', {
@@ -30,9 +31,15 @@ FlowRouter.route('/search/:type/:query', {
   }
 });
 
-FlowRouter.route('/viewer/:id', {
-  action() {
-    BlazeLayout.render('scaffolding', { main: 'viewer' });
+FlowRouter.route('/viewer/:type/:id', {
+  action(params) {
+    if (params.type === 'rock') {
+      BlazeLayout.render('scaffolding', { main: 'viewRocks' });
+    } else if (params.type === 'plant') {
+      BlazeLayout.render('scaffolding', { main: 'viewer' });
+    } else {
+      FlowRouter.go('/search');
+    }
   }
 });
 

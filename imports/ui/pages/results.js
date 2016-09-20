@@ -51,6 +51,7 @@ Template.results.helpers({
       fields = [
         {
           key:   'title',
+          tmpl:  Template.resultsLinkRock,
           label: 'Title'
         }, {
           key:   'description',

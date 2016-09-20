@@ -21,11 +21,9 @@ if (Meteor.isServer) {
     });
   });
 
-  Meteor.publish('rock-viewer', function (identifier) {
-    check(identifier, String);
-
+  Meteor.publish('rock-viewer', function (id) {
     return Rocks.find({
-      identifier: identifier
+      _id: id
     });
   });
 }

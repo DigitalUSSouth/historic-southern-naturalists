@@ -1,0 +1,44 @@
+<template name="viewRocks">
+  {{#if rock}}
+    <div class="row page-header">
+      <div class="col-xs-12">
+        <h1>{{rock.title}}</h1>
+
+        {{#if rock.description}}
+          <p class="lead">{{rock.description}}</p>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <dl class="dl-horizontal">
+          {{#if rock.date}}
+            <dt>Date</dt>
+            <dd>{{rock.date}}</dd>
+          {{/if}}
+
+          {{#if rock.collector}}
+            <dt>Collector</dt>
+            <dd>{{rock.collector}}</dd>
+          {{/if}}
+
+          {{#if rock.notes}}
+            <dt>Notes</dt>
+            <dd>{{rock.notes}}</dd>
+          {{/if}}
+
+          {{#if rock.digitalCollection}}
+            <dt>Digital Collection</dt>
+            <dd>{{rock.digitalCollection}}</dd>
+          {{/if}}
+
+          {{#if rock.contributingInstitution}}
+            <dt>Contributing Institution</dt>
+            <dd>{{rock.contributingInstitution}}</dd>
+          {{/if}}
+        </dl>
+      </div>
+    </div>
+  {{/if}}
+</template>
