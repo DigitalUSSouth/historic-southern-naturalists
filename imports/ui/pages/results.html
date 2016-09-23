@@ -1,5 +1,25 @@
 <template name="results">
   {{> search}}
 
-  {{> reactiveTable collection=results settings=settings}}
+  {{#if results}}
+    <table class="table table-bordered table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Contributor</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each result in results.data.records}}
+          <tr>
+            <td>{{result.title}}</td>
+            <td>{{result.contri}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <h2 class="text-center">Retrieving Results</h2>
+  {{/if}}
 </template>
