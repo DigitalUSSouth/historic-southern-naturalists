@@ -38,5 +38,19 @@ Template.rockViewer.helpers({
 
   image() {
     return Template.instance().image.get();
+  },
+
+  hasDetails() {
+    const rock = Template.instance().rock.get();
+
+    const isDetailed = (detail) => {
+      return typeof detail === 'string' && detail.trim() !== '';
+    };
+
+    return isDetailed(rock.date) || isDetailed(rock.contri) || isDetailed(rock.publis) || isDetailed(rock.covera) || isDetailed(rock.relati);
+  },
+
+  isObject(info) {
+    return typeof info === 'object';
   }
 });
