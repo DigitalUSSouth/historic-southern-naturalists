@@ -7,11 +7,10 @@ import '/imports/ui/layouts/scaffolding.js';
 // Import pages.
 import '/imports/ui/pages/home.js';
 import '/imports/ui/pages/results.js';
+import '/imports/ui/pages/rock-viewer.js';
 import '/imports/ui/pages/search.js';
 import '/imports/ui/pages/timeline.js';
 import '/imports/ui/pages/video.js';
-import '/imports/ui/pages/view-rocks.js';
-import '/imports/ui/pages/viewer.js';
 
 FlowRouter.route('/', {
   action() {
@@ -31,15 +30,9 @@ FlowRouter.route('/search/:query', {
   }
 });
 
-FlowRouter.route('/viewer/:type/:id', {
-  action(params) {
-    if (params.type === 'rock') {
-      BlazeLayout.render('scaffolding', { main: 'viewRocks' });
-    } else if (params.type === 'plant') {
-      BlazeLayout.render('scaffolding', { main: 'viewer' });
-    } else {
-      FlowRouter.go('/search');
-    }
+FlowRouter.route('/rock-viewer/:pointer', {
+  action() {
+    BlazeLayout.render('scaffolding', { main: 'rockViewer' });
   }
 });
 

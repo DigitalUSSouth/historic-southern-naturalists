@@ -13,7 +13,7 @@
       <tbody>
         {{#each result in results.data.records}}
           <tr>
-            <td>{{result.title}}</td>
+            <td><a href="/rock-viewer/{{result.pointer}}">{{result.title}}</a></td>
             <td>{{result.contri}}</td>
           </tr>
         {{/each}}

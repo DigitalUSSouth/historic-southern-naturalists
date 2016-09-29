@@ -1,0 +1,46 @@
+<template name="rockViewer">
+  <div class="container">
+    <div class="row page-header">
+      <div class="col-xs-12">
+        <h1>{{rock.title}}</h1>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-6">
+        <h2>Description</h2>
+
+        <p class="text-justify">{{rock.descri}}</p>
+
+        <hr>
+
+        <p class="text-justify">{{rock.subjec}}</p>
+      </div>
+
+      <div class="col-sm-6">
+        <h2>Details</h2>
+
+        <dl>
+          <dt>Publisher</dt>
+          <dd>{{rock.publis}}</dd>
+
+          <dt>Coverage</dt>
+          <dd>{{rock.covera}}</dd>
+
+          <dt>Relations</dt>
+          <dd>{{rock.relati}}</dd>
+        </dl>
+      </div>
+    </div>
+
+    {{#if image}}
+      <hr>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <img src="{{image}}" class="img-responsive" alt="{{rock.title}}">
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</template>
