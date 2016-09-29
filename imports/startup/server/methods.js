@@ -13,7 +13,7 @@ Meteor.methods({
     // Allow other methods on the same connection to run.
     this.unblock();
 
-    return HTTP.get('http://digital.tcl.sc.edu:81/dmwebservices/index.php', {
+    return HTTP.get('http://digital.tcl.sc.edu:81/dmwebservices/', {
       params: {
         q: param
       }
