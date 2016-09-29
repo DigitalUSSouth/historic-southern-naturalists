@@ -10,13 +10,15 @@ Template.results.onCreated(function () {
   Template.instance().results = new ReactiveVar(false);
 
   Tracker.autorun(() => {
-    Meteor.call('search', FlowRouter.getParam('query'), (error, result) => {
-      if (error) {
-        console.log(error);
-      } else {
-        this.results.set(result);
-      }
-    });
+    if (FlowRouter.getParam('query') !== undefined) {
+      Meteor.call('search', FlowRouter.getParam('query'), (error, result) => {
+        if (error) {
+          console.log(error);
+        } else {
+          this.results.set(result);
+        }
+      });
+    }
   });
 });
 
