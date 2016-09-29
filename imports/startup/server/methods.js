@@ -6,7 +6,7 @@ Meteor.methods({
   'search'(query) {
     check(query, String);
 
-    return Meteor.call('q', 'dmQuery/hsn/CISOSEARCHALL^' + query + '^any/title!descri!contri/title/100/1/0/0/0/0/0/0/json');
+    return Meteor.call('q', 'dmQuery/hsn/CISOSEARCHALL^' + query + '^any/title!descri!contri/0/1024/0/0/0/0/0/1/json');
   },
 
   'q'(param) {
