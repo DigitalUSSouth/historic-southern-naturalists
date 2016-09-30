@@ -49,7 +49,7 @@ modules@0.7.6
 modules-runtime@0.7.6
 mongo@1.1.12
 mongo-id@1.0.5
-npm-mongo@1.5.49
+npm-mongo@1.5.50
 observe-sequence@1.0.12
 ordered-dict@1.0.8
 promise@0.8.7
@@ -62,7 +62,7 @@ routepolicy@1.0.11
 shell-server@0.2.1
 spacebars@1.0.13
 spacebars-compiler@1.0.13
-standard-minifier-css@1.2.0
+standard-minifier-css@1.2.1
 standard-minifier-js@1.2.0
 templating@1.2.15
 templating-compiler@1.2.15
