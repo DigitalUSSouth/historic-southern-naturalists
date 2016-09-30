@@ -30,9 +30,17 @@ if (Meteor.isServer) {
   Meteor.publish('contentdm-viewer', function (pointer) {
     check(pointer, String);
 
-    return Content.find({
-      pointer: pointer
-    });
+    const main = Content.find({ pointer: parseInt(pointer, 10) });
+
+    const fetch = main.fetch()[0];
+
+    // Detect if the item has a parent.
+    if (fetch.parentobject === -1) {
+      return main;
+    } else {
+      // Return the parent instead.
+      return Content.find({ pointer: parseInt(fetch.parentobject, 10) });
+    }
   });
 }
 

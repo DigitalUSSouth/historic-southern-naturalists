@@ -7,10 +7,10 @@ import '/imports/ui/layouts/scaffolding.js';
 // Import pages.
 import '/imports/ui/pages/home.js';
 import '/imports/ui/pages/results.js';
-import '/imports/ui/pages/rock-viewer.js';
 import '/imports/ui/pages/search.js';
 import '/imports/ui/pages/timeline.js';
 import '/imports/ui/pages/video.js';
+import '/imports/ui/pages/view-content.js';
 
 FlowRouter.route('/', {
   action() {
@@ -30,9 +30,9 @@ FlowRouter.route('/search/:query', {
   }
 });
 
-FlowRouter.route('/rock-viewer/:pointer', {
+FlowRouter.route('/view-content/:pointer', {
   action() {
-    BlazeLayout.render('scaffolding', { main: 'rockViewer' });
+    BlazeLayout.render('scaffolding', { main: 'viewContent' });
   }
 });
 
