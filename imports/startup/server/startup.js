@@ -1,45 +1,49 @@
 import { Meteor } from 'meteor/meteor';
 import { _ } from 'meteor/underscore';
 
+import { Content } from '/imports/api/content.js';
 import { Plants } from '/imports/api/plants.js';
 
 Meteor.startup(function () {
-  console.log('Initial:', new Date());
+  /**
+   * Updates the database in the instance that the local file has a different value.
+   *
+   * @param {JSON Object}      file       - The local file's JSON object.
+   * @param {Mongo.Document}   database   - The database's document.
+   * @param {Mongo.Collection} Collection - The collection to possibly be updated.
+   */
+  const updateCollectionItem = (file, database, Collection) => {
+    let setter = {};
 
-  // Every. Single. Time. This server starts, we update.
-  // This could become a problem...
-  _.each(JSON.parse(Assets.getText('occurrences.json')), function (plant) {
-    const current = Plants.findOne({ id: plant.id });
+    // Iterate through the file.
+    for (let key in file) {
+      // Always assume the file is the correct version.
+      if (file[key] !== database[key]) {
+        // Store temporarily.
+        setter[key] = file[key];
+      }
+    }
 
-    if (current) {
-      updateDocument(plant, current, Plants, {
-        _id: plant._id,
-         id: plant.id
+    if (Object.getOwnPropertyNames(setter).length) {
+      console.log('Collection Update Detected. Object:', setter);
+
+      Collection.update({
+        _id: database._id
+      }, {
+        $set: setter
       });
+    }
+  };
+
+  // Iterate through the CONTENTdm cached file.
+  _.each(JSON.parse(Assets.getText('contentdm-data.json')), (content) => {
+    const item = Content.findOne({ pointer: content.pointer });
+
+    if (item) {
+      updateCollectionItem(content, item, Content)
     } else {
-      Plants.insert(plant);
+      console.log('Content Insert Detected. Pointer: ' + content.pointer);
+      Content.insert(content);
     }
   });
-
-  console.log('Startup:', new Date());
 });
-
-function updateDocument(incoming, database, collection, update) {
-  // Iterate through the file.
-  let setter = {};
-
-  for (let key in incoming) {
-    // Always assume the file is the correct version vs the database.
-    if (incoming[key] !== database[key]) {
-      // Store temporarily.
-      setter[key] = incoming[key];
-    }
-  }
-
-  // If there's something new, update the database.
-  if (Object.getOwnPropertyNames(setter).length) {
-    collection.update(update, {
-      $set: setter
-    });
-  }
-};
