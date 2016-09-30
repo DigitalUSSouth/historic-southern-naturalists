@@ -1,5 +1,33 @@
 <template name="results">
   {{> search}}
 
-  {{> reactiveTable collection=results settings=settings}}
+  {{#if results}}
+    <table class="table table-bordered table-hover table-responsive">
+      <thead>
+        <tr>
+          <th>Thumbnail</th>
+          <th>Title</th>
+          <th>Contributor</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {{#each result in results}}
+          <tr>
+            <td>
+              <img src="http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/{{result.pointer}}" class="img-responsive" alt="Thumbnail of {{result.title}}">
+            </td>
+
+            <td>
+              <a href="/view-content/{{result.pointer}}">{{result.title}}</a>
+            </td>
+
+            <td>{{result.contri}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <h2 class="text-center">Retrieving Results</h2>
+  {{/if}}
 </template>

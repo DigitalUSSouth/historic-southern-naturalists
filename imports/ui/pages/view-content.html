@@ -1,0 +1,62 @@
+<template name="viewContent">
+  <div class="row page-header">
+    <div class="col-xs-12">
+      <h1>{{content.title}}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h2>Description</h2>
+
+      <p class="text-justify">{{content.descri}}</p>
+
+      {{#if content.subjec}}
+        <hr>
+
+        <p class="text-justify">{{content.subjec}}</p>
+      {{/if}}
+    </div>
+
+    <div class="col-sm-6">
+      <h2>Details</h2>
+
+      <dl>
+        {{#if content.date}}
+          <dt>Date</dt>
+          <dd>{{content.date}}</dd>
+        {{/if}}
+
+        {{#if content.contri}}
+          <dt>Contributor</dt>
+          <dd>{{content.contri}}</dd>
+        {{/if}}
+
+        {{#if content.publis}}
+          <dt>Publisher</dt>
+          <dd>{{content.publis}}</dd>
+        {{/if}}
+
+        {{#if content.covera}}
+          <dt>Coverage</dt>
+          <dd>{{content.covera}}</dd>
+        {{/if}}
+
+        {{#if content.relati}}
+          <dt>Relations</dt>
+          <dd>{{content.relati}}</dd>
+        {{/if}}
+      </dl>
+    </div>
+  </div>
+
+  {{#if image}}
+    <hr>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <img src="{{image}}" class="img-responsive" alt="{{content.title}}">
+      </div>
+    </div>
+  {{/if}}
+</template>
