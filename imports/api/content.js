@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
-export const Content = new Mongo.Collection('contentdm-cache');
+export const Content = new Mongo.Collection('contentdm');
 
 if (Meteor.isServer) {
   Meteor.publish('contentdm-search', function (query) {
