@@ -9,7 +9,7 @@ import { Meteor } from 'meteor/meteor';
 import { Content } from '/imports/api/content.js';
 
 Template.viewContent.onCreated(function () {
-  Template.instance().image   = new ReactiveVar(false);
+  Template.instance().image = new ReactiveVar(false);
 
   Tracker.autorun(() => {
     if (FlowRouter.getParam('pointer')) {
