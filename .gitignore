@@ -1,2 +1,4 @@
+.scripts/tmp/
 node_modules/
 private/contentdm-data.json
+private/symbiota-data.json

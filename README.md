@@ -8,3 +8,8 @@
 ### CONTENTdm Update
 1. `node .scripts/mine-contentdm.js`
 2. Start up Meteor or wait for Meteor to detect a new file.
+
+### Symbiota Update
+1. `npm install`
+2. `node .scripts/symbiota.js`
+3. Start up Meteor or wait for Meteor to detect a new file.

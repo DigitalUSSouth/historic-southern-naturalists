@@ -1,11 +1,12 @@
 {
-  "name": "Historic Southern Naturalists",
+  "name": "historic-southern-naturalists",
   "description": "This is a placeholder description.",
   "version": "1.0.0",
   "author": "Center for Digital Humanities",
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "download": "^5.0.2",
     "meteor-node-stubs": "~0.2.0"
   }
 }
