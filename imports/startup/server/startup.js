@@ -40,10 +40,28 @@ Meteor.startup(function () {
     const item = Content.findOne({ pointer: content.pointer });
 
     if (item) {
-      updateCollectionItem(content, item, Content)
+      updateCollectionItem(content, item, Content);
     } else {
       console.log('Content Insert Detected. Pointer: ' + content.pointer);
       Content.insert(content);
+    }
+  });
+
+  // Iterate through the Symbiota cached file.
+  _.each(JSON.parse(Assets.getText('symbiota-data.json')), (plant) => {
+    // Discovered one instance and prevented one instance.
+    if (plant.id.trim() === '') {
+      // This is the same thing as `continue`.
+      return;
+    }
+
+    const item = Plants.findOne({ id: plant.id });
+
+    if (item) {
+      updateCollectionItem(plant, item, Plants);
+    } else {
+      console.log('Plants Insert Detected. ID: ' + plant.id);
+      Plants.insert(plant);
     }
   });
 });
