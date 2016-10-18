@@ -1,0 +1,76 @@
+<template name="viewPlant">
+  <div class="row page-header">
+    <div class="col-xs-12">
+      <h1>{{plant.scientificName}}</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6">
+      <h2>Details</h2>
+
+      <dl>
+        {{#if plant.eventDate}}
+          <dt>Date</dt>
+          <dd>{{plant.eventDate}}</dd>
+        {{/if}}
+
+        {{#if plant.family}}
+          <dt>Family</dt>
+          <dd>{{plant.family}}</dd>
+        {{/if}}
+
+        {{#if plant.genus}}
+          <dt>Genus</dt>
+          <dd>{{plant.genus}}</dd>
+        {{/if}}
+
+        {{#if plant.habitat}}
+          <dt>Habitat</dt>
+          <dd>{{plant.habitat}}</dd>
+        {{/if}}
+
+        {{#if plant.identifiedBy}}
+          <dt>Identified By</dt>
+          <dd>{{plant.identifiedBy}}</dd>
+        {{/if}}
+      </dl>
+    </div>
+
+    <div class="col-sm-6">
+      <h2>Location</h2>
+
+      <dl>
+        {{#if plant.locality}}
+          <dt>Locality</dt>
+          <dd>{{plant.locality}}</dd>
+        {{/if}}
+
+        {{#if plant.county}}
+          <dt>County</dt>
+          <dd>{{plant.county}}</dd>
+        {{/if}}
+
+        {{#if plant.stateProvince}}
+          <dt>State</dt>
+          <dd>{{plant.stateProvince}}</dd>
+        {{/if}}
+
+        {{#if plant.country}}
+          <dt>Country</dt>
+          <dd>{{plant.country}}</dd>
+        {{/if}}
+
+        {{#if plant.decimalLatitude}}
+          <dt>Latitude</dt>
+          <dd>{{plant.decimalLatitude}}</dd>
+        {{/if}}
+
+        {{#if plant.decimalLongitude}}
+          <dt>Longitude</dt>
+          <dd>{{plant.decimalLongitude}}</dd>
+        {{/if}}
+      </dl>
+    </div>
+  </div>
+</template>

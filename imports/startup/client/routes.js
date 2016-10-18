@@ -11,6 +11,7 @@ import '/imports/ui/pages/search.js';
 import '/imports/ui/pages/timeline.js';
 import '/imports/ui/pages/video.js';
 import '/imports/ui/pages/view-content.js';
+import '/imports/ui/pages/view-plant.js';
 
 FlowRouter.route('/', {
   action() {
@@ -33,6 +34,12 @@ FlowRouter.route('/search/:query', {
 FlowRouter.route('/view-content/:pointer', {
   action() {
     BlazeLayout.render('scaffolding', { main: 'viewContent' });
+  }
+});
+
+FlowRouter.route('/view-plant/:id', {
+  action() {
+    BlazeLayout.render('scaffolding', { main: 'viewPlant' });
   }
 });
 

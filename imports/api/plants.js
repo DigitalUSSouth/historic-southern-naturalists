@@ -26,11 +26,13 @@ if (Meteor.isServer) {
     });
   });
 
-  Meteor.publish('plant-viewer', function (id) {
+  Meteor.publish('symbiota-viewer', function (id) {
+    check(id, String);
+
     return Plants.find({
-      id: parseInt(id, 10)
+      id: id
     });
-  })
+  });
 }
 
 Plants.deny({
