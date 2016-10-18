@@ -5,7 +5,7 @@ import { check } from 'meteor/check';
 export const Plants = new Mongo.Collection('plants');
 
 if (Meteor.isServer) {
-  Meteor.publish('plants', function (query) {
+  Meteor.publish('symbiota-search', function (query) {
     check(query, String);
 
     const regex = {

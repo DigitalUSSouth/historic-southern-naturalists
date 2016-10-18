@@ -1,1 +1,0 @@
-import './results-link.html';
