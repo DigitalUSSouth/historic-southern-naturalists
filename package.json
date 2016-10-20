@@ -6,7 +6,6 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "download": "^5.0.2",
-    "meteor-node-stubs": "~0.2.0"
+    "download": "^5.0.2"
   }
 }
