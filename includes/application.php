@@ -1,19 +1,38 @@
 <?php
+/**
+ * The global assistant of this website.
+ */
 class Application {
   private $url;
   private $title;
 
+  /**
+   * Constructor
+   */
   public function __construct() {
     $this->url   = "http://" . $_SERVER["HTTP_HOST"] . "/";
     $this->title = "";
   }
 
+  /**
+   * Renders the content of `<title>`.
+   *
+   * @return String
+   */
   public function renderTitle() {
     return $this->title === ""
       ? "Historic Southern Naturalists"
-      : $this->title . " Historic Southern Naturalists";
+      : $this->title . " - Historic Southern Naturalists";
   }
 
+  /**
+   * Renders all `<meta>` content.
+   *
+   * Full (unofficial) list:
+   *   https://github.com/joshbuchea/HEAD#meta
+   *
+   * @return String
+   */
   public function renderMeta() {
     ob_start();
     ?>
@@ -24,6 +43,16 @@ class Application {
     return ob_get_clean();
   }
 
+  /**
+   * Renders all minified `.css` files.
+   *
+   * Note: These files may not appear after `git clone`. In order
+   *       to have these files appear, execute `grunt` in a CLI.
+   *
+   *       View the Development section within README.md for more details.
+   *
+   * @return String
+   */
   public function renderCSS() {
     $html  = "";
     $files = array("bootstrap-3.3.7.min.css", "font-awesome-4.6.3.min.css");
@@ -35,6 +64,11 @@ class Application {
     return $html;
   }
 
+  /**
+   * Renders all navigational links.
+   *
+   * @return String
+   */
   public function renderNavigation() {
     $html  = "";
     $links = array("Home", "Search", "Timeline", "Video");
@@ -58,6 +92,16 @@ class Application {
     return $html;
   }
 
+  /**
+   * Renders all minified `.js` files.
+   *
+   * Note: Some of these files may not appear after `git clone`. In
+   *       order to have these files appear, execute `grunt` in a CLI.
+   *
+   *       View the Development section within README.md for more details.
+   *
+   * @return String
+   */
   public function renderScripts() {
     $html  = "";
     $files = array("jquery-3.1.1.min.js", "bootstrap-3.3.7.min.js");
@@ -69,12 +113,22 @@ class Application {
     return $html;
   }
 
-  public function setTitle($title) {
-    $this->title = $title;
+  /**
+   * Accessors
+   */
+  public function getTitle() {
+    return $this->title;
   }
 
   public function getURL() {
     return $this->url;
+  }
+
+  /**
+   * Mutators
+   */
+  public function setTitle(String $title) {
+    $this->title = $title;
   }
 }
 
