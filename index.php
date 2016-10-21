@@ -1,4 +1,7 @@
-<?php require "includes/header.php"; ?>
+<?php
+require "includes/application.php";
+require "includes/header.php";
+?>
   <div class="row">
     <div class="col-xs-12">
       <h1>Hello, World</h1>

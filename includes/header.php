@@ -1,4 +1,4 @@
-<?php require "includes/application.php"; ?><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <?php print $application->renderMeta(); ?>
