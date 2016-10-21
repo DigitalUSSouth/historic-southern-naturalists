@@ -23,10 +23,7 @@
 
       <div class="collapse navbar-collapse" id="navbar">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="<?php print $application->getURL(); ?>">Home</a></li>
-          <li><a href="<?php print $application->getURL(); ?>search">Search</a></li>
-          <li><a href="<?php print $application->getURL(); ?>timeline">Timeline</a></li>
-          <li><a href="<?php print $application->getURL(); ?>video">Video</a></li>
+          <?php print $application->renderNavigation(); ?>
         </ul>
       </div>
     </div>

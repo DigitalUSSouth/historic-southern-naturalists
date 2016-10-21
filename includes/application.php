@@ -35,6 +35,29 @@ class Application {
     return $html;
   }
 
+  public function renderNavigation() {
+    $html  = "";
+    $links = array("Home", "Search", "Timeline", "Video");
+
+    foreach ($links as $link) {
+      $html .= '<li><a href="' . $this->url;
+
+      // Because we don't have a home.php, this shit needs to be here.
+      if ($link !== "Home") {
+        $html .= strtolower($link);
+
+        // This _should_ only execute when a local web-server is created.
+        if (php_sapi_name() === "cli-server") {
+          $html .= ".php";
+        }
+      }
+
+      $html .= '">' . $link . '</a></li>';
+    }
+
+    return $html;
+  }
+
   public function renderScripts() {
     $html  = "";
     $files = array("jquery-3.1.1.min.js", "bootstrap-3.3.7.min.js");
