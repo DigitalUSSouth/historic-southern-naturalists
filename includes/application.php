@@ -127,7 +127,7 @@ class Application {
   /**
    * Mutators
    */
-  public function setTitle(String $title) {
+  public function setTitle($title) {
     $this->title = $title;
   }
 }
