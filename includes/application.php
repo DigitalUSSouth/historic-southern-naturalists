@@ -5,13 +5,15 @@
 class Application {
   private $url;
   private $title;
+  private $connection;
 
   /**
    * Constructor
    */
   public function __construct() {
-    $this->url   = "http://" . $_SERVER["HTTP_HOST"] . "/";
-    $this->title = "";
+    $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/";
+    $this->title      = "";
+    $this->connection = pg_connect("host=localhost port=5432 dbname=hsn");
   }
 
   /**
@@ -116,6 +118,10 @@ class Application {
   /**
    * Accessors
    */
+  public function getConnection() {
+    return $this->connection;
+  }
+
   public function getTitle() {
     return $this->title;
   }
