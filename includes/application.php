@@ -139,3 +139,4 @@ class Application {
 }
 
 $application = new Application();
+global $application;
