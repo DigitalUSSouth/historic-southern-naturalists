@@ -50,14 +50,14 @@ class Searcher {
 
       // Render the thumbnail with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . $result["pointer"] . '">'
+        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . '?pointer=' . $result["pointer"] . '">'
         . '<img src="http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/' . $result["pointer"]. '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
         . '</a>'
         . '</td>';
 
       // Render the title with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . $result["pointer"] . '">' . $result["title"] . '</a>'
+        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . '?pointer=' . $result["pointer"] . '">' . $result["title"] . '</a>'
         . '</td>';
 
       // Render the contributor plainly.
@@ -94,14 +94,14 @@ class Searcher {
 
       // Render the thumbnail with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-plant') . $result["id"] . '">'
+        . '<a href="' . $application->getURL() . $this->renderPage('view-plant') . '?id=' . $result["id"] . '">'
         . '<img src="#" class="img-responsive" alt="Thumbnail of ' . $result["scientific_name"] . '">'
         . '</a>'
         . '</td>';
 
       // Render the scientific name with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-plant') . $result["id"] . '">' . $result["scientific_name"] . '</a>'
+        . '<a href="' . $application->getURL() . $this->renderPage('view-plant') . '?id=' . $result["id"] . '">' . $result["scientific_name"] . '</a>'
         . '</td>';
 
       // Render the habitat plainly.
