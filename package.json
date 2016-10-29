@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "download": "^5.0.2"
+    "download": "^5.0.2",
+    "pg": "^6.1.0"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
