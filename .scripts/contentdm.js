@@ -232,7 +232,6 @@ class Content {
    *
    * @param  {String} pointer -- The pointer of the Manuscript.
    * @param  {String} text    -- The text regarding the Manuscript.
-   * @return {String}
    */
   _logger(pointer, text) {
     console.log(new Date() + ' (' + pointer + ') - ' + text);
