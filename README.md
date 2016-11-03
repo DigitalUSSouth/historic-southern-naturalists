@@ -10,5 +10,5 @@
 ### Install Dependencies
 Navigate to the project root directory and execute `npm install`.
 
-## Active
+### Active
 When developing on this project, utilizing the command `grunt dev` will open up a PHP server on port 3000.
