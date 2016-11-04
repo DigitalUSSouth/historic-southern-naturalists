@@ -2,6 +2,10 @@ module.exports = function (grunt) {
   grunt.initConfig({
     browserSync: {
       default: {
+        bsFiles: {
+          src: ['css/*.min.css', 'js/*.min.js', '**/*.php', '!.scripts/*']
+        },
+
         options: {
           open:      false,
           proxy:     'localhost:8000',
