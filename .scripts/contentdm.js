@@ -6,7 +6,6 @@
  * Note: All `pointer` and `parentobject` values will be returned as an integer.
  *       They must be converted to a string to properly work here.
  *
- * TODO: Sync client connection string between local and remote server(s).
  * TODO: Determine what to do if there are over 1024 results returned.
  * TODO: Handle if a manuscript was deleted remotely.
  */
@@ -30,7 +29,7 @@ class Content {
     this.http = require('http');
 
     // Connection between this process and the database.
-    this.client = new pg.Client('postgres://collinhaines@localhost:5432/hsn');
+    this.client = new pg.Client(this.retrieveConnectionString());
 
     this.client.connect((error) => {
       if (error) {
@@ -39,6 +38,17 @@ class Content {
 
       this.retrieveResults();
     });
+  }
+
+  /**
+   * Step 0.a - Retrieve Connection String
+   *
+   * Retrieves the connection string from locally created file.
+   */
+  retrieveConnectionString() {
+    const fs = require('fs');
+
+    return JSON.parse(fs.readFileSync('pg-connect.json').toString()).js;
   }
 
   /**

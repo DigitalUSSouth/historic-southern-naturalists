@@ -6,7 +6,6 @@
  * Note: Some `id` values will return as strings, other will be integers.
  *       Convert them all to strings unless you want to type check every time.
  *
- * TODO: Sync client connection string between local and remote server(s).
  * TODO: Handle if a plant was deleted remotely.
  */
 
@@ -35,7 +34,7 @@ class Symbiota {
     this.url = 'http://herbarium.biol.sc.edu/floracaroliniana/webservices/dwc/dwcapubhandler.php?collid=1&cond=collectioncode-equals:ACM';
 
     // Connection between this process and the database.
-    this.client = new pg.Client('postgres://collinhaines@localhost:5432/hsn');
+    this.client = new pg.Client(this.retrieveConnectionString());
 
     // Folder all this stuff is happening in.
     this.folder = './tmp/';
@@ -49,6 +48,17 @@ class Symbiota {
 
       this.retrieveData();
     });
+  }
+
+  /**
+   * Step 0.a - Retrieve Connection String
+   *
+   * Retrieves the connection string from locally created file.
+   */
+  retrieveConnectionString() {
+    const fs = require('fs');
+
+    return JSON.parse(fs.readFileSync('pg-connect.json').toString()).js;
   }
 
   /**

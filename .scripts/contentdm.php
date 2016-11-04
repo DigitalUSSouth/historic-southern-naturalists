@@ -7,7 +7,6 @@
  * Note: All `pointer` and `parentobject` values will be returned as an integer.
  *       They must be converted to a string to properly work here.
  *
- * TODO: Sync client connection string between local and remote server(s).
  * TODO: Determine what to do if there are over 1024 results returned.
  * TODO: Handle if a manuscript was deleted remotely.
  */
@@ -27,7 +26,7 @@ class Content {
     $this->logger("Initializing.");
 
     $this->content  = "";
-    $this->database = pg_connect("host=localhost port=5432 dbname=hsn");
+    $this->database = pg_connect(pg_connect(json_decode(file_get_contents("pg-connect.json"), true)["php"]));
   }
 
   /**

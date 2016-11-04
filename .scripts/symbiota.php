@@ -4,7 +4,6 @@
  *
  * The data miner for the `plants` table within the `hsn` database.
  *
- * TODO: Sync client connection string between local and remote server(s).
  * TODO: Handle if a plant was deleted remotely.
  */
 
@@ -24,7 +23,7 @@ class Symbiota {
     $this->logger("Initializing.");
 
     $this->data     = array();
-    $this->database = pg_connect("host=localhost port=5432 dbname=hsn");
+    $this->database = pg_connect(json_decode(file_get_contents("pg-connect.json"), true)["php"]);
 
     // Delete the tmp folder in the case that overwriting goes wrong.
     if (in_array("tmp", scandir(getcwd()))) {
