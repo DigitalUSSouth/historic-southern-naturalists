@@ -73,7 +73,7 @@ class Application {
    */
   public function renderNavigation() {
     $html  = "";
-    $links = array("Home", "Search", "Timeline", "Video");
+    $links = array("Home", "Search", "Timeline");
 
     foreach ($links as $link) {
       $html .= '<li><a href="' . $this->url;
