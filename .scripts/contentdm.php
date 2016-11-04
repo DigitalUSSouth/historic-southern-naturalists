@@ -26,7 +26,7 @@ class Content {
     $this->logger("Initializing.");
 
     $this->content  = "";
-    $this->database = pg_connect(pg_connect(json_decode(file_get_contents("pg-connect.json"), true)["php"]));
+    $this->database = pg_connect(json_decode(file_get_contents("pg-connect.json"), true)["php"]);
   }
 
   /**

@@ -13,7 +13,7 @@ class Application {
   public function __construct() {
     $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/";
     $this->title      = "";
-    $this->connection = pg_connect(pg_connect(json_decode(file_get_contents("../.scripts/pg-connect.json"), true)["php"]));
+    $this->connection = pg_connect(json_decode(file_get_contents("../.scripts/pg-connect.json"), true)["php"]);
   }
 
   /**
