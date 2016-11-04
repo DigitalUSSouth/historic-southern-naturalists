@@ -230,8 +230,8 @@ class Content {
   /**
    * Internal logging function.
    *
-   * @param  {String} pointer -- The pointer of the Manuscript.
-   * @param  {String} text    -- The text regarding the Manuscript.
+   * @param {String} pointer -- The pointer of the Manuscript.
+   * @param {String} text    -- The text regarding the Manuscript.
    */
   _logger(pointer, text) {
     console.log(new Date() + ' (' + pointer + ') - ' + text);
