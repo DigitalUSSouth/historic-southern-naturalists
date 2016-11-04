@@ -41,6 +41,10 @@ require "includes/header.php";
 
       <?php print $content->renderData("Relations", "relati"); ?>
     </dl>
+
+    <h2>Transcript</h2>
+
+    <pre><?php print $content->getData("transc"); ?></pre>
   </div>
 </div>
 
