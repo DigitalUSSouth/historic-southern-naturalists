@@ -1,14 +1,7 @@
 # Historic Southern Naturalists
 
 ## Development
-### Pre-Requisites
-#### Install Node.js and NPM
-- [Linux Installation](http://blog.teamtreehouse.com/install-node-js-npm-linux)
-- [Mac Installation](http://blog.teamtreehouse.com/install-node-js-npm-mac)
-- [Windows Installation](http://blog.teamtreehouse.com/install-node-js-npm-windows)
+If Node.js is not installed on your machine, or you're unfamiliar with Node.js and its environment, please read the [Development](https://github.com/CDH-SC/historic-southern-naturalists/wiki/Development) and [Scripts and Packages Information](https://github.com/CDH-SC/historic-southern-naturalists/wiki/Scripts-and-Packages) pages carefully.
 
-### Install Dependencies
-Navigate to the project root directory and execute `npm install`.
-
-### Active
-When developing on this project, utilizing the command `grunt dev` will open up a PHP server on port 3000.
+### Quickstart
+In the command line execute `npm start` and then navigate to `localhost:3000` in any browser.
