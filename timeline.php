@@ -8,6 +8,8 @@ require "includes/header.php";
 <div class="row">
   <div class="col-xs-12">
     <h1>Timeline</h1>
+
+    <p class="lead">To modify this file, view "HSN Timeline" within the shared Google Drive folder.</p>
   </div>
 </div>
 
