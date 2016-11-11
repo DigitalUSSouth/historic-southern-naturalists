@@ -22,8 +22,12 @@ class Symbiota {
   public function __construct() {
     $this->logger("Initializing.");
 
+    $contents = json_decode(file_get_contents("pg-connect.json"), true)["php"];
+
     $this->data     = array();
-    $this->database = pg_connect(json_decode(file_get_contents("pg-connect.json"), true)["php"]);
+    $this->database = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+
+    $this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Delete the tmp folder in the case that overwriting goes wrong.
     if (in_array("tmp", scandir(getcwd()))) {
@@ -145,24 +149,93 @@ class Symbiota {
     $this->logger("Manipulating database.");
 
     foreach ($this->data as $number=>$record) {
-      $result = pg_fetch_result(pg_query_params($this->database, "SELECT id FROM plants WHERE id = $1", array($record["id"])), 0);
+      $prepare = $this->database->prepare("SELECT * FROM plants WHERE id = :id LIMIT 1");
+      $prepare->execute(array(":id" => strval($record["id"])));
 
-      if ($result) {
+      $results = (array) $prepare->fetchObject();
+
+      if (array_key_exists("id", $results)) {
         $this->logger("Updating " . $record["id"]);
 
         // Update the database.
-        if (pg_update($this->database, "plants", $record, $record) === false) {
-          throw new Exception("Updating plant " . $record["id"] . " failed.");
-        }
+        $this->updateDatabase($results, $record);
       } else {
         $this->logger("Inserting " . $record["id"]);
 
         // Insert into the database.
-        if (pg_insert($this->database, "plants", $record) === false) {
-          throw new Exception("Inserting plant " . $record["id"] . " failed.");
-        }
+        $this->insertDatabase($record);
       }
     }
+  }
+
+  /**
+   * Step 3.a - Update Fields
+   *
+   * Updates the database with the assumption that Symbiota is more accurate.
+   *
+   * @param {Array} $results -- The local plant.
+   * @param {Array} $record  -- The plant from Symbiota.
+   */
+  private function updateDatabase($results, $record) {
+    $writer = "";
+    $update = array();
+
+    foreach ($record as $key=>$value) {
+      $value = trim(strval($value));
+
+      if (array_key_exists($key, $results) && $value !== "" && $value != $results[$key]) {
+        $writer .= $key . " = :" . $key . ", ";
+        $update[":" . $key] = $value;
+      }
+    }
+
+    if ($writer === "") {
+      $this->logger("Nothing to update.");
+
+      return;
+    }
+
+    $writer = substr($writer, 0, -2);
+    $update[":id"] = $record["id"];
+
+
+    $this->logger("Attempting to update " . $writer . " -- " . print_r($update, true));
+
+    $prepare = $this->database->prepare("UPDATE plants SET $writer WHERE id = :id");
+    $prepare->execute($update);
+  }
+
+  /**
+   * Step 3.b - Insert Fields
+   *
+   * Creates a new row in the database.
+   *
+   * @param {Object} $record -- The plant from Symbiota.
+   */
+  private function insertDatabase($record) {
+    $array  = array();
+    $insert = "";
+    $values = "";
+
+    foreach ($record as $key=>$value) {
+      $value = trim(strval($value));
+
+      if ($value !== "") {
+        $insert .= $key . ", ";
+        $values .= ":" . $key . ", ";
+
+        $array[":" . $key] = $value;
+      }
+    }
+
+    $insert = substr($insert, 0, -2);
+    $values = substr($values, 0, -2);
+
+    $this->logger("Query: INSERT INTO plants ($insert) VALUES ($values)");
+    $this->logger("Here's an " . print_r($array, true));
+
+    $prepare = $this->database->prepare("INSERT INTO plants ($insert) VALUES ($values)");
+    $prepare->execute($array);
   }
 
   /**
@@ -172,7 +245,7 @@ class Symbiota {
    * removes the temporary folder.
    */
   public function closeDatabaseConnection() {
-    pg_close($this->database);
+    $this->database = null;
 
     // There is no point of keeping the tmp folder here now.
     if (in_array("tmp", scandir(getcwd()))) {

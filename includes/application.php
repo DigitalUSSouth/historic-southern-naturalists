@@ -11,9 +11,13 @@ class Application {
    * Constructor
    */
   public function __construct() {
+    $contents = json_decode(file_get_contents(dirname(__FILE__) . "/../.scripts/pg-connect.json"), true)["php"];
+
     $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/";
     $this->title      = "";
-    $this->connection = pg_connect(json_decode(file_get_contents("../.scripts/pg-connect.json"), true)["php"]);
+    $this->connection = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+
+    $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
 
   /**

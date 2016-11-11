@@ -9,7 +9,10 @@ class Searcher {
    * Constructor
    */
   public function __construct() {
-    $this->search = "";
+    global $application;
+
+    $this->search     = "";
+    $this->connection = $application->getConnection();
   }
 
   /**
@@ -37,15 +40,19 @@ class Searcher {
     global $application;
 
     $html  = "";
+    $array = array();
     $query = "SELECT pointer, title, contri FROM manuscripts WHERE ";
 
     foreach (array("contri", "covera", "date", "descri", "publis", "relati", "subjec", "title") as $key) {
-      $query .= $key . " ILIKE '%" . $this->search . "%' OR ";
+      $query .= $key . " ILIKE :" . $key . " OR ";
+
+      $array[":" . $key] = '%' . $this->search . '%';
     }
 
-    $results = pg_fetch_all(pg_query($application->getConnection(), substr($query, 0, -4)));
+    $prepare = $this->connection->prepare(substr($query, 0, -4));
+    $prepare->execute($array);
 
-    foreach ($results as $current=>$result) {
+    foreach ($prepare->fetchAll() as $current=>$result) {
       $html .= '<tr>';
 
       // Render the thumbnail with a link.
@@ -81,15 +88,19 @@ class Searcher {
     global $application;
 
     $html  = "";
+    $array = array();
     $query = "SELECT id, scientific_name, habitat FROM plants WHERE (";
 
     foreach (array("family", "identified_by", "scientific_name") as $key) {
-      $query .= $key . " ILIKE '%" . $this->search . "%' OR ";
+      $query .= $key . " ILIKE :" . $key . " OR ";
+
+      $array[":" . $key] = '%' . $this->search . '%';
     }
 
-    $results = pg_fetch_all(pg_query($application->getConnection(), substr($query, 0, -4) . ") AND scientific_name != ''"));
+    $prepare = $this->connection->prepare(substr($query, 0, -4) . ") AND scientific_name != ''");
+    $prepare->execute($array);
 
-    foreach ($results as $current=>$result) {
+    foreach ($prepare->fetchAll() as $current=>$result) {
       $html .= '<tr>';
 
       // Render the thumbnail with a link.

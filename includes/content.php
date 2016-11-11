@@ -17,7 +17,10 @@ class Content {
 
     $info = json_decode(file_get_contents("http://digital.tcl.sc.edu/utils/ajaxhelper/?CISOROOT=hsn&CISOPTR=" . $pointer), true)["imageinfo"];
 
-    $this->data    = pg_fetch_all(pg_query($application->getConnection(), "SELECT * FROM manuscripts WHERE pointer = '" . pg_escape_string($pointer) . "' LIMIT 1"))[0];
+    $prepare = $application->getConnection()->prepare("SELECT * FROM manuscripts WHERE pointer = :pointer LIMIT 1");
+    $prepare->execute(array(":pointer" => $pointer));
+
+    $this->data    = (array) $prepare->fetchObject();
     $this->image   = "http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsnCISOPTR=" . $pointer . "&DMWIDTH=" . $info["width"] . "&DMHEIGHT=" . $info["height"];
     $this->pointer = $pointer;
   }

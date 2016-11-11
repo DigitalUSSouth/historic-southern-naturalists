@@ -12,8 +12,11 @@ class Planter {
   public function __construct($id) {
     global $application;
 
+    $prepare = $application->getConnection()->prepare("SELECT * FROM plants WHERE id = :id LIMIT 1");
+    $prepare->execute(array(":id" => $id));
+
     $this->id   = $id;
-    $this->data = pg_fetch_all(pg_query($application->getConnection(), "SELECT * FROM plants WHERE id = '" . pg_escape_string($id) . "' LIMIT 1"))[0];
+    $this->data = (array) $prepare->fetchObject();
   }
 
   /**
