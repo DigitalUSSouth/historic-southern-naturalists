@@ -62,7 +62,7 @@ class Content {
     this.http.get({
       host: 'digital.tcl.sc.edu',
       port: '81',
-      path: '/dmwebservices/?q=dmQuery/hsn/CISOSEARCHALL^*^any/contri!covera!date!descri!publis!relati!subjec!title!transc/0/1024/0/0/0/0/0/1/json',
+      path: '/dmwebservices/?q=dmQuery/hsn/CISOSEARCHALL^*^any/contri!covera!date!descri!media!publis!relati!subjec!title!transc/0/1024/0/0/0/0/0/1/json',
       headers: {
         'Content-Type': 'application/json'
       }
@@ -157,7 +157,9 @@ class Content {
         // rendering or `pointer`/`parentobject` variable type matching.
         const valueRemote = item[key].toString().replace(/'/g, '&#39;').trim();
 
-        if (result.rows[0][key] !== null && result.rows[0][key].toString().trim() != valueRemote) {
+        if (result.rows[0][key] === null) {
+          update += key + ' = \'' + valueRemote + '\', ';
+        } else if (result.rows[0][key].toString().trim() != valueRemote) {
           update += key + ' = \'' + valueRemote + '\', ';
         }
       }

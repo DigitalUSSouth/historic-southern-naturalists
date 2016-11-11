@@ -41,7 +41,7 @@ class Content {
   public function retrieveResults() {
     $this->logger("Retrieving results.");
 
-    $this->content = json_decode(file_get_contents("http://digital.tcl.sc.edu:81/dmwebservices/?q=dmQuery/hsn/CISOSEARCHALL^*^any/contri!covera!date!descri!publis!relati!subjec!title!transc/0/1024/0/0/0/0/0/1/json"), true);
+    $this->content = json_decode(file_get_contents("http://digital.tcl.sc.edu:81/dmwebservices/?q=dmQuery/hsn/CISOSEARCHALL^*^any/contri!covera!date!descri!media!publis!relati!subjec!title!transc/0/1024/0/0/0/0/0/1/json"), true);
   }
 
   /**
