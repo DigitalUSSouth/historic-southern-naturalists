@@ -4,6 +4,9 @@
  */
 class Searcher {
   private $search;
+  private $plantKeys;
+  private $connection;
+  private $contentKeys;
 
   /**
    * Constructor
@@ -11,8 +14,10 @@ class Searcher {
   public function __construct() {
     global $application;
 
-    $this->search     = "";
-    $this->connection = $application->getConnection();
+    $this->search      = "";
+    $this->plantKeys   = array("county", "country", "event_date", "family", "genus", "habitat", "identified_by", "locality", "recorded_by", "scientific_name", "state_province");
+    $this->connection  = $application->getConnection();
+    $this->contentKeys = array("contri", "covera", "date", "descri", "publis", "relati", "subjec", "title");
   }
 
   /**
@@ -40,19 +45,11 @@ class Searcher {
     global $application;
 
     $html  = "";
-    $array = array();
-    $query = "SELECT pointer, title, contri FROM manuscripts WHERE ";
+    $query = $this->connection->prepare("SELECT pointer, title, contri, media FROM manuscripts WHERE (" . $this->renderContentQuery() . ") AND media != 'Minerals'");
 
-    foreach (array("contri", "covera", "date", "descri", "publis", "relati", "subjec", "title") as $key) {
-      $query .= $key . " ILIKE :" . $key . " OR ";
+    $query->execute($this->populateContentArray());
 
-      $array[":" . $key] = '%' . $this->search . '%';
-    }
-
-    $prepare = $this->connection->prepare(substr($query, 0, -4));
-    $prepare->execute($array);
-
-    foreach ($prepare->fetchAll() as $current=>$result) {
+    foreach ($query->fetchAll() as $current=>$result) {
       $html .= '<tr>';
 
       // Render the thumbnail with a link.
@@ -84,23 +81,55 @@ class Searcher {
    *
    * @return String
    */
+  public function renderTableMinerals() {
+    global $application;
+
+    $html  = "";
+    $query = $this->connection->prepare("SELECT pointer, title, descri, media FROM manuscripts WHERE (" . $this->renderContentQuery() . ") AND media = 'Minerals'");
+
+    $query->execute($this->populateContentArray());
+
+    foreach ($query->fetchAll() as $current=>$result) {
+      $html .= '<tr>';
+
+      // Render the thumbnail with a link.
+      $html .= '<td>'
+        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . '?pointer=' . $result["pointer"] . '">'
+        . '<img src="http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/' . $result["pointer"]. '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
+        . '</a>'
+        . '</td>';
+
+      // Render the title with a link.
+      $html .= '<td>'
+        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . '?pointer=' . $result["pointer"] . '">' . $result["title"] . '</a>'
+        . '</td>';
+
+      // Render the description plainly.
+      $html .= '<td>' . $result["descri"] . '</td>';
+
+      $html .= '</tr>';
+    }
+
+    return $html;
+  }
+
+  /**
+   * Queries the database for the search term and returns the interior of a
+   * `<tbody>` with the proper results.
+   *
+   * @todo React to empty results.
+   *
+   * @return String
+   */
   public function renderTablePlants() {
     global $application;
 
     $html  = "";
-    $array = array();
-    $query = "SELECT id, scientific_name, habitat FROM plants WHERE (";
+    $query = $this->connection->prepare("SELECT id, scientific_name, habitat FROM plants WHERE (" . $this->renderPlantQuery() . ") AND scientific_name != ''");
 
-    foreach (array("family", "identified_by", "scientific_name") as $key) {
-      $query .= $key . " ILIKE :" . $key . " OR ";
+    $query->execute($this->populatePlantArray());
 
-      $array[":" . $key] = '%' . $this->search . '%';
-    }
-
-    $prepare = $this->connection->prepare(substr($query, 0, -4) . ") AND scientific_name != ''");
-    $prepare->execute($array);
-
-    foreach ($prepare->fetchAll() as $current=>$result) {
+    foreach ($query->fetchAll() as $current=>$result) {
       $html .= '<tr>';
 
       // Render the thumbnail with a link.
@@ -125,6 +154,37 @@ class Searcher {
   }
 
   /**
+   * Populates an array for PDO prepared statements for the manuscript or
+   * mineral results.
+   *
+   * @return Array
+   */
+  private function populateContentArray() {
+    $array = array();
+
+    foreach ($this->contentKeys as $key) {
+      $array[":" . $key] = "%" . $this->search . "%";
+    }
+
+    return $array;
+  }
+
+  /**
+   * Populates an array for PDO prepared statements for the plant results.
+   *
+   * @return Array
+   */
+  private function populatePlantArray() {
+    $array = array();
+
+    foreach ($this->plantKeys as $key) {
+      $array[":" . $key] = "%" . $this->search . "%";
+    }
+
+    return $array;
+  }
+
+  /**
    * Created only because I still can't figure out how to tell PHP to ignore
    * extensions via CLI server, comes this functionality to literally render
    * `.php` if I'm on a CLI server.
@@ -138,6 +198,36 @@ class Searcher {
     return php_sapi_name() === "cli-server"
       ? $page . ".php/"
       : $page . "/";
+  }
+
+  /**
+   * Renders the query for manuscript or mineral SQL prepared statements.
+   *
+   * @return String
+   */
+  private function renderContentQuery() {
+    $query = "";
+
+    foreach ($this->contentKeys as $key) {
+      $query .= $key . " ILIKE :" . $key . " OR ";
+    }
+
+    return substr($query, 0, -4);
+  }
+
+  /**
+   * Renders the query for plant SQL prepared statements.
+   *
+   * @return String
+   */
+  private function renderPlantQuery() {
+    $query = "";
+
+    foreach ($this->plantKeys as $key) {
+      $query .= $key . " ILIKE :" . $key . " OR ";
+    }
+
+    return substr($query, 0, -4);
   }
 
   /**
