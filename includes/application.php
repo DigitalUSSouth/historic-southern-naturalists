@@ -32,7 +32,7 @@ class Application {
   }
 
   /**
-   * Renders all `<meta>` content.
+   * Renders all `<meta>` HTML.
    *
    * Full (unofficial) list:
    *   https://github.com/joshbuchea/HEAD#meta
@@ -50,7 +50,7 @@ class Application {
   }
 
   /**
-   * Renders all minified `.css` files.
+   * Renders a link to all CSS files.
    *
    * Note: These files may not appear after `git clone`. In order
    *       to have these files appear, execute `grunt` in a CLI.
@@ -99,7 +99,7 @@ class Application {
   }
 
   /**
-   * Renders all minified `.js` files.
+   * Renders a link to all JavaScript files.
    *
    * Note: Some of these files may not appear after `git clone`. In
    *       order to have these files appear, execute `grunt` in a CLI.
@@ -110,7 +110,7 @@ class Application {
    */
   public function renderScripts() {
     $html  = "";
-    $files = array("jquery-3.1.1.min.js", "bootstrap-3.3.7.min.js");
+    $files = array("jquery-3.1.1.min.js", "bootstrap-3.3.7.min.js", "dataTables-1.10.12.min.js", "dataTables-bootstrap-1.10.12.min.js", "hsn.js");
 
     foreach ($files as $file) {
       $html .= '<script src="' . $this->url . 'js/' . $file . '"></script>';

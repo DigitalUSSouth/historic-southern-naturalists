@@ -1,4 +1,5 @@
 css/bootstrap/*     linguist-vendored
 css/font-awesome/*  linguist-vendored
 js/bootstrap/*      linguist-vendored
+js/dataTables*.js   linguist-vendored
 js/jquery*.js       linguist-vendored
