@@ -21,7 +21,7 @@ class Content {
     $prepare->execute(array(":pointer" => $pointer));
 
     $this->data    = (array) $prepare->fetchObject();
-    $this->image   = "http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsnCISOPTR=" . $pointer . "&DMWIDTH=" . $info["width"] . "&DMHEIGHT=" . $info["height"];
+    $this->image   = "http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsn&CISOPTR=" . $pointer . "&DMWIDTH=" . $info["width"] . "&DMHEIGHT=" . $info["height"];
     $this->pointer = $pointer;
   }
 
