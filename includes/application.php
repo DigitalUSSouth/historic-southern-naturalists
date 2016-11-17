@@ -171,6 +171,10 @@ class Application {
     return $this->url;
   }
 
+  public function isManuscriptViewer() {
+    return $this->isManuscriptViewer;
+  }
+
   /**
    * Mutators
    */
