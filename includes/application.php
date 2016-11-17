@@ -68,7 +68,7 @@ class Application {
 
     // Append files that need to be rendered for manuscript-viewer.php.
     if ($this->isManuscriptViewer) {
-      array_push($files, "BookReader.css");
+      array_push($files, "book-reader.css");
     }
 
     foreach ($files as $file) {
@@ -135,7 +135,7 @@ class Application {
         "jquery.colorbox-min.js",
         "jquery.ui.ipad.js",
         "jquery.bt.min.js",
-        "BookReader.js",
+        "book-reader.js",
       );
 
       foreach ($books as $file) {
