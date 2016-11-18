@@ -22,7 +22,7 @@ require "includes/header.php";
     <div class="jumbotron" style="margin:0px;padding:0px;border-style:solid;">
       <div class="embed-responsive embed-responsive-4by3">
         <video id="mainVideo" autoplay controls style="margin-top:0px;"></video>
-        <h3><center style="margin-top:30%;">Click on a video below to view</center></h3>
+        <h3 class="text-center" style="margin-top:30%">Click on a video below to view</h3>
     </div>
     </div>
   </div>
