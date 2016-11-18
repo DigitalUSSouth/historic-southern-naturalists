@@ -142,47 +142,8 @@ class Helper {
     return $this->imageInfo;
   }
 
-  public function getInfo() {
-    return $this->info;
-  }
-
   public function getTitle() {
     return $this->title;
-  }
-
-  public function getParent() {
-    return $this->parent;
-  }
-
-  public function getPointer() {
-    return $this->pointer;
-  }
-
-  /**
-   * Mutators
-   */
-  public function setCompound($compound) {
-    $this->compound = $compound;
-  }
-
-  public function setImageInfo($imageInfo) {
-    $this->imageInfo = $imageInfo;
-  }
-
-  public function setInfo($info) {
-    $this->info = $info;
-  }
-
-  public function setTitle($title) {
-    $this->title = $title;
-  }
-
-  public function setParent($parent) {
-    $this->parent = $parent;
-  }
-
-  public function setPointer($pointer) {
-    $this->pointer = $pointer;
   }
 }
 
