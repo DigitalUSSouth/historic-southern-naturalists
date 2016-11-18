@@ -126,6 +126,26 @@ ManuscriptViewer.prototype.functions = function () {
 };
 
 /**
+ * Adjustment.
+ *
+ * Adjusts the visuals to a more appealing look, without rewriting the
+ * library code.
+ */
+ManuscriptViewer.prototype.adjustVisuals = function () {
+  // Remove unnecessary items.
+  $('#BRtoolbarbuttons, .BRicon.book_left, .BRicon.book_right, .BRicon.onepg, .BRicon.twopg, .BRicon.thumb').remove();
+
+  // Adjust the title.
+  $('#BRreturn')
+    .html($('#BRreturn a').text())
+    .css({
+      width:        '100%',
+      display:      'block',
+      'text-align': 'center'
+    });
+};
+
+/**
  * Accessors
  */
 ManuscriptViewer.prototype.getReader = function () {
@@ -142,3 +162,4 @@ ManuscriptViewer.prototype.setReader = function (reader) {
 const viewer = new ManuscriptViewer();
 viewer.functions();
 viewer.getReader().init();
+viewer.adjustVisuals();
