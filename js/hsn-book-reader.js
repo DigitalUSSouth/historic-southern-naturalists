@@ -49,10 +49,6 @@ ManuscriptViewer.prototype.functions = function () {
    * @return {Integer}
    */
   this.reader.getPageHeight = function (index) {
-    if (index === undefined) {
-      return;
-    }
-
     return self.data.images[index].height;
   };
 
@@ -107,10 +103,6 @@ ManuscriptViewer.prototype.functions = function () {
    * @return {Integer}
    */
   this.reader.getPageWidth = function (index) {
-    if (index === undefined) {
-      return;
-    }
-
     return self.data.images[index].width;
   };
 
