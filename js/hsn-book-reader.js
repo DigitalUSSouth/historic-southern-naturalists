@@ -34,7 +34,7 @@ function ManuscriptViewer() {
  * Initialize functionality for the BookReader object.
  */
 ManuscriptViewer.prototype.functions = function () {
-  var self = this;
+  const self = this;
 
   this.reader.getEmbedCode = function (width, height, params) {
     return 'Embed code not supported in book reader demo.';
