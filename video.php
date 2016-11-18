@@ -1,9 +1,9 @@
 <?php
 require "includes/application.php";
-
 $application->setTitle("Timeline");
 
 require "includes/header.php";
+
 ?>
 <div id="scroll-here"></div>
 <div class="row">
@@ -69,16 +69,19 @@ require "includes/header.php";
     }
   }
 ?>
-
-<script type="text/javascript">
-  var videos = document.querySelectorAll(".thumbnail");
-  for(var i = 0; i < videos.length; i++){
-    videos[i].addEventListener('click', clickHandler, false);
-  }
-  function clickHandler(el){
-    var mainVideo = document.getElementById("mainVideo");
-    mainVideo.src = el.srcElement.currentSrc;
-    var scrollHere = document.getElementById("scroll-here")
-    scrollHere.scrollIntoView({ behavior: 'smooth'});
-  }
-</script>
+<div class="row">
+  <div class="col-xs-4">
+    <video class="thumbnail" width=200 height=200>
+      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
+      Your browser does not support HTML5 video
+    </video>
+  </div>
+  <div class="col-xs-8">
+    <h5>Big Buck Bunny</h5>
+    <p>Description goes here</p>
+  </div>
+</div>
+<hr />
+<?php
+require "includes/footer.php";
+?>
