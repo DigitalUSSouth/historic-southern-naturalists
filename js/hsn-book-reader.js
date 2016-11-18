@@ -53,7 +53,7 @@ ManuscriptViewer.prototype.functions = function () {
       return;
     }
 
-    return self.data.images[index + self.pointer].height;
+    return self.data.images[index].height;
   };
 
   this.reader.getPageNum = function (index) {
@@ -93,7 +93,7 @@ ManuscriptViewer.prototype.functions = function () {
       return;
     }
 
-    return self.data.images[index + self.pointer].width;
+    return self.data.images[index].width;
   };
 
   this.reader.getSpreadIndices = function (index) {

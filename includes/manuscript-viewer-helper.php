@@ -48,6 +48,7 @@ class Helper {
   }
 
   public function printData() {
+    $index  = -1;
     $parent = new Helper($this->parent);
     $return = array(
       "pages"  => count($parent->getCompound()["page"]),
@@ -56,8 +57,10 @@ class Helper {
     );
 
     foreach ($parent->getCompound()["page"] as $object) {
+      $index++;
+
       if ($object["pageptr"] === $this->pointer) {
-        $return["images"][$this->pointer] = array(
+        $return["images"][$index] = array(
           "width"  => $this->imageInfo["imageinfo"]["width"],
           "height" => $this->imageInfo["imageinfo"]["height"]
         );
@@ -67,7 +70,7 @@ class Helper {
 
       $helper = new Helper($object["pageptr"]);
 
-      $return["images"][$helper->getPointer()] = array(
+      $return["images"][$index] = array(
         "width"  => $helper->getImageInfo()["imageinfo"]["width"],
         "height" => $helper->getImageInfo()["imageinfo"]["height"]
       );
@@ -134,4 +137,3 @@ class Helper {
 $helper = new Helper($_GET["pointer"]);
 
 print json_encode($helper->printData());
-
