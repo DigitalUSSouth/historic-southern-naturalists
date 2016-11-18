@@ -23,7 +23,7 @@ function ManuscriptViewer() {
   this.reader = new BookReader();
 
   // Assign class-wide variables of class-wide variable.
-  this.reader.numLeafs      = this.data.images.length;
+  this.reader.numLeafs      = this.data.pages;
   this.reader.bookTitle     = this.data.title;
   this.reader.imagesBaseURL = '../img/bookreader/';
 }
