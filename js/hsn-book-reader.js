@@ -60,11 +60,24 @@ ManuscriptViewer.prototype.functions = function () {
     return index + 1;
   };
 
+  /**
+   * Page Side
+   *
+   * Determines if the page index is even or odd. If it is even, it is on
+   * the left, otherwise, it is on the right.
+   *
+   * Originally, it was programmed the other way around. This was done with
+   * the intention of having a book cover be first. Since these do not have
+   * book covers (yet, or if ever), it is done this way.
+   *
+   * @param  {Integer} index -- The page index.
+   * @return {String}
+   */
   this.reader.getPageSide = function (index) {
-    if (0 == (index & 0x1)) {
-      return 'R';
-    } else {
+    if (index % 2 === 0) {
       return 'L';
+    } else {
+      return 'R';
     }
   };
 
