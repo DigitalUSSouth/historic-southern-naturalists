@@ -101,7 +101,7 @@ class Helper {
     $parent = new Helper($this->parent);
     $return = array(
       "pages"  => count($parent->getCompound()["page"]),
-      "title"  => $parent->getInfo()["title"],
+      "title"  => $parent->getTitle(),
       "images" => array()
     );
 
