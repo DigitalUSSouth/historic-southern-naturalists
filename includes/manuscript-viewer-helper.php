@@ -17,6 +17,11 @@ class Helper {
   private $compound;
   private $imageInfo;
 
+  /**
+   * Constructor
+   *
+   * @param Integer $pointer -- The Manuscript pointer.
+   */
   public function __construct($pointer) {
     $this->pointer = $pointer;
 
@@ -27,26 +32,70 @@ class Helper {
     $this->imageInfo = $this->acquireImageInfo();
   }
 
+  /**
+   * Image Info
+   *
+   * Acquires the information regarding the width and height of the image.
+   *
+   * @return Array
+   */
   private function acquireImageInfo() {
     return json_decode(file_get_contents("http://digital.tcl.sc.edu/utils/ajaxhelper/?CISOROOT=hsn&CISOPTR=" . $this->pointer), true);
   }
 
+  /**
+   * Item Info
+   *
+   * Acquires the information regarding everything about the item.
+   *
+   * @return Array
+   */
   private function acquireItemInfo() {
     return json_decode(file_get_contents($this->constructPortURL("dmGetItemInfo")), true);
   }
 
+  /**
+   * Parent
+   *
+   * Acquires the information regarding the parent of the item.
+   *
+   * @return Array
+   */
   private function acquireParent() {
     return json_decode(file_get_contents($this->constructPortURL("GetParent")), true);
   }
 
+  /**
+   * Compound Object
+   *
+   * Acquires the information regarding the compound object this is part of.
+   *
+   * @return Array
+   */
   private function acquireCompoundObjectInfo() {
     return json_decode(file_get_contents($this->constructPortURL("dmGetCompoundObjectInfo")), true);
   }
 
+  /**
+   * URL Constructor
+   *
+   * Constructs a URL for CONTENTdm with a given parameter, centering around
+   * the item pointer.
+   *
+   * @param  String $parameter -- The API query.
+   * @return String
+   */
   private function constructPortURL($parameter) {
     return "http://digital.tcl.sc.edu:81/dmwebservices/?q=" . $parameter . "/hsn/" . $this->pointer . "/json";
   }
 
+  /**
+   * Printer
+   *
+   * Prints all data necessary for js/hsn-book-reader.js
+   *
+   * @return Array
+   */
   public function printData() {
     $index  = -1;
     $parent = new Helper($this->parent);
@@ -56,9 +105,11 @@ class Helper {
       "images" => array()
     );
 
+    // Run through all compound object items.
     foreach ($parent->getCompound()["page"] as $object) {
       $index++;
 
+      // If we're on the same item, do not create a new class.
       if ($object["pageptr"] === $this->pointer) {
         $return["images"][$index] = array(
           "width"  => $this->imageInfo["imageinfo"]["width"],
@@ -68,6 +119,7 @@ class Helper {
         continue;
       }
 
+      // Create a temporary class.
       $helper = new Helper($object["pageptr"]);
 
       $return["images"][$index] = array(
