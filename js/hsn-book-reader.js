@@ -23,7 +23,7 @@ function ManuscriptViewer() {
   this.reader = new BookReader();
 
   // Assign class-wide variables of class-wide variable.
-  this.reader.numLeafs      = this.data.images.length;
+  this.reader.numLeafs      = this.data.pages;
   this.reader.bookTitle     = this.data.title;
   this.reader.imagesBaseURL = '../img/bookreader/';
 }
@@ -34,7 +34,7 @@ function ManuscriptViewer() {
  * Initialize functionality for the BookReader object.
  */
 ManuscriptViewer.prototype.functions = function () {
-  var self = this;
+  const self = this;
 
   this.reader.getEmbedCode = function (width, height, params) {
     return 'Embed code not supported in book reader demo.';
@@ -49,22 +49,31 @@ ManuscriptViewer.prototype.functions = function () {
    * @return {Integer}
    */
   this.reader.getPageHeight = function (index) {
-    if (index === undefined) {
-      return;
-    }
-
-    return self.data.images[index + self.pointer].height;
+    return self.data.images[index].height;
   };
 
   this.reader.getPageNum = function (index) {
     return index + 1;
   };
 
+  /**
+   * Page Side
+   *
+   * Determines if the page index is even or odd. If it is even, it is on
+   * the left, otherwise, it is on the right.
+   *
+   * Originally, it was programmed the other way around. This was done with
+   * the intention of having a book cover be first. Since these do not have
+   * book covers (yet, or if ever), it is done this way.
+   *
+   * @param  {Integer} index -- The page index.
+   * @return {String}
+   */
   this.reader.getPageSide = function (index) {
-    if (0 == (index & 0x1)) {
-      return 'R';
-    } else {
+    if (index % 2 === 0) {
       return 'L';
+    } else {
+      return 'R';
     }
   };
 
@@ -77,7 +86,12 @@ ManuscriptViewer.prototype.functions = function () {
    * @return {String}
    */
   this.reader.getPageURI = function (index) {
-    return 'http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsn&CISOPTR=' + (index + self.pointer) + '&DMWIDTH=' + this.getPageWidth() + '&DMHEIGHT=' + this.getPageHeight();
+    const url     = 'http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsn';
+    const width   = '&DMWIDTH='  + this.getPageWidth(index);
+    const height  = '&DMHEIGHT=' + this.getPageHeight(index);
+    const pointer = '&CISOPTR='  + (index + self.pointer);
+
+    return url + pointer + width + height;
   };
 
   /**
@@ -89,11 +103,7 @@ ManuscriptViewer.prototype.functions = function () {
    * @return {Integer}
    */
   this.reader.getPageWidth = function (index) {
-    if (index === undefined) {
-      return;
-    }
-
-    return self.data.images[index + self.pointer].width;
+    return self.data.images[index].width;
   };
 
   this.reader.getSpreadIndices = function (index) {
@@ -126,6 +136,26 @@ ManuscriptViewer.prototype.functions = function () {
 };
 
 /**
+ * Adjustment.
+ *
+ * Adjusts the visuals to a more appealing look, without rewriting the
+ * library code.
+ */
+ManuscriptViewer.prototype.adjustVisuals = function () {
+  // Remove unnecessary items.
+  $('#BRtoolbarbuttons, .BRicon.book_left, .BRicon.book_right, .BRicon.onepg, .BRicon.twopg, .BRicon.thumb').remove();
+
+  // Adjust the title.
+  $('#BRreturn')
+    .html($('#BRreturn a').text())
+    .css({
+      width:        '100%',
+      display:      'block',
+      'text-align': 'center'
+    });
+};
+
+/**
  * Accessors
  */
 ManuscriptViewer.prototype.getReader = function () {
@@ -142,3 +172,4 @@ ManuscriptViewer.prototype.setReader = function (reader) {
 const viewer = new ManuscriptViewer();
 viewer.functions();
 viewer.getReader().init();
+viewer.adjustVisuals();
