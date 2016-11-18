@@ -77,7 +77,12 @@ ManuscriptViewer.prototype.functions = function () {
    * @return {String}
    */
   this.reader.getPageURI = function (index) {
-    return 'http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsn&CISOPTR=' + (index + self.pointer) + '&DMWIDTH=' + this.getPageWidth() + '&DMHEIGHT=' + this.getPageHeight();
+    const url     = 'http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsn';
+    const width   = '&DMWIDTH='  + this.getPageWidth(index);
+    const height  = '&DMHEIGHT=' + this.getPageHeight(index);
+    const pointer = '&CISOPTR='  + (index + self.pointer);
+
+    return url + pointer + width + height;
   };
 
   /**
