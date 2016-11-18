@@ -68,8 +68,8 @@ class Helper {
       $helper = new Helper($object["pageptr"]);
 
       $return["images"][$helper->getPointer()] = array(
-        "width"  => $this->imageInfo["imageinfo"]["width"],
-        "height" => $this->imageInfo["imageinfo"]["height"]
+        "width"  => $helper->getImageInfo()["imageinfo"]["width"],
+        "height" => $helper->getImageInfo()["imageinfo"]["height"]
       );
     }
 
