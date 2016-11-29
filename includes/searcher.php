@@ -21,19 +21,6 @@ class Searcher {
   }
 
   /**
-   * Renders the `<form action="">` value.
-   *
-   * @return String
-   */
-  public function renderFormAction() {
-    global $application;
-
-    return php_sapi_name() === "cli-server"
-      ? $application->getURL() . "search.php"
-      : $application->getURL() . "search";
-  }
-
-  /**
    * Queries the database for the search term and returns the interior of a
    * `<tbody>` with the proper results.
    *
@@ -54,14 +41,14 @@ class Searcher {
 
       // Render the thumbnail with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . '?pointer=' . $result["pointer"] . '">'
+        . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">'
         . '<img src="http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/' . $result["pointer"]. '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
         . '</a>'
         . '</td>';
 
       // Render the title with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . '?pointer=' . $result["pointer"] . '">' . $result["title"] . '</a>'
+        . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">' . $result["title"] . '</a>'
         . '</td>';
 
       // Render the contributor plainly.
@@ -94,14 +81,14 @@ class Searcher {
 
       // Render the thumbnail with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . '?pointer=' . $result["pointer"] . '">'
+        . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">'
         . '<img src="http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/' . $result["pointer"]. '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
         . '</a>'
         . '</td>';
 
       // Render the title with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-content') . '?pointer=' . $result["pointer"] . '">' . $result["title"] . '</a>'
+        . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">' . $result["title"] . '</a>'
         . '</td>';
 
       // Render the description plainly.
@@ -134,14 +121,14 @@ class Searcher {
 
       // Render the thumbnail with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-plant') . '?id=' . $result["id"] . '">'
+        . '<a href="' . $application->getURL() . 'view-plant.php?id=' . $result["id"] . '">'
         . '<img src="#" class="img-responsive" alt="Thumbnail of ' . $result["scientific_name"] . '">'
         . '</a>'
         . '</td>';
 
       // Render the scientific name with a link.
       $html .= '<td>'
-        . '<a href="' . $application->getURL() . $this->renderPage('view-plant') . '?id=' . $result["id"] . '">' . $result["scientific_name"] . '</a>'
+        . '<a href="' . $application->getURL() . 'view-plant.php?id=' . $result["id"] . '">' . $result["scientific_name"] . '</a>'
         . '</td>';
 
       // Render the habitat plainly.
@@ -262,22 +249,6 @@ class Searcher {
     }
 
     return $array;
-  }
-
-  /**
-   * Created only because I still can't figure out how to tell PHP to ignore
-   * extensions via CLI server, comes this functionality to literally render
-   * `.php` if I'm on a CLI server.
-   *
-   * @todo Look up how to fix this.
-   *
-   * @param  String $page -- The URL to be rendered.
-   * @return String
-   */
-  private function renderPage($page) {
-    return php_sapi_name() === "cli-server"
-      ? $page . ".php/"
-      : $page . "/";
   }
 
   /**

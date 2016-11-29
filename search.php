@@ -30,7 +30,7 @@ if (isset($_GET["search"])) {
 
   <div class="row">
     <div class="col-xs-12">
-      <form class="form-inline" autocomplete="off" action="<?php print $searcher->renderFormAction(); ?>">
+      <form class="form-inline" autocomplete="off" action="search.php">
         <legend class="hide">Search</legend>
 
         <fieldset>

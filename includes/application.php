@@ -105,12 +105,7 @@ class Application {
 
       // Because we don't have a home.php, this shit needs to be here.
       if ($link !== "Home") {
-        $html .= strtolower($link);
-
-        // This _should_ only execute when a local web-server is created.
-        if (php_sapi_name() === "cli-server") {
-          $html .= ".php";
-        }
+        $html .= strtolower($link) . ".php";
       }
 
       $html .= '">' . $link . '</a></li>';
