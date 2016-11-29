@@ -4,10 +4,11 @@
  * Licensed under MIT.
  */
 
+if (window.location.pathname.indexOf('search') > -1 && $('div[role="tabpanel"] > table').length) {
+  $('div[role="tabpanel"] > table').dataTable();
+}
+
 $(document).ready(function () {
-  if (window.location.pathname.indexOf('search') > -1 && $('div[role="tabpanel"] > table').length) {
-    $('div[role="tabpanel"] > table').dataTable();
-  }
   // Code for the video player on the Video page
   // Get all the thumbnail elements
   var videos = document.querySelectorAll(".thumbnail");
