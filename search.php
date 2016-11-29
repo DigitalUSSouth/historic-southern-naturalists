@@ -74,7 +74,7 @@ if (isset($_GET["search"])) {
 
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="manuscripts">
-          <table class="table table-hover table-responsive">
+          <table class="table table-hover table-responsive" data-plugin="dataTable">
             <thead>
               <tr>
                 <th>Thumbnail</th>
@@ -90,7 +90,7 @@ if (isset($_GET["search"])) {
         </div>
 
         <div role="tabpanel" class="tab-pane" id="plants">
-          <table class="table table-hover table-responsive">
+          <table class="table table-hover table-responsive" data-plugin="dataTable">
             <thead>
               <tr>
                 <th>Thumbnail</th>
@@ -106,7 +106,7 @@ if (isset($_GET["search"])) {
         </div>
 
         <div role="tabpanel" class="tab-pane" id="minerals">
-          <table class="table table-hover table-responsive">
+          <table class="table table-hover table-responsive" data-plugin="dataTable">
             <thead>
               <tr>
                 <th>Thumbnail</th>

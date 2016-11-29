@@ -4,9 +4,8 @@
  * Licensed under MIT.
  */
 
-if (window.location.pathname.indexOf('search') > -1 && $('div[role="tabpanel"] > table').length) {
-  $('div[role="tabpanel"] > table').dataTable();
-}
+// Assign all DataTables.
+$('[data-plugin="dataTable"]').dataTable();
 
 $(document).ready(function () {
   // Code for the video player on the Video page
