@@ -24,6 +24,19 @@ class Application {
   }
 
   /**
+   * URL Constructor
+   *
+   * Constructs a CONTENTdm URL based on the given parameter and pointer.
+   *
+   * @param  String $parameter -- The API call.
+   * @param  String $pointer   -- The pointer being utilized.
+   * @return String
+   */
+  public function constructParameterURL($parameter, $pointer) {
+    return "http://digital.tcl.sc.edu:81/dmwebservices/?q=" . $parameter . "/hsn/" . trim($pointer) . "/json";
+  }
+
+  /**
    * Renders the content of `<title>`.
    *
    * @return String
