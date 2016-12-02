@@ -5,20 +5,68 @@ $application->setTitle("Timeline");
 require "includes/header.php";
 
 ?>
-<div id="scroll-here"></div>
 <div class="row">
   <div class="col-xs-12">
 
     <h1>Video</h1>
 
-    <p class="lead">To play a video scroll down and click on the thumbnail of the video. Your video will start playing in the large video player at the top.</p>
+    <p class="lead">To play a video scroll down and click on the thumbnail of the video. Your video will start playing in the large video player at the bottom of this page.</p>
   </div>
 </div>
 
-<!-- Main Video -->
+<!-- Row for thumbnail -->
 <div class="row">
+  <div class="col-xs-4">
+    <video class="thumbnail" width=200 height=200>
+      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
+      Your browser does not support HTML5 video
+    </video>
+  </div>
+  <div class="col-xs-8">
+    <h5>Big Buck Bunny</h5>
+    <p>Description goes here</p>
+  </div>
+</div>
+<hr />
+<!-- End of row for thumbnail -->
+<!-- Row for thumbnail -->
+<div class="row">
+  <div class="col-xs-4">
+    <video class="thumbnail" width=200 height=200>
+      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
+      Your browser does not support HTML5 video
+    </video>
+  </div>
+  <div class="col-xs-8">
+    <h5>Big Buck Bunny</h5>
+    <p>Description goes here</p>
+  </div>
+</div>
+<hr />
+<!-- End of row for thumbnail -->
+<!-- Row for thumbnail -->
+<div class="row">
+  <div class="col-xs-4">
+    <video class="thumbnail" width=200 height=200>
+      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
+      Your browser does not support HTML5 video
+    </video>
+  </div>
+  <div class="col-xs-8">
+    <h5>Big Buck Bunny</h5>
+    <p>Description goes here</p>
+  </div>
+</div>
+<hr />
+<!-- End of row for thumbnail -->
+
+
+
+<!-- Main Video -->
+<!--
+<div class="row">
+  <div id="scroll-here"></div>
   <div class="col-xs-12" style="margin:0px;padding:0px;">
-    <!---->
     <div class="jumbotron" style="margin:0px;padding:0px;border-style:solid;">
       <div class="embed-responsive embed-responsive-4by3">
         <video id="mainVideo" autoplay controls style="margin-top:0px;"></video>
@@ -28,6 +76,12 @@ require "includes/header.php";
   </div>
 </div>
 <br />
+<div class="row">
+  <div class="col-xs-12">
+    <p><span style="font-size:35px;">&#8648;</span>&nbsp;&nbsp;&nbsp;Scroll up to view another video&nbsp;&nbsp;&nbsp;<span style="font-size:35px;">&#8648;</span></p>
+  </div>
+</div>
+-->
 
 <!-- Video Listing -->
 <?php
@@ -42,7 +96,7 @@ require "includes/header.php";
     // If the directory exists then attempt to open it
     if($dh = opendir($dir))
     {
-      // While there are file to read which are not . .. or .DS_Store
+      // While there are file to read which are not '.' '..' or '.DS_Store'
       while (($file = readdir($dh)) !== false)
       {
         if($file != '.' && $file != '..' && $file != '.DS_Store')
@@ -64,24 +118,14 @@ require "includes/header.php";
           </div>
           <hr />
           ";
-        }
-      }
-    }
-  }
+        } // End of if statement
+      } // End of while loop
+    } // End of if statement
+  }// End of if statement
 ?>
-<div class="row">
-  <div class="col-xs-4">
-    <video class="thumbnail" width=200 height=200>
-      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
-      Your browser does not support HTML5 video
-    </video>
-  </div>
-  <div class="col-xs-8">
-    <h5>Big Buck Bunny</h5>
-    <p>Description goes here</p>
-  </div>
-</div>
-<hr />
+
+
+
 <?php
 require "includes/footer.php";
 ?>
