@@ -42,7 +42,7 @@ class Searcher {
       // Render the thumbnail with a link.
       $html .= '<td>'
         . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">'
-        . '<img src="http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/' . $result["pointer"]. '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
+        . '<img src="' . $application->buildManuscriptThumbURL($result["pointer"]) . '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
         . '</a>'
         . '</td>';
 
@@ -82,7 +82,7 @@ class Searcher {
       // Render the thumbnail with a link.
       $html .= '<td>'
         . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">'
-        . '<img src="http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/' . $result["pointer"]. '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
+        . '<img src="' . $application->buildManuscriptThumbURL($result["pointer"]) . '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
         . '</a>'
         . '</td>';
 

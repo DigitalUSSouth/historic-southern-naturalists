@@ -24,6 +24,19 @@ class Application {
   }
 
   /**
+   * Manuscript Thumbnail URL Constructor
+   *
+   * Constructs a URL based on the given pointer for a manuscript thumbnail
+   * that is located within CONTENTdm.
+   *
+   * @param  String $pointer -- Manuscript pointer.
+   * @return String
+   */
+  public function buildManuscriptThumbURL($pointer) {
+    return "http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/" . $pointer;
+  }
+
+  /**
    * URL Constructor
    *
    * Constructs a CONTENTdm URL based on the given parameter and pointer.
