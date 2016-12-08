@@ -66,10 +66,6 @@ if (isset($_GET["search"])) {
         <li role="presentation">
           <a href="#minerals" aria-controls="minerals" role="tab" data-toggle="tab">Minerals</a>
         </li>
-
-        <li role="presentation">
-          <a href="#viewer" aria-controls="viewer" role="tab" data-toggle="tab"><em class="text-muted">Manuscript Viewer</em></a>
-        </li>
       </ul>
 
       <div class="tab-content">
@@ -117,22 +113,6 @@ if (isset($_GET["search"])) {
 
             <tbody>
               <?php print $searcher->renderTableMinerals(); ?>
-            </tbody>
-          </table>
-        </div>
-
-        <div role="tabpanel" class="tab-pane" id="viewer">
-          <table class="table table-hover table-responsive">
-            <thead>
-              <tr>
-                <th>Thumbnail</th>
-                <th>Title</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <?php print $searcher->renderTableViewer(); ?>
             </tbody>
           </table>
         </div>

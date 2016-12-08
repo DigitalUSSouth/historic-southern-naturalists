@@ -25,6 +25,7 @@
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav navbar-right">
             <li><a href="<?php print $application->getURL(); ?>">Home</a></li>
+            <li><a href="<?php print $application->getURL(); ?>browse-viewer.php">Flip Viewer</a></li>
             <li><a href="<?php print $application->getURL(); ?>search.php">Search</a></li>
             <li><a href="<?php print $application->getURL(); ?>timeline.php">Timeline</a></li>
             <li><a href="<?php print $application->getURL(); ?>video.php">Video</a></li>
