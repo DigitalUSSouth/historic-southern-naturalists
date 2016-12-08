@@ -92,29 +92,6 @@ class Application {
   }
 
   /**
-   * Renders all navigational links.
-   *
-   * @return String
-   */
-  public function renderNavigation() {
-    $html  = "";
-    $links = array("Home", "Search", "Timeline","Video");
-
-    foreach ($links as $link) {
-      $html .= '<li><a href="' . $this->url;
-
-      // Because we don't have a home.php, this shit needs to be here.
-      if ($link !== "Home") {
-        $html .= strtolower($link) . ".php";
-      }
-
-      $html .= '">' . $link . '</a></li>';
-    }
-
-    return $html;
-  }
-
-  /**
    * Renders a link to all JavaScript files.
    *
    * Note: Some of these files may not appear after `git clone`. In
