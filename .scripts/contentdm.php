@@ -53,19 +53,20 @@ class Content {
   public function manipulateDatabase() {
     $this->logger("Manipulating database.");
 
-    foreach ($this->content["records"] as $number=>$record) {
-      $prepare = $this->database->prepare("SELECT * FROM manuscripts WHERE pointer = :pointer LIMIT 1");
+    foreach ($this->content["records"] as $key=>$record) {
+      // Convert pointer to a string.
+      $record["pointer"] = trim((string) $record["pointer"]);
 
-      $prepare->execute(array(":pointer" => strval($record["pointer"])));
+      $prepare = $this->database->prepare("SELECT * FROM manuscripts WHERE pointer = :pointer LIMIT 1");
+      $prepare->execute(array(":pointer" => $record["pointer"]));
 
       $results = (array) $prepare->fetchObject();
 
-      // Remove the three fields not needed in the local database.
-      unset($record["find"], $record["filetype"], $record["collection"]);
+      // Convert to parent_object.
+      $record["parent_object"] = trim((string) $record["parentobject"]);
 
-      // Convert pointer and parentobject to strings.
-      $record["pointer"]      = strval($record["pointer"]);
-      $record["parentobject"] = strval($record["parentobject"]);
+      // Remove the fields not needed in the local database.
+      unset($record["find"], $record["filetype"], $record["collection"], $record["parentobject"]);
 
       if (array_key_exists("pointer", $results)) {
         $this->logger("Updating " . $record["pointer"]);
@@ -91,28 +92,28 @@ class Content {
    */
   private function updateDatabase($results, $record) {
     $writer = "";
-    $update = array();
+    $update = array(":pointer" => $record["pointer"]);
 
     foreach ($record as $key=>$value) {
-      $value = trim(strval($value));
+      // Assure value is a string and trimmed.
+      $value = trim((string) $value);
 
-      if (array_key_exists($key, $results) && $value !== "" && $value != $results[$key]) {
-        $writer .= $key . " = :" . $key . ", ";
-        $update[":" . $key] = $value;
+      // No point in populating empty or same data.
+      if ($value === "" || $value === $results[$key]) {
+        continue;
       }
+
+      $writer .= $key . " = :" . $key . ", ";
+      $update[":" . $key] = $value;
     }
 
-    if ($writer === "") {
-      $this->logger("Nothing to update.");
+    $update = array_merge($update, $this->retrieveCompoundPage($record));
+    $update = array_merge($update, $this->determineCompoundObject($record["pointer"]));
 
-      return;
-    }
+    $writer .= "compound_page = :compound_page, is_compound_object = :is_compound_object";
 
-    $writer = substr($writer, 0, -2);
-    $update[":pointer"] = $record["pointer"];
-
-
-    $this->logger("Attempting to update " . $writer . " -- " . print_r($update, true));
+    $this->logger("Query: UPDATE manuscripts SET (" . $writer . ") WHERE pointer = " . $record["pointer"]);
+    $this->logger(print_r($update, true));
 
     $prepare = $this->database->prepare("UPDATE manuscripts SET $writer WHERE pointer = :pointer");
     $prepare->execute($update);
@@ -131,24 +132,96 @@ class Content {
     $values = "";
 
     foreach ($record as $key=>$value) {
-      $value = trim(strval($value));
+      // Assure value is a string and trimmed.
+      $value = trim((string) $value);
 
-      if ($value !== "") {
-        $insert .= $key . ", ";
-        $values .= ":" . $key . ", ";
-
-        $array[":" . $key] = $value;
+      // No point in populating empty data.
+      if ($value === "") {
+        continue;
       }
+
+      $insert .= $key . ", ";
+      $values .= ":" . $key . ", ";
+
+      $array[":" . $key] = $value;
     }
 
-    $insert = substr($insert, 0, -2);
-    $values = substr($values, 0, -2);
+    $array = array_merge($array, $this->retrieveCompoundPage($record));
+    $array = array_merge($array, $this->determineCompoundObject($record["pointer"]));
+
+    $insert .= "compound_page, is_compound_object";
+    $values .= ":compound_page, :is_compound_object";
 
     $this->logger("Query: INSERT INTO manuscripts ($insert) VALUES ($values)");
-    $this->logger("Here's an " . print_r($array, true));
+    $this->logger(print_r($array, true));
 
     $prepare = $this->database->prepare("INSERT INTO manuscripts ($insert) VALUES ($values)");
     $prepare->execute($array);
+  }
+
+  /**
+   * Step 2.x.1 - Compound Object Page Retriever
+   *
+   * Determines what page the given record is within its compound object
+   * information. This will start numbering at 0.
+   *
+   * Returning a -1 indicates that the item itself is a compound object, and
+   * therefore does not have a page, or it is not a compound object. Either
+   * way, the manuscript does not have page number.
+   *
+   * @param  Array $pointer -- The manuscript.
+   * @return Array
+   */
+  private function retrieveCompoundPage($record) {
+    $pointer = $record["pointer"];
+
+    $this->logger("Retrieving the page location for " . $pointer);
+
+    $remote = json_decode(file_get_contents($this->constructParameterURL("dmGetCompoundObjectInfo", $pointer)), true);
+
+    if (array_key_exists("message", $remote)) {
+      $parent = $record["parent_object"];
+
+      $remote = json_decode(file_get_contents($this->constructParameterURL("dmGetCompoundObjectInfo", $parent)), true);
+    } else {
+      // Assume it is the compound object.
+      return array(":compound_page" => (string) -1);
+    }
+
+    // Assume it is not a compound object at all.
+    if (!array_key_exists("page", $remote)) {
+      return array(":compound_page" => (string) -1);
+    }
+
+    foreach ($remote["page"] as $key=>$page) {
+      if ($page["pageptr"] === $pointer) {
+        return array(":compound_page" => (string) $key);
+      }
+    }
+  }
+
+  /**
+   * Step 2.x.2 - Compound Object Determiner
+   *
+   * Determines if the given pointer is a compound object based on the
+   * CONTENTdm API call of `dmGetCompoundObjectInfo`.
+   *
+   * @param  String $pointer -- Manuscript pointer.
+   * @return Array
+   */
+  private function determineCompoundObject($pointer) {
+    $this->logger("Retrieving compound object information.");
+
+    $remote = json_decode(file_get_contents($this->constructParameterURL("dmGetCompoundObjectInfo", $pointer)), true);
+
+    // Note: Returning just `true` and `false` will throw a PDOException with
+    //       an `invalid input syntax` response. I don't know why either, but
+    //       this makes everyone happy.
+    if (array_key_exists("message", $remote)) {
+      return array(":is_compound_object" => intval(false));
+    } else {
+      return array(":is_compound_object" => intval(true));
+    }
   }
 
   /**
@@ -158,6 +231,20 @@ class Content {
    */
   public function closeDatabaseConnection() {
     $this->database = null;
+  }
+
+  /**
+   * Internal String Constructor
+   *
+   * Constructs a string URL based on the given CONTNETdm API parameter and
+   * manuscript pointer.
+   *
+   * @param  String $parameter -- CONTENTdm API call.
+   * @param  String $pointer   -- Manuscript pointer.
+   * @return String
+   */
+  private function constructParameterURL($parameter, $pointer) {
+    return 'http://digital.tcl.sc.edu:81/dmwebservices/?q=' . $parameter . '/hsn/' . $pointer . '/json';
   }
 
   /**
