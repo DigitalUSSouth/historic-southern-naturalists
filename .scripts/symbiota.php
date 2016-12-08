@@ -169,12 +169,12 @@ class Symbiota {
   }
 
   /**
-   * Step 3.a - Update Fields
+   * Step 3.1 - Update Fields
    *
    * Updates the database with the assumption that Symbiota is more accurate.
    *
-   * @param {Array} $results -- The local plant.
-   * @param {Array} $record  -- The plant from Symbiota.
+   * @param Array $results -- The local plant.
+   * @param Array $record  -- The plant from Symbiota.
    */
   private function updateDatabase($results, $record) {
     $writer = "";
@@ -206,11 +206,11 @@ class Symbiota {
   }
 
   /**
-   * Step 3.b - Insert Fields
+   * Step 3.2 - Insert Fields
    *
    * Creates a new row in the database.
    *
-   * @param {Object} $record -- The plant from Symbiota.
+   * @param Array $record -- The plant from Symbiota.
    */
   private function insertDatabase($record) {
     $array  = array();

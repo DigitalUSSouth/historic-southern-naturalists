@@ -4,8 +4,8 @@
  *
  * The data miner for the `manuscripts` table within the `hsn` database.
  *
- * Note: All `pointer` and `parentobject` values will be returned as an integer.
- *       They must be converted to a string to properly work here.
+ * Note: All `pointer` and `parent_object` values will be returned as an
+ *       integer. They must be converted to a string to properly work here.
  *
  * TODO: Determine what to do if there are over 1024 results returned.
  * TODO: Handle if a manuscript was deleted remotely.
@@ -82,12 +82,12 @@ class Content {
   }
 
   /**
-   * Step 2.a - Update Fields
+   * Step 2.1 - Update Fields
    *
    * Updates the database with the assumption that CONTENTdm is more accurate.
    *
-   * @param {Array} $results -- The local manuscript.
-   * @param {Array} $record  -- The manuscript from CONTENTdm.
+   * @param Array $results -- The local manuscript.
+   * @param Array $record  -- The manuscript from CONTENTdm.
    */
   private function updateDatabase($results, $record) {
     $writer = "";
@@ -119,11 +119,11 @@ class Content {
   }
 
   /**
-   * Step 2.b - Insert Fields
+   * Step 2.2 - Insert Fields
    *
    * Creates a new row in the database.
    *
-   * @param {Object} $record -- The manuscript from CONTENTdm.
+   * @param Array $record -- The manuscript from CONTENTdm.
    */
   private function insertDatabase($record) {
     $array  = array();
