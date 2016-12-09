@@ -69,13 +69,25 @@ class Application {
    * @return String
    */
   public function renderMeta() {
-    ob_start();
-    ?>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?php
-    return ob_get_clean();
+    $metadata = array(
+      array("charset" => "utf-8"),
+      array("http-equiv" => "x-ua-compatible", "content" => "ie=edge"),
+      array("name" => "viewport", "content" => "width=device-width, initial-scale=1")
+    );
+
+    $html = "";
+
+    foreach ($metadata as $key=>$element) {
+      $html .= "<meta";
+
+      foreach ($element as $name=>$value) {
+        $html .= " " . $name . '="' . $value . '"';
+      }
+
+      $html .= "></meta>";
+    }
+
+    return $html;
   }
 
   /**
