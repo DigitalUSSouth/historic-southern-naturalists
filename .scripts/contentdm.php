@@ -108,9 +108,10 @@ class Content {
     }
 
     $update = array_merge($update, $this->retrieveCompoundPage($record));
+    $update = array_merge($update, $this->retrieveImageDimensions($record));
     $update = array_merge($update, $this->determineCompoundObject($record["pointer"]));
 
-    $writer .= "compound_page = :compound_page, is_compound_object = :is_compound_object";
+    $writer .= "compound_page = :compound_page, image_height = :image_height, image_width = :image_width, is_compound_object = :is_compound_object";
 
     $this->logger("Query: UPDATE manuscripts SET (" . $writer . ") WHERE pointer = " . $record["pointer"]);
     $this->logger(print_r($update, true));
@@ -147,10 +148,11 @@ class Content {
     }
 
     $array = array_merge($array, $this->retrieveCompoundPage($record));
+    $array = array_merge($array, $this->retrieveImageDimensions($record));
     $array = array_merge($array, $this->determineCompoundObject($record["pointer"]));
 
-    $insert .= "compound_page, is_compound_object";
-    $values .= ":compound_page, :is_compound_object";
+    $insert .= "compound_page, image_height, image_width, is_compound_object";
+    $values .= ":compound_page, :image_height, :image_width, :is_compound_object";
 
     $this->logger("Query: INSERT INTO manuscripts ($insert) VALUES ($values)");
     $this->logger(print_r($array, true));
@@ -201,7 +203,25 @@ class Content {
   }
 
   /**
-   * Step 2.x.2 - Compound Object Determiner
+   * Step 2.x.2 - Image Dimension Retriever
+   *
+   * Determines the dimensions of the big image specifically for the given
+   * record. This is done due to each image being different size, and will
+   * reduce bandwidth stress between servers.
+   *
+   * @param  Array $record -- Manuscript
+   * @return Array
+   */
+  private function retrieveImageDimensions($record) {
+    $this->logger("Retrieving image dimensions for " . $record["pointer"]);
+
+    $remote = json_decode(file_get_contents("http://digital.tcl.sc.edu/utils/ajaxhelper/?CISOROOT=" . $record["collection"] . "&CISOPTR=" . $record["pointer"]), true);
+
+    return array(":image_height" => (string) $remote["imageinfo"]["height"], ":image_width" => (string) $remote["imageinfo"]["width"]);
+  }
+
+  /**
+   * Step 2.x.3 - Compound Object Determiner
    *
    * Determines if the given pointer is a compound object based on the
    * CONTENTdm API call of `dmGetCompoundObjectInfo`.
