@@ -29,6 +29,7 @@ module.exports = function (grunt) {
           sourceMap: true
         },
         files: {
+          'css/hsn-1.0.0.min.css': 'css/hsn/hsn.less',
           'css/bootstrap-3.3.7.min.css': 'css/bootstrap/bootstrap.less',
           'css/font-awesome-4.6.3.min.css': 'css/font-awesome/font-awesome.less'
         }

@@ -50,6 +50,36 @@ class Application {
   }
 
   /**
+   * Gallery Helper
+   *
+   * Renders an element that belongs within an SVG and its associated
+   * attributes.
+   *
+   * @param  String $element -- Type of HTML element.
+   * @param  Array  $object  -- Element's attributes.
+   * @return String
+   */
+  public function galleryObjectHelper($element, $object) {
+    $html = "";
+
+    // Run through all attributes.
+    foreach ($object as $name=>$value) {
+      if ($name === "text") {
+        continue;
+      }
+
+      $html .= " " . $name . '="' . $value . '"';
+    }
+
+    // Adjust if it's a <text> element.
+    if (array_key_exists("text", $object)) {
+      return "<" . $element . $html . ">" . $object["text"] . "</" . $element . ">";
+    } else {
+      return "<" . $element . $html . "></" . $element . ">";
+    }
+  }
+
+  /**
    * Renders the content of `<title>`.
    *
    * @return String
@@ -102,7 +132,7 @@ class Application {
    */
   public function renderCSS() {
     $html  = "";
-    $files = array("bootstrap-3.3.7.min.css", "font-awesome-4.6.3.min.css");
+    $files = array("bootstrap-3.3.7.min.css", "font-awesome-4.6.3.min.css", "hsn-1.0.0.min.css");
 
     // Append files that need to be rendered for manuscript-viewer.php.
     if ($this->isManuscriptViewer) {
