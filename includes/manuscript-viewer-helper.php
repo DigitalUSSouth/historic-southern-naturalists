@@ -5,88 +5,150 @@
  * Because XMLHttpRequest, $.ajax, and $.getJSON won't work on localhost.
  */
 
-if (!isset($_GET["pointer"])) {
+// Redirect if not giving the proper parameters.
+if (!isset($_GET["pointer"], $_GET["collection"])) {
   header("Location: /");
 }
 
+require "./application.php";
+
 class Helper {
-  private $info;
-  private $title;
+  private $pages;
   private $parent;
   private $pointer;
   private $compound;
-  private $imageInfo;
+  private $database;
+  private $collection;
+  private $imageWidth;
+  private $imageHeight;
 
   /**
    * Constructor
    *
-   * @param Integer $pointer -- The Manuscript pointer.
+   * @param String $pointer    -- The manuscript pointer.
+   * @param String $collection -- Collection the manuscript is in.
    */
-  public function __construct($pointer) {
-    $this->pointer = $pointer;
+  public function __construct($pointer, $collection) {
+    global $application;
 
-    $this->info      = $this->acquireItemInfo();
-    $this->title     = $this->info["title"];
-    $this->parent    = $this->acquireParent()["parent"];
-    $this->compound  = $this->acquireCompoundObjectInfo();
-    $this->imageInfo = $this->acquireImageInfo();
+    $this->pointer    = strval($pointer);
+    $this->database   = $application->getConnection();
+    $this->collection = $collection;
+
+    $info = $this->retrieveImageInfo();
+
+    $this->imageWidth  = $info["image_width"];
+    $this->imageHeight = $info["image_height"];
   }
 
   /**
-   * Image Info
+   * Compound Object Information
    *
-   * Acquires the information regarding the width and height of the image.
+   * Queries the local database for any information regarding the current
+   * manuscript's parent pointer.
+   *
+   * This function should only be called once for the starting manuscript.
+   *
+   * The collection column is appended in the event pointer numbers will
+   * overlap in different collections.
+   *
+   * @return PDOStatement Object
+   */
+  public function retrieveCompoundObjectInfo() {
+    $prepare = $this->database->prepare("
+      SELECT pointer
+      FROM   manuscripts
+      WHERE  collection    = :collection
+        AND  parent_object = :parent_object
+    ");
+
+    $prepare->execute(array(":collection" => $this->collection, ":parent_object" => $this->parent));
+
+    return $prepare;
+  }
+
+  /**
+   * Image Information
+   *
+   * Queries the local database for specific information regarding the current
+   * manuscript.
+   *
+   * These two columns will always be needed, therefore they are in their own
+   * function for optimization. It's better to return two columns rather than
+   * return four columns and only needing two.
+   *
+   * The collection column is appended in the event pointer numbers will
+   * overlap in different collections.
    *
    * @return Array
    */
-  private function acquireImageInfo() {
-    return json_decode(file_get_contents("http://digital.tcl.sc.edu/utils/ajaxhelper/?CISOROOT=hsn&CISOPTR=" . $this->pointer), true);
+  private function retrieveImageInfo() {
+    $prepare = $this->database->prepare("
+      SELECT image_height, image_width
+      FROM   manuscripts
+      WHERE  collection = :collection
+        AND  pointer    = :pointer
+      LIMIT  1
+    ");
+
+    $prepare->execute(array(":collection" => $this->collection, ":pointer" => $this->pointer));
+
+    return $prepare->fetch(PDO::FETCH_ASSOC);
   }
 
   /**
-   * Item Info
+   * Parent Information
    *
-   * Acquires the information regarding everything about the item.
+   * Queries the local database for information regarding the parent pointer
+   * for the current manuscript.
    *
-   * @return Array
-   */
-  private function acquireItemInfo() {
-    return json_decode(file_get_contents($this->constructPortURL("dmGetItemInfo")), true);
-  }
-
-  /**
-   * Parent
+   * This function should only be called once for the starting manuscript.
    *
-   * Acquires the information regarding the parent of the item.
+   * The collection column is appended in the event pointer numbers will
+   * overlap in different collections.
    *
-   * @return Array
-   */
-  private function acquireParent() {
-    return json_decode(file_get_contents($this->constructPortURL("GetParent")), true);
-  }
-
-  /**
-   * Compound Object
-   *
-   * Acquires the information regarding the compound object this is part of.
-   *
-   * @return Array
-   */
-  private function acquireCompoundObjectInfo() {
-    return json_decode(file_get_contents($this->constructPortURL("dmGetCompoundObjectInfo")), true);
-  }
-
-  /**
-   * URL Constructor
-   *
-   * Constructs a URL for CONTENTdm with a given parameter, centering around
-   * the item pointer.
-   *
-   * @param  String $parameter -- The API query.
    * @return String
    */
-  private function constructPortURL($parameter) {
-    return "http://digital.tcl.sc.edu:81/dmwebservices/?q=" . $parameter . "/hsn/" . $this->pointer . "/json";
+  public function retrieveParent() {
+    $prepare = $this->database->prepare("
+      SELECT parent_object
+      FROM   manuscripts
+      WHERE  collection = :collection
+        AND  pointer    = :pointer
+      LIMIT  1
+    ");
+
+    $prepare->execute(array(":collection" => $this->collection, ":pointer" => $this->pointer));
+
+    return $prepare->fetchColumn();
+  }
+
+  /**
+   * Title Information
+   *
+   * Queries the local database for information regarding the title for the
+   * current manuscript.
+   *
+   * This function should only be called once for the starting manuscript's
+   * parent.
+   *
+   * The collection column is appended in the event pointer numbers will
+   * overlap in different collections.
+   *
+   * @return String
+   */
+  public function retrieveTitle() {
+    $prepare = $this->database->prepare("
+      SELECT title
+      FROM   manuscripts
+      WHERE  collection = :collection
+        AND  pointer    = :pointer
+      LIMIT  1
+    ");
+
+    $prepare->execute(array(":collection" => $this->collection, ":pointer" => $this->pointer));
+
+    return $prepare->fetchColumn();
   }
 
   /**
@@ -94,37 +156,40 @@ class Helper {
    *
    * Prints all data necessary for js/hsn-book-reader.js
    *
+   * It runs through each pointer within the compound object, grabs its
+   * information, and then appends it all into an array for JavaScript to
+   * deal with.
+   *
    * @return Array
    */
   public function printData() {
-    $index  = -1;
-    $parent = new Helper($this->parent);
+    $parent = new Helper($this->parent, $this->collection);
     $return = array(
-      "pages"  => count($parent->getCompound()["page"]),
-      "title"  => $parent->getTitle(),
+      "pages"  => $this->pages,
+      "title"  => $parent->retrieveTitle(),
       "images" => array()
     );
 
-    // Run through all compound object items.
-    foreach ($parent->getCompound()["page"] as $object) {
-      $index++;
+    // Run through each pointer.
+    for ($i = 0; $i < count($this->compound); $i++) {
+      $item = $this->compound[$i];
 
       // If we're on the same item, do not create a new class.
-      if ($object["pageptr"] === $this->pointer) {
-        $return["images"][$index] = array(
-          "width"  => $this->imageInfo["imageinfo"]["width"],
-          "height" => $this->imageInfo["imageinfo"]["height"]
+      if ($item["pointer"] === $this->pointer) {
+        $return["images"][$i] = array(
+          "width"  => $this->getImageWidth(),
+          "height" => $this->getImageHeight()
         );
 
         continue;
       }
 
-      // Create a temporary class.
-      $helper = new Helper($object["pageptr"]);
+      // Otherwise, create a temp class.
+      $helper = new Helper($item["pointer"], $this->collection);
 
-      $return["images"][$index] = array(
-        "width"  => $helper->getImageInfo()["imageinfo"]["width"],
-        "height" => $helper->getImageInfo()["imageinfo"]["height"]
+      $return["images"][$i] = array(
+        "width"  => $helper->getImageWidth(),
+        "height" => $helper->getImageHeight()
       );
     }
 
@@ -134,19 +199,36 @@ class Helper {
   /**
    * Accessors
    */
-  public function getCompound() {
-    return $this->compound;
+  public function getImageHeight() {
+    return $this->imageHeight;
   }
 
-  public function getImageInfo() {
-    return $this->imageInfo;
+  public function getImageWidth() {
+    return $this->imageWidth;
   }
 
-  public function getTitle() {
-    return $this->title;
+  /**
+   * Mutators
+   */
+  public function setCompound($compound) {
+    $this->compound = $compound;
+  }
+
+  public function setPages($pages) {
+    $this->pages = $pages;
+  }
+
+  public function setParent($parent) {
+    $this->parent = $parent;
   }
 }
 
-$helper = new Helper($_GET["pointer"]);
+$helper = new Helper($_GET["pointer"], $_GET["collection"]);
+$helper->setParent($helper->retrieveParent());
+
+$compound = $helper->retrieveCompoundObjectInfo();
+
+$helper->setPages($compound->rowCount());
+$helper->setCompound($compound->fetchAll());
 
 print json_encode($helper->printData());

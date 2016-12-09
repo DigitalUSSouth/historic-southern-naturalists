@@ -29,11 +29,15 @@ class Application {
    * Constructs a URL based on the given pointer for a manuscript thumbnail
    * that is located within CONTENTdm.
    *
-   * @param  String $pointer -- Manuscript pointer.
+   * The default collection is 'hsn' due to the collection parameter only
+   * necessary on the browse-viewer page.
+   *
+   * @param  String $pointer    -- Manuscript pointer.
+   * @param  String $collection -- Collection the manuscript is in.
    * @return String
    */
-  public function buildManuscriptThumbURL($pointer) {
-    return "http://digital.tcl.sc.edu/utils/getthumbnail/collection/hsn/id/" . $pointer;
+  public function buildManuscriptThumbURL($pointer, $collection = "hsn") {
+    return "http://digital.tcl.sc.edu/utils/getthumbnail/collection/" . $collection . "/id/" . $pointer;
   }
 
   /**

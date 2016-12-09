@@ -16,19 +16,21 @@ date_default_timezone_set("America/New_York");
 class Content {
   private $content;
   private $database;
+  private $collection;
 
   /**
    * Step 0 - Constructor
    *
    * Initialize all class-wide variables and connect to the database.
    */
-  public function __construct() {
+  public function __construct($collection) {
     $this->logger("Initializing.");
 
     $contents = json_decode(file_get_contents("pg-connect.json"), true)["php"];
 
-    $this->content  = "";
-    $this->database = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->content    = "";
+    $this->database   = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->collection = $collection;
 
     $this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   }
@@ -41,7 +43,15 @@ class Content {
   public function retrieveResults() {
     $this->logger("Retrieving results.");
 
-    $this->content = json_decode(file_get_contents("http://digital.tcl.sc.edu:81/dmwebservices/?q=dmQuery/hsn/CISOSEARCHALL^*^any/contri!covera!date!descri!media!publis!relati!subjec!title!transc/0/1024/0/0/0/0/0/1/json"), true);
+    $results = array();
+
+    if ($this->collection === "kmc") {
+      $results = array("date", "title");
+    } else {
+      $results = array("contri", "covera", "date", "descri", "media", "publis", "relati", "subjec", "title", "transc");
+    }
+
+    $this->content = json_decode(file_get_contents("http://digital.tcl.sc.edu:81/dmwebservices/?q=dmQuery/" . $this->collection . "/CISOSEARCHALL^*^any/" . implode("!", $results) . "/0/1024/0/0/0/0/0/1/json"), true);
   }
 
   /**
@@ -62,11 +72,14 @@ class Content {
 
       $results = (array) $prepare->fetchObject();
 
+      // Trim collection.
+      $record["collection"] = trim(substr($record["collection"], 1));
+
       // Convert to parent_object.
       $record["parent_object"] = trim((string) $record["parentobject"]);
 
       // Remove the fields not needed in the local database.
-      unset($record["find"], $record["filetype"], $record["collection"], $record["parentobject"]);
+      unset($record["find"], $record["filetype"], $record["parentobject"]);
 
       if (array_key_exists("pointer", $results)) {
         $this->logger("Updating " . $record["pointer"]);
@@ -171,7 +184,7 @@ class Content {
    * therefore does not have a page, or it is not a compound object. Either
    * way, the manuscript does not have page number.
    *
-   * @param  Array $pointer -- The manuscript.
+   * @param  Array $record -- The manuscript.
    * @return Array
    */
   private function retrieveCompoundPage($record) {
@@ -264,7 +277,7 @@ class Content {
    * @return String
    */
   private function constructParameterURL($parameter, $pointer) {
-    return 'http://digital.tcl.sc.edu:81/dmwebservices/?q=' . $parameter . '/hsn/' . $pointer . '/json';
+    return "http://digital.tcl.sc.edu:81/dmwebservices/?q=" . $parameter . "/" . $this->collection . "/" . $pointer . "/json";
   }
 
   /**
@@ -277,7 +290,9 @@ class Content {
   }
 }
 
-$content = new Content();
-$content->retrieveResults();
-$content->manipulateDatabase();
-$content->closeDatabaseConnection();
+foreach (array("kmc", "hsn") as $collection) {
+  $content = new Content($collection);
+  $content->retrieveResults();
+  $content->manipulateDatabase();
+  $content->closeDatabaseConnection();
+}
