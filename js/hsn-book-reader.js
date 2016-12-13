@@ -154,6 +154,9 @@ ManuscriptViewer.prototype.adjustVisuals = function () {
       display:      'block',
       'text-align': 'center'
     });
+
+  // Add a back button.
+  $('<a href="browse-viewer.php" class="btn btn-sm btn-default back-button">Back</a>').insertAfter($('#BRtoolbar > span:first-child'));
 };
 
 /**
