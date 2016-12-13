@@ -149,8 +149,14 @@ class Symbiota {
     $this->logger("Manipulating database.");
 
     foreach ($this->data as $number=>$record) {
+      $record["id"] = trim((string) $record["id"]);
+
+      if ($record["id"] === "") {
+        continue;
+      }
+
       $prepare = $this->database->prepare("SELECT * FROM plants WHERE id = :id LIMIT 1");
-      $prepare->execute(array(":id" => strval($record["id"])));
+      $prepare->execute(array(":id" => $record["id"]));
 
       $results = (array) $prepare->fetchObject();
 
@@ -181,7 +187,7 @@ class Symbiota {
     $update = array();
 
     foreach ($record as $key=>$value) {
-      $value = trim(strval($value));
+      $value = trim((string) $value);
 
       if (array_key_exists($key, $results) && $value !== "" && $value != $results[$key]) {
         $writer .= $key . " = :" . $key . ", ";
@@ -218,7 +224,7 @@ class Symbiota {
     $values = "";
 
     foreach ($record as $key=>$value) {
-      $value = trim(strval($value));
+      $value = trim((string) $value);
 
       if ($value !== "") {
         $insert .= $key . ", ";
