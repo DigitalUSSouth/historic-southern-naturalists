@@ -6,8 +6,6 @@
  *
  * Note: All `pointer` and `parent_object` values will be returned as an
  *       integer. They must be converted to a string to properly work here.
- *
- * TODO: Determine what to do if there are over 1024 results returned.
  */
 
 date_default_timezone_set("America/New_York");
@@ -39,11 +37,15 @@ class Content {
   /**
    * Step 1 - Retrieve Results.
    *
-   * Queries a wild-card search to CONTENTdm and grabs all results.
+   * Queries a wild-card search to CONTENTdm and grabs all results. In the
+   * event that there are more than the maximum records within a collection,
+   * a loop will run until all records are returned.
    */
   public function retrieveResults() {
     $this->logger("Retrieving results.");
 
+    // Start on the zero-indexed record.
+    $start   = 0;
     $results = array();
 
     if ($this->collection === "kmc") {
@@ -52,7 +54,39 @@ class Content {
       $results = array("contri", "covera", "date", "descri", "media", "publis", "relati", "subjec", "title", "transc");
     }
 
-    $this->content = json_decode(file_get_contents("http://digital.tcl.sc.edu:81/dmwebservices/?q=dmQuery/" . $this->collection . "/CISOSEARCHALL^*^any/" . implode("!", $results) . "/0/1024/0/0/0/0/0/1/json"), true);
+    $this->content = $this->acquireContent($results, $start);
+
+    // In the event there are more than the maximum 1,024 manuscripts returned.
+    while (($this->content["pager"]["maxrecs"] + $start) < $this->content["pager"]["total"]) {
+      // Increasing by 1025 to remove the future `array_shift` causes math
+      // problems, and since math is hard, this will have to do.
+      $start += 1024;
+
+      $acquire = $this->acquireContent($results, $start);
+
+      // The first of the current is the same as the last of the previous.
+      array_shift($acquire["records"]);
+
+      // Merge only the records together.
+      $this->content["records"] = array_merge_recursive($this->content["records"], $acquire["records"]);
+    }
+  }
+
+  /**
+   * Step 1.1 - Search Results Returner
+   *
+   * Return search results for everything based on the given returning results
+   * and the starting position.
+   *
+   * This should only execute once per collection unless there are more than
+   * 1024 manuscripts within a collection.
+   *
+   * @param  Array   $results -- The results to return with the search query.
+   * @param  Integer $start   -- Starting number of the first record to return.
+   * @return Array
+   */
+  private function acquireContent($results, $start) {
+    return json_decode(file_get_contents("http://digital.tcl.sc.edu:81/dmwebservices/?q=dmQuery/" . $this->collection . "/CISOSEARCHALL^*^any/" . implode("!", $results) . "/0/1024/" . $start . "/0/0/0/0/1/json"), true);
   }
 
   /**
