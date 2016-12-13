@@ -24,6 +24,20 @@ class Application {
   }
 
   /**
+   * Manuscript Image URL Constructor
+   *
+   * Constructs a URL based on the given pointer and image information for a
+   * manuscript image that is located within CONTENTdm.
+   *
+   * @param  String $pointer -- Manuscript pointer.
+   * @param  Array  $info    -- Image information.
+   * @return String
+   */
+  public function buildManuscriptImageURL($pointer, $info) {
+    return "http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsn&CISOPTR=" . $pointer . "&DMWIDTH=" . $info["width"] . "&DMHEIGHT=" . $info["height"];
+  }
+
+  /**
    * Manuscript Thumbnail URL Constructor
    *
    * Constructs a URL based on the given pointer for a manuscript thumbnail
