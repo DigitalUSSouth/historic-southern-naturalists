@@ -13,7 +13,7 @@ $prepare = $application->getConnection()->prepare("
   SELECT page.pointer, parent.title, counter.count, page.collection
   FROM   manuscripts AS page, manuscripts AS parent
   INNER JOIN (
-    SELECT   DISTINCT(parent_object) AS parent_pointer , COUNT(compound_page) AS count
+    SELECT   DISTINCT(parent_object) AS parent_pointer, COUNT(compound_page) AS count
     FROM     manuscripts
     WHERE    compound_page != '-1'
       AND    ((collection = 'hsn' AND media LIKE 'Letter%') OR collection = 'kmc')
@@ -24,6 +24,7 @@ $prepare = $application->getConnection()->prepare("
     AND page.parent_object = parent.pointer
     AND ((page.collection = 'hsn' AND page.media LIKE 'Letter%') OR page.collection = 'kmc')
 ");
+
 $prepare->execute();
 
 require "includes/header.php";

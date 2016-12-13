@@ -1,4 +1,10 @@
 <?php
+/**
+ * index.php
+ *
+ * Home-base of the entire website.
+ */
+
 require "includes/application.php";
 require "includes/header.php";
 

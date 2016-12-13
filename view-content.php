@@ -1,4 +1,10 @@
 <?php
+/**
+ * view-content.php
+ *
+ * The viewer page for manuscripts.
+ */
+
 require "includes/application.php";
 require "includes/content.php";
 
@@ -27,52 +33,53 @@ foreach ($details as $key=>$label) {
 
 require "includes/header.php";
 ?>
-<div class="row">
-  <div class="col-xs-12">
-    <h1><?php print $content->getData("title"); ?></h1>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1><?php print $content->getData("title"); ?></h1>
+    </div>
   </div>
-</div>
 
-<div class="row">
-  <?php if ($content->hasData("descri") || $content->hasData("subjec")): ?>
+  <div class="row">
+    <?php if ($content->hasData("descri") || $content->hasData("subjec")): ?>
+      <div class="col-sm-6">
+        <?php if ($content->hasData("descri")): ?>
+          <h2>Description</h2>
+
+          <p class="text-justify"><?php print $content->getData("descri"); ?></p>
+        <?php endif; ?>
+
+        <?php if ($content->hasData("subjec")): ?>
+          <hr>
+
+          <p class="text-justify"><?php print $content->getData("subjec"); ?></p>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
+
     <div class="col-sm-6">
-      <?php if ($content->hasData("descri")): ?>
-        <h2>Description</h2>
+      <?php if ($hasDetails): ?>
+        <h2>Details</h2>
 
-        <p class="text-justify"><?php print $content->getData("descri"); ?></p>
+        <dl>
+          <?php foreach ($details as $key=>$label): ?>
+            <?php print $content->renderData($label, $key); ?>
+          <?php endforeach; ?>
+        </dl>
       <?php endif; ?>
 
-      <?php if ($content->hasData("subjec")): ?>
-        <hr>
+      <?php if ($content->hasData("transc")): ?>
+        <h2>Transcript</h2>
 
-        <p class="text-justify"><?php print $content->getData("subjec"); ?></p>
+        <pre><?php print $content->getData("transc"); ?></pre>
       <?php endif; ?>
     </div>
-  <?php endif; ?>
-
-  <div class="col-sm-6">
-    <?php if ($hasDetails): ?>
-      <h2>Details</h2>
-
-      <dl>
-        <?php foreach ($details as $key=>$label): ?>
-          <?php print $content->renderData($label, $key); ?>
-        <?php endforeach; ?>
-      </dl>
-    <?php endif; ?>
-
-    <?php if ($content->hasData("transc")): ?>
-      <h2>Transcript</h2>
-
-      <pre><?php print $content->getData("transc"); ?></pre>
-    <?php endif; ?>
   </div>
-</div>
 
-<hr>
+  <hr>
 
-<div class="row">
-  <div class="col-xs-12">
-    <img src="<?php print $content->getImage(); ?>" class="img-responsive" alt="<?php print $content->getData("title"); ?>">
+  <div class="row">
+    <div class="col-xs-12">
+      <img src="<?php print $content->getImage(); ?>" class="img-responsive" alt="<?php print $content->getData("title"); ?>">
+    </div>
   </div>
-</div>
+<?php require "includes/footer.php"; ?>

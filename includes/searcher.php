@@ -1,5 +1,7 @@
 <?php
 /**
+ * searcher.php
+ *
  * The behind-the-scenes revolving around `/search`
  */
 class Searcher {
@@ -24,15 +26,18 @@ class Searcher {
    * Queries the database for the search term and returns the interior of a
    * `<tbody>` with the proper results.
    *
-   * @todo React to empty results.
-   *
    * @return String
    */
   public function renderTableManuscripts() {
     global $application;
 
     $html  = "";
-    $query = $this->connection->prepare("SELECT pointer, title, contri, media FROM manuscripts WHERE (" . $this->renderContentQuery() . ") AND media != 'Minerals'");
+    $query = $this->connection->prepare("
+      SELECT pointer, title, contri, media
+      FROM   manuscripts
+      WHERE  (" . $this->renderContentQuery() . ")
+        AND  media != 'Minerals'
+    ");
 
     $query->execute($this->populateContentArray());
 
@@ -64,15 +69,18 @@ class Searcher {
    * Queries the database for the search term and returns the interior of a
    * `<tbody>` with the proper results.
    *
-   * @todo React to empty results.
-   *
    * @return String
    */
   public function renderTableMinerals() {
     global $application;
 
     $html  = "";
-    $query = $this->connection->prepare("SELECT pointer, title, descri, media FROM manuscripts WHERE (" . $this->renderContentQuery() . ") AND media = 'Minerals'");
+    $query = $this->connection->prepare("
+      SELECT pointer, title, descri, media
+      FROM   manuscripts
+      WHERE  (" . $this->renderContentQuery() . ")
+        AND  media = 'Minerals'
+    ");
 
     $query->execute($this->populateContentArray());
 
@@ -104,15 +112,18 @@ class Searcher {
    * Queries the database for the search term and returns the interior of a
    * `<tbody>` with the proper results.
    *
-   * @todo React to empty results.
-   *
    * @return String
    */
   public function renderTablePlants() {
     global $application;
 
     $html  = "";
-    $query = $this->connection->prepare("SELECT id, scientific_name, habitat FROM plants WHERE (" . $this->renderPlantQuery() . ") AND scientific_name != ''");
+    $query = $this->connection->prepare("
+      SELECT id, scientific_name, habitat
+      FROM   plants
+      WHERE  (" . $this->renderPlantQuery() . ")
+        AND  scientific_name != ''
+    ");
 
     $query->execute($this->populatePlantArray());
 
@@ -141,8 +152,7 @@ class Searcher {
   }
 
   /**
-   * Populates an array for PDO prepared statements for the manuscript or
-   * mineral results.
+   * Populates an array for PDO prepared statements for all non-plant results.
    *
    * @return Array
    */
@@ -172,7 +182,7 @@ class Searcher {
   }
 
   /**
-   * Renders the query for manuscript or mineral SQL prepared statements.
+   * Renders the query for all non-plant SQL prepared statements.
    *
    * @return String
    */

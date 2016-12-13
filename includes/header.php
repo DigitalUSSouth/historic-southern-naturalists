@@ -1,4 +1,10 @@
-<!DOCTYPE html>
+<?php
+/**
+ * header.php
+ *
+ * To be rendered at the beginning of every page.
+ */
+?><!DOCTYPE html>
 <html>
 <head>
   <?php print $application->renderMeta(); ?>
@@ -35,4 +41,5 @@
       </div>
     </nav>
   <?php endif; ?>
+
   <div class="container">

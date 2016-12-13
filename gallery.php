@@ -4,6 +4,7 @@
  *
  * View the layout of the museum and interact with it.
  */
+
 require "includes/application.php";
 
 $application->setTitle("Gallery");

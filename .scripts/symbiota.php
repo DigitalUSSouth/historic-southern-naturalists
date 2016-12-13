@@ -155,7 +155,13 @@ class Symbiota {
         continue;
       }
 
-      $prepare = $this->database->prepare("SELECT * FROM plants WHERE id = :id LIMIT 1");
+      $prepare = $this->database->prepare("
+        SELECT *
+        FROM   plants
+        WHERE  id = :id
+        LIMIT  1
+      ");
+
       $prepare->execute(array(":id" => $record["id"]));
 
       $results = (array) $prepare->fetchObject();
@@ -187,12 +193,16 @@ class Symbiota {
     $update = array();
 
     foreach ($record as $key=>$value) {
+      // Assure value is a string and trimmed.
       $value = trim((string) $value);
 
-      if (array_key_exists($key, $results) && $value !== "" && $value != $results[$key]) {
-        $writer .= $key . " = :" . $key . ", ";
-        $update[":" . $key] = $value;
+      // No point in populating empty or same data.
+      if ($value === "" || $value === $results[$key]) {
+        continue;
       }
+
+      $writer .= $key . " = :" . $key . ", ";
+      $update[":" . $key] = $value;
     }
 
     if ($writer === "") {
@@ -204,10 +214,15 @@ class Symbiota {
     $writer = substr($writer, 0, -2);
     $update[":id"] = $record["id"];
 
+    $this->logger("Query: UPDATE plants SET (" . $writer . ") WHERE id = " . $record["id"]);
+    $this->logger(print_r($update, true));
 
-    $this->logger("Attempting to update " . $writer . " -- " . print_r($update, true));
+    $prepare = $this->database->prepare("
+      UPDATE plants
+      SET    $writer
+      WHERE  id = :id
+    ");
 
-    $prepare = $this->database->prepare("UPDATE plants SET $writer WHERE id = :id");
     $prepare->execute($update);
   }
 
@@ -224,23 +239,31 @@ class Symbiota {
     $values = "";
 
     foreach ($record as $key=>$value) {
+      // Assure value is a string and trimmed.
       $value = trim((string) $value);
 
-      if ($value !== "") {
-        $insert .= $key . ", ";
-        $values .= ":" . $key . ", ";
-
-        $array[":" . $key] = $value;
+      // No point in populating empty data.
+      if ($value === "") {
+        continue;
       }
+
+      $insert .= $key . ", ";
+      $values .= ":" . $key . ", ";
+
+      $array[":" . $key] = $value;
     }
 
     $insert = substr($insert, 0, -2);
     $values = substr($values, 0, -2);
 
     $this->logger("Query: INSERT INTO plants ($insert) VALUES ($values)");
-    $this->logger("Here's an " . print_r($array, true));
+    $this->logger(print_r($array, true));
 
-    $prepare = $this->database->prepare("INSERT INTO plants ($insert) VALUES ($values)");
+    $prepare = $this->database->prepare("
+      INSERT INTO plants ($insert)
+      VALUES      ($values)
+    ");
+
     $prepare->execute($array);
   }
 

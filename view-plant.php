@@ -1,4 +1,10 @@
 <?php
+/**
+ * view-plant.php
+ *
+ * The viewer page for plants.
+ */
+
 require "includes/application.php";
 require "includes/planter.php";
 
@@ -44,34 +50,35 @@ foreach ($location as $key=>$label) {
 
 require "includes/header.php";
 ?>
-<div class="row">
-  <div class="col-xs-12">
-    <h1><?php print $planter->getData("scientific_name"); ?></h1>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1><?php print $planter->getData("scientific_name"); ?></h1>
+    </div>
   </div>
-</div>
 
-<div class="row">
-  <?php if ($hasDetails): ?>
-    <div class="col-sm-6">
-      <h2>Details</h2>
+  <div class="row">
+    <?php if ($hasDetails): ?>
+      <div class="col-sm-6">
+        <h2>Details</h2>
 
-      <dl>
-        <?php foreach ($details as $key=>$label): ?>
-          <?php print $planter->renderData($label, $key); ?>
-        <?php endforeach; ?>
-      </dl>
-    </div>
-  <?php endif; ?>
+        <dl>
+          <?php foreach ($details as $key=>$label): ?>
+            <?php print $planter->renderData($label, $key); ?>
+          <?php endforeach; ?>
+        </dl>
+      </div>
+    <?php endif; ?>
 
-  <?php if ($hasLocation): ?>
-    <div class="col-sm-6">
-      <h2>Location</h2>
+    <?php if ($hasLocation): ?>
+      <div class="col-sm-6">
+        <h2>Location</h2>
 
-      <dl>
-        <?php foreach ($location as $key=>$label): ?>
-          <?php print $planter->renderData($label, $key); ?>
-        <?php endforeach; ?>
-      </dl>
-    </div>
-  <?php endif; ?>
-</div>
+        <dl>
+          <?php foreach ($location as $key=>$label): ?>
+            <?php print $planter->renderData($label, $key); ?>
+          <?php endforeach; ?>
+        </dl>
+      </div>
+    <?php endif; ?>
+  </div>
+<?php require "includes/footer.php"; ?>

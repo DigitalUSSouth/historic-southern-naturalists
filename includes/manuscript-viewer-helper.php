@@ -31,7 +31,7 @@ class Helper {
   public function __construct($pointer, $collection) {
     global $application;
 
-    $this->pointer    = strval($pointer);
+    $this->pointer    = (string) $pointer;
     $this->database   = $application->getConnection();
     $this->collection = $collection;
 
@@ -62,7 +62,10 @@ class Helper {
         AND  parent_object = :parent_object
     ");
 
-    $prepare->execute(array(":collection" => $this->collection, ":parent_object" => $this->parent));
+    $prepare->execute(array(
+      ":collection"    => $this->collection,
+      ":parent_object" => $this->parent
+    ));
 
     return $prepare;
   }
@@ -91,7 +94,10 @@ class Helper {
       LIMIT  1
     ");
 
-    $prepare->execute(array(":collection" => $this->collection, ":pointer" => $this->pointer));
+    $prepare->execute(array(
+      ":collection" => $this->collection,
+      ":pointer"    => $this->pointer
+    ));
 
     return $prepare->fetch(PDO::FETCH_ASSOC);
   }
@@ -118,7 +124,10 @@ class Helper {
       LIMIT  1
     ");
 
-    $prepare->execute(array(":collection" => $this->collection, ":pointer" => $this->pointer));
+    $prepare->execute(array(
+      ":collection" => $this->collection,
+      ":pointer"    => $this->pointer
+    ));
 
     return $prepare->fetchColumn();
   }
@@ -146,7 +155,10 @@ class Helper {
       LIMIT  1
     ");
 
-    $prepare->execute(array(":collection" => $this->collection, ":pointer" => $this->pointer));
+    $prepare->execute(array(
+      ":collection" => $this->collection,
+      ":pointer"    => $this->pointer
+    ));
 
     return $prepare->fetchColumn();
   }

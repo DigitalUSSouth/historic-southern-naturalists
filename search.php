@@ -1,4 +1,10 @@
 <?php
+/**
+ * search.php
+ *
+ * The search page and its possible results.
+ */
+
 require "includes/application.php";
 
 if (isset($_GET["search"])) {
@@ -7,7 +13,6 @@ if (isset($_GET["search"])) {
   $application->setTitle("Search");
 }
 
-require "includes/header.php";
 require "includes/searcher.php";
 
 if (isset($_GET["search"])) {
@@ -19,6 +24,8 @@ if (isset($_GET["search"])) {
 
   $searcher->setSearch($_GET["search"]);
 }
+
+require "includes/header.php";
 ?>
   <div class="row">
     <div class="col-xs-12">

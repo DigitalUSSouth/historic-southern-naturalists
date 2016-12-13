@@ -1,5 +1,7 @@
 <?php
 /**
+ * content.php
+ *
  * Content class. Utilized only on /view-content
  */
 class Content {
@@ -15,9 +17,14 @@ class Content {
   public function __construct($pointer) {
     global $application;
 
-    $info = json_decode(file_get_contents("http://digital.tcl.sc.edu/utils/ajaxhelper/?CISOROOT=hsn&CISOPTR=" . $pointer), true)["imageinfo"];
+    $info    = json_decode(file_get_contents("http://digital.tcl.sc.edu/utils/ajaxhelper/?CISOROOT=hsn&CISOPTR=" . $pointer), true)["imageinfo"];
+    $prepare = $application->getConnection()->prepare("
+      SELECT *
+      FROM   manuscripts
+      WHERE  pointer = :pointer
+      LIMIT  1
+    ");
 
-    $prepare = $application->getConnection()->prepare("SELECT * FROM manuscripts WHERE pointer = :pointer LIMIT 1");
     $prepare->execute(array(":pointer" => $pointer));
 
     $this->data    = (array) $prepare->fetchObject();
@@ -45,9 +52,11 @@ class Content {
    * @return String
    */
   public function renderData($label, $key) {
-    return trim($this->data[$key]) === ""
-      ? ""
-      : "<dt>" . $label . "</dt><dd>" . $this->data[$key] . "</dd>";
+    if (trim($this->data[$key]) === "") {
+      return "";
+    } else {
+      return "<dt>" . $label . "</dt><dd>" . $this->data[$key] . "</dd>";
+    }
   }
 
   /**

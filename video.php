@@ -1,4 +1,10 @@
 <?php
+/**
+ * video.php
+ *
+ * The video gallery page of the website.
+ */
+
 require "includes/application.php";
 $application->setTitle("Timeline");
 

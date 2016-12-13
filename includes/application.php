@@ -1,5 +1,7 @@
 <?php
 /**
+ * application.php
+ *
  * The global assistant of this website.
  */
 class Application {
@@ -55,9 +57,9 @@ class Application {
   }
 
   /**
-   * URL Constructor
+   * Parameter URL Constructor
    *
-   * Constructs a CONTENTdm URL based on the given parameter and pointer.
+   * Constructs a CONTENTdm URL based on the given API call and pointer.
    *
    * @param  String $parameter -- The API call.
    * @param  String $pointer   -- The pointer being utilized.
@@ -103,9 +105,11 @@ class Application {
    * @return String
    */
   public function renderTitle() {
-    return $this->title === ""
-      ? "Historic Southern Naturalists"
-      : $this->title . " - Historic Southern Naturalists";
+    if ($this->title === "") {
+      return "Historic Southern Naturalists";
+    } else {
+      return $this->title . " - Historic Southern Naturalists";
+    }
   }
 
   /**
@@ -197,10 +201,6 @@ class Application {
       );
 
       foreach ($books as $file) {
-        if (pathinfo($file)["extension"] !== "js") {
-          continue;
-        }
-
         array_push($files, 'bookreader/' . $file);
       }
 

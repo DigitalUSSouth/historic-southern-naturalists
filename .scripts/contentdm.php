@@ -67,7 +67,13 @@ class Content {
       // Convert pointer to a string.
       $record["pointer"] = trim((string) $record["pointer"]);
 
-      $prepare = $this->database->prepare("SELECT * FROM manuscripts WHERE pointer = :pointer LIMIT 1");
+      $prepare = $this->database->prepare("
+        SELECT *
+        FROM   manuscripts
+        WHERE  pointer = :pointer
+        LIMIT  1
+      ");
+
       $prepare->execute(array(":pointer" => $record["pointer"]));
 
       $results = (array) $prepare->fetchObject();
@@ -129,7 +135,12 @@ class Content {
     $this->logger("Query: UPDATE manuscripts SET (" . $writer . ") WHERE pointer = " . $record["pointer"]);
     $this->logger(print_r($update, true));
 
-    $prepare = $this->database->prepare("UPDATE manuscripts SET $writer WHERE pointer = :pointer");
+    $prepare = $this->database->prepare("
+      UPDATE manuscripts
+      SET    $writer
+      WHERE  pointer = :pointer
+    ");
+
     $prepare->execute($update);
   }
 
@@ -170,7 +181,11 @@ class Content {
     $this->logger("Query: INSERT INTO manuscripts ($insert) VALUES ($values)");
     $this->logger(print_r($array, true));
 
-    $prepare = $this->database->prepare("INSERT INTO manuscripts ($insert) VALUES ($values)");
+    $prepare = $this->database->prepare("
+      INSERT INTO manuscripts ($insert)
+      VALUES      ($values)
+    ");
+
     $prepare->execute($array);
   }
 
