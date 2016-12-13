@@ -26,6 +26,18 @@ class Content {
   }
 
   /**
+   * Data Determiner
+   *
+   * Determines if the current manuscript has data within the given key.
+   *
+   * @param  String  $key -- Key for the database.
+   * @return Boolean
+   */
+  public function hasData($key) {
+    return trim($this->data[$key]) !== "";
+  }
+
+  /**
    * Determines if the data requested does have a value. If so, render it.
    *
    * @param  String $label -- The label of the data.

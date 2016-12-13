@@ -6,6 +6,25 @@ $content = new Content($_GET["pointer"]);
 
 $application->setTitle("Manuscript Viewer - " . $content->getData("title"));
 
+$details = array(
+  "date"   => "Date",
+  "contri" => "Contributor",
+  "publis" => "Publisher",
+  "covera" => "Coverage",
+  "relati" => "Relations"
+);
+
+$hasDetails = false;
+
+// Loop through each detail key to see if any exist.
+foreach ($details as $key=>$label) {
+  if ($content->hasData($key)) {
+    $hasDetails = true;
+
+    break;
+  }
+}
+
 require "includes/header.php";
 ?>
 <div class="row">
@@ -15,36 +34,38 @@ require "includes/header.php";
 </div>
 
 <div class="row">
+  <?php if ($content->hasData("descri") || $content->hasData("subjec")): ?>
+    <div class="col-sm-6">
+      <?php if ($content->hasData("descri")): ?>
+        <h2>Description</h2>
+
+        <p class="text-justify"><?php print $content->getData("descri"); ?></p>
+      <?php endif; ?>
+
+      <?php if ($content->hasData("subjec")): ?>
+        <hr>
+
+        <p class="text-justify"><?php print $content->getData("subjec"); ?></p>
+      <?php endif; ?>
+    </div>
+  <?php endif; ?>
+
   <div class="col-sm-6">
-    <h2>Description</h2>
+    <?php if ($hasDetails): ?>
+      <h2>Details</h2>
 
-    <p class="text-justify"><?php print $content->getData("descri"); ?></p>
-
-    <?php if ($content->getData("subjec") !== ""): ?>
-      <hr>
-
-      <p class="text-justify"><?php print $content->getData("subjec"); ?></p>
+      <dl>
+        <?php foreach ($details as $key=>$label): ?>
+          <?php print $content->renderData($label, $key); ?>
+        <?php endforeach; ?>
+      </dl>
     <?php endif; ?>
-  </div>
 
-  <div class="col-sm-6">
-    <h2>Details</h2>
+    <?php if ($content->hasData("transc")): ?>
+      <h2>Transcript</h2>
 
-    <dl>
-      <?php print $content->renderData("Date", "date"); ?>
-
-      <?php print $content->renderData("Contributor", "contri"); ?>
-
-      <?php print $content->renderData("Publisher", "publis"); ?>
-
-      <?php print $content->renderData("Coverage", "covera"); ?>
-
-      <?php print $content->renderData("Relations", "relati"); ?>
-    </dl>
-
-    <h2>Transcript</h2>
-
-    <pre><?php print $content->getData("transc"); ?></pre>
+      <pre><?php print $content->getData("transc"); ?></pre>
+    <?php endif; ?>
   </div>
 </div>
 
