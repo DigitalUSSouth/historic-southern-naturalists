@@ -3,8 +3,6 @@
  * symbiota.php
  *
  * The data miner for the `plants` table within the `hsn` database.
- *
- * TODO: Handle if a plant was deleted remotely.
  */
 
 date_default_timezone_set("America/New_York");
@@ -12,6 +10,7 @@ date_default_timezone_set("America/New_York");
 class Symbiota {
   private $data;
   private $database;
+  private $deletions;
 
   /**
    * Step 0 - Constructor
@@ -24,8 +23,9 @@ class Symbiota {
 
     $contents = json_decode(file_get_contents("pg-connect.json"), true)["php"];
 
-    $this->data     = array();
-    $this->database = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->data      = array();
+    $this->database  = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->deletions = array();
 
     $this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -65,7 +65,24 @@ class Symbiota {
   }
 
   /**
-   * Step 2 - Result Parser.
+   * Step 2 - Populate IDs
+   *
+   * Populates all plant ids into an array to cross-check if any plants were
+   * deleted remotely. This ALWAYS assumes if the id is not removed from the
+   * class-wide array, it was deleted remotely and therefore needs to be
+   * deleted locally.
+   */
+  public function populateLocal() {
+    $prepare = $this->database->prepare("
+      SELECT id
+      FROM   plants
+    ");
+
+    $this->deletions = $prepare->fetchAll(PDO::FETCH_COLUMN);
+  }
+
+  /**
+   * Step 3 - Result Parser.
    *
    * Parse the results from CSV to a PHP-acceptable array. Since PapaParse's
    * headers option is not an option here, remap the array to have proper keys.
@@ -140,7 +157,7 @@ class Symbiota {
   }
 
   /**
-   * Step 3 - Cross-Reference with Database.
+   * Step 4 - Cross-Reference with Database.
    *
    * Initially looks if the id is within the database, and if so, updates the
    * fields to match Symbiota, otherwise, insert new data.
@@ -171,6 +188,10 @@ class Symbiota {
 
         // Update the database.
         $this->updateDatabase($results, $record);
+
+        // Remove the id from the deletion array to signal that this id still
+        // exists remotely.
+        unset($this->deletions[array_search(intval($record["id"]), $this->deletions)]);
       } else {
         $this->logger("Inserting " . $record["id"]);
 
@@ -181,7 +202,7 @@ class Symbiota {
   }
 
   /**
-   * Step 3.1 - Update Fields
+   * Step 4.1 - Update Fields
    *
    * Updates the database with the assumption that Symbiota is more accurate.
    *
@@ -227,7 +248,7 @@ class Symbiota {
   }
 
   /**
-   * Step 3.2 - Insert Fields
+   * Step 4.2 - Insert Fields
    *
    * Creates a new row in the database.
    *
@@ -268,7 +289,30 @@ class Symbiota {
   }
 
   /**
-   * Step 4 - Shutdown
+   * Step 5 - Local/Remote Deletion
+   *
+   * If applicable, delete any local plants that no longer exist remotely.
+   */
+  public function localDeletion() {
+    $this->logger("There are " . count($this->deletions) . " plants deleted remotely.");
+
+    foreach ($this->deletions as $key=>$id) {
+      $id = trim($id);
+
+      $this->logger("Deleting id " . $id);
+
+      $prepare = $this->database->prepare("
+        DELETE FROM plants
+        WHERE       id = :id
+        LIMIT       1
+      ");
+
+      $prepare->execute(array(":id" => $id));
+    }
+  }
+
+  /**
+   * Step 6 - Shutdown
    *
    * Closes the connection between this process and the database and then
    * removes the temporary folder.
@@ -329,6 +373,8 @@ class Symbiota {
 
 $symbiota = new Symbiota();
 $symbiota->retrieveResults();
+$symbiota->populateLocal();
 $symbiota->parseResults();
 $symbiota->manipulateDatabase();
+$symbiota->localDeletion();
 $symbiota->closeDatabaseConnection();

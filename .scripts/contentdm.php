@@ -8,7 +8,6 @@
  *       integer. They must be converted to a string to properly work here.
  *
  * TODO: Determine what to do if there are over 1024 results returned.
- * TODO: Handle if a manuscript was deleted remotely.
  */
 
 date_default_timezone_set("America/New_York");
@@ -16,6 +15,7 @@ date_default_timezone_set("America/New_York");
 class Content {
   private $content;
   private $database;
+  private $deletions;
   private $collection;
 
   /**
@@ -28,8 +28,9 @@ class Content {
 
     $contents = json_decode(file_get_contents("pg-connect.json"), true)["php"];
 
-    $this->content    = "";
+    $this->content    = array();
     $this->database   = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->deletions  = array();
     $this->collection = $collection;
 
     $this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -55,7 +56,27 @@ class Content {
   }
 
   /**
-   * Step 2 - Cross-Reference with Database.
+   * Step 2 - Populate Pointers
+   *
+   * Populates all pointers into an array to cross-check if any manuscripts
+   * were deleted remotely. This ALWAYS assumes if the pointer is not removed
+   * from the class-wide array, it was deleted remotely and therefore needs to
+   * be deleted locally.
+   */
+  public function populateLocal() {
+    $prepare = $this->database->prepare("
+      SELECT pointer
+      FROM   manuscripts
+      WHERE  collection = :collection
+    ");
+
+    $prepare->execute(array(":collection" => $this->collection));
+
+    $this->deletions = $prepare->fetchAll(PDO::FETCH_COLUMN);
+  }
+
+  /**
+   * Step 3 - Cross-Reference with Database.
    *
    * Initially looks if the pointer is within the database and if so, updates
    * the fields to match CONTENTdm, otherwise, inserts new data.
@@ -92,6 +113,10 @@ class Content {
 
         // Update the database.
         $this->updateDatabase($results, $record);
+
+        // Remove the pointer from the deletion array to signal that
+        // this pointer still exists remotely.
+        unset($this->deletions[array_search(intval($record["pointer"]), $this->deletions)]);
       } else {
         $this->logger("Inserting " . $record["pointer"]);
 
@@ -102,7 +127,7 @@ class Content {
   }
 
   /**
-   * Step 2.1 - Update Fields
+   * Step 3.1 - Update Fields
    *
    * Updates the database with the assumption that CONTENTdm is more accurate.
    *
@@ -111,7 +136,10 @@ class Content {
    */
   private function updateDatabase($results, $record) {
     $writer = "";
-    $update = array(":pointer" => $record["pointer"]);
+    $update = array(
+      ":pointer"    => $record["pointer"],
+      ":collection" => $this->collection
+    );
 
     foreach ($record as $key=>$value) {
       // Assure value is a string and trimmed.
@@ -139,13 +167,14 @@ class Content {
       UPDATE manuscripts
       SET    $writer
       WHERE  pointer = :pointer
+        AND  collection = :collection
     ");
 
     $prepare->execute($update);
   }
 
   /**
-   * Step 2.2 - Insert Fields
+   * Step 3.2 - Insert Fields
    *
    * Creates a new row in the database.
    *
@@ -190,7 +219,7 @@ class Content {
   }
 
   /**
-   * Step 2.x.1 - Compound Object Page Retriever
+   * Step 3.x.1 - Compound Object Page Retriever
    *
    * Determines what page the given record is within its compound object
    * information. This will start numbering at 0.
@@ -231,7 +260,7 @@ class Content {
   }
 
   /**
-   * Step 2.x.2 - Image Dimension Retriever
+   * Step 3.x.2 - Image Dimension Retriever
    *
    * Determines the dimensions of the big image specifically for the given
    * record. This is done due to each image being different size, and will
@@ -249,7 +278,7 @@ class Content {
   }
 
   /**
-   * Step 2.x.3 - Compound Object Determiner
+   * Step 3.x.3 - Compound Object Determiner
    *
    * Determines if the given pointer is a compound object based on the
    * CONTENTdm API call of `dmGetCompoundObjectInfo`.
@@ -273,7 +302,34 @@ class Content {
   }
 
   /**
-   * Step 3 - Shutdown
+   * Step 4 - Local/Remote Deletion
+   *
+   * If applicable, delete any local manuscripts that no longer exist remotely.
+   */
+  public function localDeletion() {
+    $this->logger("There are " . count($this->deletions) . " manuscripts deleted remotely.");
+
+    foreach ($this->deletions as $key=>$pointer) {
+      $pointer = trim($pointer);
+
+      $this->logger("Deleting pointer " . $pointer . " from the " . $this->collection . " collection.");
+
+      $prepare = $this->database->prepare("
+        DELETE FROM manuscripts
+        WHERE       pointer = :pointer
+          AND       collection = :collection
+        LIMIT       1
+      ");
+
+      $prepare->execute(array(
+        ":pointer"    => $pointer,
+        ":collection" => $this->collection
+      ));
+    }
+  }
+
+  /**
+   * Step 5 - Shutdown
    *
    * Closes the connection between this process and the database.
    */
@@ -308,6 +364,8 @@ class Content {
 foreach (array("kmc", "hsn") as $collection) {
   $content = new Content($collection);
   $content->retrieveResults();
+  $content->populateLocal();
   $content->manipulateDatabase();
+  $content->localDeletion();
   $content->closeDatabaseConnection();
 }
