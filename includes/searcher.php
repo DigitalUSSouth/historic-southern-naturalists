@@ -12,6 +12,8 @@ class Searcher {
 
   /**
    * Constructor
+   *
+   * @param String $search -- Search query.
    */
   public function __construct($search) {
     global $application;
