@@ -45,13 +45,15 @@ require "includes/header.php";
         <?php if ($content->hasData("descri")): ?>
           <h2>Description</h2>
 
-          <p class="text-justify"><?php print $content->getData("descri"); ?></p>
+          <p class="text-justify"><?php print $content->renderBasicData("descri"); ?></p>
         <?php endif; ?>
 
         <?php if ($content->hasData("subjec")): ?>
           <hr>
 
-          <p class="text-justify"><?php print $content->getData("subjec"); ?></p>
+          <h4>Subject</h4>
+
+          <p class="text-justify"><?php print $content->renderBasicData("subjec"); ?></p>
         <?php endif; ?>
       </div>
     <?php endif; ?>
@@ -62,7 +64,7 @@ require "includes/header.php";
 
         <dl>
           <?php foreach ($details as $key=>$label): ?>
-            <?php print $content->renderData($label, $key); ?>
+            <?php print $content->renderDetailData($label, $key); ?>
           <?php endforeach; ?>
         </dl>
       <?php endif; ?>
