@@ -73,7 +73,11 @@ require "includes/header.php";
 
             <div class="col-xs-10">
               <div class="input-group">
-                <input type="text" class="form-control" id="search" name="search" value="<?php print $searcher->getSearch(); ?>">
+                <?php if (isset($_GET["search"])): ?>
+                  <input type="text" class="form-control" id="search" name="search" value="<?php print $searcher->getSearch(); ?>">
+                <?php else: ?>
+                  <input type="text" class="form-control" id="search" name="search">
+                <?php endif; ?>
 
                 <span class="input-group-btn">
                   <button type="submit" class="btn btn-default">Search</button>
