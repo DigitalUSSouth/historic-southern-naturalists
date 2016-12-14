@@ -13,153 +13,178 @@ class Searcher {
   /**
    * Constructor
    */
-  public function __construct() {
+  public function __construct($search) {
     global $application;
 
-    $this->search      = "";
-    $this->plantKeys   = array("county", "country", "event_date", "family", "genus", "habitat", "identified_by", "locality", "recorded_by", "scientific_name", "state_province");
-    $this->connection  = $application->getConnection();
-    $this->contentKeys = array("contri", "covera", "date", "descri", "publis", "relati", "subjec", "title");
+    $this->search     = $search;
+    $this->connection = $application->getConnection();
+
+    $this->plantKeys = array(
+      "county",
+      "country",
+      "event_date",
+      "family",
+      "genus",
+      "habitat",
+      "identified_by",
+      "locality",
+      "recorded_by",
+      "scientific_name",
+      "state_province"
+    );
+
+    $this->contentKeys = array(
+      "contri",
+      "covera",
+      "date",
+      "descri",
+      "publis",
+      "relati",
+      "subjec",
+      "title"
+    );
   }
 
   /**
-   * Queries the database for the search term and returns the interior of a
-   * `<tbody>` with the proper results.
+   * Table Renderer
    *
+   * With a given type, determines what type of table needs to be rendered
+   * on the search page.
+   *
+   * All possible types are located at the top of the search page.
+   *
+   * @param  String $type -- The table type.
    * @return String
    */
-  public function renderTableManuscripts() {
+  public function renderTable($type) {
+    if ($type === "plants") {
+      return $this->renderTablePlants();
+    } else {
+      return $this->renderContentTable($type);
+    }
+  }
+
+  /**
+   * CONTENTdm Table Renderer
+   *
+   * Queries the database for any data that would matter coming from the
+   * `manuscripts` table.
+   *
+   * All manuscript-type data will return the same headers:
+   * - Thumbnail
+   * - Title
+   * - Description
+   *
+   * @param  String $type -- The media type.
+   * @return String
+   */
+  private function renderContentTable($type) {
     global $application;
 
     $html  = "";
-    $query = $this->connection->prepare("
-      SELECT pointer, title, contri, media
+    $media = "";
+
+    if ($type === "manuscripts") {
+      $media = "media LIKE '%Manuscripts'";
+    } else {
+      $media = "media ILIKE '" . $type . "'";
+    }
+
+    $prepare = $this->connection->prepare("
+      SELECT descri, media, pointer, title
       FROM   manuscripts
-      WHERE  (" . $this->renderContentQuery() . ")
-        AND  media != 'Minerals'
+      WHERE  (" . $this->renderQuery("content") . ")
+        AND  $media
     ");
 
-    $query->execute($this->populateContentArray());
+    $prepare->execute($this->populateArray("content"));
 
-    foreach ($query->fetchAll() as $current=>$result) {
-      $html .= '<tr>';
+    foreach ($prepare->fetchAll() as $key=>$result) {
+      $html .= "<tr>";
 
       // Render the thumbnail with a link.
-      $html .= '<td>'
-        . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">'
-        . '<img src="' . $application->buildManuscriptThumbURL($result["pointer"]) . '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
-        . '</a>'
-        . '</td>';
+      $html .= "<td>"
+        . "<a href=\"" . $application->getURL() . "view-content.php?pointer=" . $result["pointer"] . "\">"
+        . "<img src=\"" . $application->buildManuscriptThumbURL($result["pointer"]) . "\" class=\"img-responsive\" alt=\"Thumbnail of " . $result["title"] . "\">"
+        . "</a>"
+        . "</td>";
 
       // Render the title with a link.
-      $html .= '<td>'
-        . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">' . $result["title"] . '</a>'
-        . '</td>';
+      $html .= "<td>"
+        . "<a href=\"" . $application->getURL() . "view-content.php?pointer=" . $result["pointer"] . "\">" . $result["title"] . "</a>"
+        . "</td>";
 
-      // Render the contributor plainly.
-      $html .= '<td>' . $result["contri"] . '</td>';
+      // Render the description.
+      $html .= "<td>" . $result["descri"] . "</td>";
 
-      $html .= '</tr>';
+      $html .= "</tr>";
     }
 
     return $html;
   }
 
   /**
-   * Queries the database for the search term and returns the interior of a
-   * `<tbody>` with the proper results.
+   * Plant Table Renderer
+   *
+   * Queries the database for all possible data related to any data coming from
+   * Symbiota in a mirror-based `plants` table.
    *
    * @return String
    */
-  public function renderTableMinerals() {
+  private function renderTablePlants() {
     global $application;
 
-    $html  = "";
-    $query = $this->connection->prepare("
-      SELECT pointer, title, descri, media
-      FROM   manuscripts
-      WHERE  (" . $this->renderContentQuery() . ")
-        AND  media = 'Minerals'
-    ");
+    $html = "";
 
-    $query->execute($this->populateContentArray());
-
-    foreach ($query->fetchAll() as $current=>$result) {
-      $html .= '<tr>';
-
-      // Render the thumbnail with a link.
-      $html .= '<td>'
-        . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">'
-        . '<img src="' . $application->buildManuscriptThumbURL($result["pointer"]) . '" class="img-responsive" alt="Thumbnail of ' . $result["title"] . '">'
-        . '</a>'
-        . '</td>';
-
-      // Render the title with a link.
-      $html .= '<td>'
-        . '<a href="' . $application->getURL() . 'view-content.php?pointer=' . $result["pointer"] . '">' . $result["title"] . '</a>'
-        . '</td>';
-
-      // Render the description plainly.
-      $html .= '<td>' . $result["descri"] . '</td>';
-
-      $html .= '</tr>';
-    }
-
-    return $html;
-  }
-
-  /**
-   * Queries the database for the search term and returns the interior of a
-   * `<tbody>` with the proper results.
-   *
-   * @return String
-   */
-  public function renderTablePlants() {
-    global $application;
-
-    $html  = "";
-    $query = $this->connection->prepare("
+    $prepare = $this->connection->prepare("
       SELECT id, scientific_name, habitat
       FROM   plants
-      WHERE  (" . $this->renderPlantQuery() . ")
+      WHERE  (" . $this->renderQuery("plants") . ")
         AND  scientific_name != ''
     ");
 
-    $query->execute($this->populatePlantArray());
+    $prepare->execute($this->populateArray("plants"));
 
-    foreach ($query->fetchAll() as $current=>$result) {
-      $html .= '<tr>';
+    foreach ($prepare->fetchAll() as $current=>$result) {
+      $html .= "<tr>";
 
       // Render the thumbnail with a link.
-      $html .= '<td>'
-        . '<a href="' . $application->getURL() . 'view-plant.php?id=' . $result["id"] . '">'
-        . '<img src="#" class="img-responsive" alt="Thumbnail of ' . $result["scientific_name"] . '">'
-        . '</a>'
-        . '</td>';
+      // TODO: Retrieve Symbiota thumbnail URL once its ready.
+      $html .= "<td>"
+        . "<a href=\"" . $application->getURL() . "view-plant.php?id=" . $result["id"] . "\">"
+        . "<img src=\"#\" class=\"img-responsive\" alt=\"Thumbnail of " . $result["scientific_name"] . "\">"
+        . "</a>"
+        . "</td>";
 
       // Render the scientific name with a link.
-      $html .= '<td>'
-        . '<a href="' . $application->getURL() . 'view-plant.php?id=' . $result["id"] . '">' . $result["scientific_name"] . '</a>'
-        . '</td>';
+      $html .= "<td>"
+        . "<a href=\"" . $application->getURL() . "view-plant.php?id=" . $result["id"] . "\">" . $result["scientific_name"] . "</a>"
+        . "</td>";
 
       // Render the habitat plainly.
-      $html .= '<td>' . $result["habitat"] . '</td>';
+      $html .= "<td>" . $result["habitat"] . "</td>";
 
-      $html .= '</tr>';
+      $html .= "</tr>";
     }
 
     return $html;
   }
 
   /**
-   * Populates an array for PDO prepared statements for all non-plant results.
+   * PDO Prepared Array
    *
+   * Populates an array for PDO prepared statements for the given type and its
+   * respective results.
+   *
+   * All keys are static and declared within the constructor.
+   *
+   * @param  String $type -- Table type.
    * @return Array
    */
-  private function populateContentArray() {
+  private function populateArray($type) {
     $array = array();
 
-    foreach ($this->contentKeys as $key) {
+    foreach ($type === "plants" ? $this->plantKeys : $this->contentKeys as $key) {
       $array[":" . $key] = "%" . $this->search . "%";
     }
 
@@ -167,44 +192,20 @@ class Searcher {
   }
 
   /**
-   * Populates an array for PDO prepared statements for the plant results.
+   * PDO Prepared Query
    *
-   * @return Array
-   */
-  private function populatePlantArray() {
-    $array = array();
-
-    foreach ($this->plantKeys as $key) {
-      $array[":" . $key] = "%" . $this->search . "%";
-    }
-
-    return $array;
-  }
-
-  /**
-   * Renders the query for all non-plant SQL prepared statements.
+   * Renders a query for PDO prepared statements for the given type and its
+   * respective results.
    *
+   * All keys are static and declared within the constructor.
+   *
+   * @param  String $type -- Table type.
    * @return String
    */
-  private function renderContentQuery() {
+  private function renderQuery($type) {
     $query = "";
 
-    foreach ($this->contentKeys as $key) {
-      $query .= $key . " ILIKE :" . $key . " OR ";
-    }
-
-    return substr($query, 0, -4);
-  }
-
-  /**
-   * Renders the query for plant SQL prepared statements.
-   *
-   * @return String
-   */
-  private function renderPlantQuery() {
-    $query = "";
-
-    foreach ($this->plantKeys as $key) {
+    foreach ($type === "plants" ? $this->plantKeys : $this->contentKeys as $key) {
       $query .= $key . " ILIKE :" . $key . " OR ";
     }
 
@@ -217,13 +218,4 @@ class Searcher {
   public function getSearch() {
     return $this->search;
   }
-
-  /**
-   * Mutators
-   */
-  public function setSearch($search) {
-    $this->search = $search;
-  }
 }
-
-$searcher = new Searcher();

@@ -22,8 +22,35 @@ if (isset($_GET["search"])) {
     return;
   }
 
-  $searcher->setSearch($_GET["search"]);
+  $searcher = new Searcher($_GET["search"]);
 }
+
+$types = array(
+  "manuscripts" => array(
+    "Title",
+    "Description"
+  ),
+
+  "plants" => array(
+    "Scientific Name",
+    "Habitat"
+  ),
+
+  "minerals" => array(
+    "Title",
+    "Description"
+  ),
+
+  "inserts" => array(
+    "Title",
+    "Description"
+  ),
+
+  "fossils" => array(
+    "Title",
+    "Description"
+  )
+);
 
 require "includes/header.php";
 ?>
@@ -62,67 +89,33 @@ require "includes/header.php";
   <?php if (isset($_GET["search"])): ?>
     <div>
       <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-          <a href="#manuscripts" aria-controls="manuscripts" role="tab" data-toggle="tab">Manuscripts</a>
-        </li>
-
-        <li role="presentation">
-          <a href="#plants" aria-controls="plants" role="tab" data-toggle="tab">Plants</a>
-        </li>
-
-        <li role="presentation">
-          <a href="#minerals" aria-controls="minerals" role="tab" data-toggle="tab">Minerals</a>
-        </li>
+        <?php foreach ($types as $media=>$array): ?>
+          <li role="presentation" class="<?php print array_keys($types)[0] === $media ? "active" : ""; ?>">
+            <a href="#<?php print $media; ?>" aria-controls="<?php print $media; ?>" role="tab" data-toggle="tab"><?php print ucfirst($media); ?></a>
+          </li>
+        <?php endforeach; ?>
       </ul>
 
       <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="manuscripts">
-          <table class="table table-hover table-responsive" data-plugin="dataTable">
-            <thead>
-              <tr>
-                <th>Thumbnail</th>
-                <th>Title</th>
-                <th>Contributor</th>
-              </tr>
-            </thead>
+        <?php foreach ($types as $media=>$headers): ?>
+          <div role="tabpanel" class="tab-pane <?php print array_keys($types)[0] === $media ? "active" : ""; ?>" id="<?php print $media; ?>">
+            <table class="table table-hover table-responsive" data-plugin="dataTable">
+              <thead>
+                <tr>
+                  <th>Thumbnail</th>
 
-            <tbody>
-              <?php print $searcher->renderTableManuscripts(); ?>
-            </tbody>
-          </table>
-        </div>
+                  <?php foreach ($headers as $header): ?>
+                    <th><?php print $header; ?></th>
+                  <?php endforeach; ?>
+                </tr>
+              </thead>
 
-        <div role="tabpanel" class="tab-pane" id="plants">
-          <table class="table table-hover table-responsive" data-plugin="dataTable">
-            <thead>
-              <tr>
-                <th>Thumbnail</th>
-                <th>Scientific Name</th>
-                <th>Habitat</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <?php print $searcher->renderTablePlants(); ?>
-            </tbody>
-          </table>
-        </div>
-
-        <div role="tabpanel" class="tab-pane" id="minerals">
-          <table class="table table-hover table-responsive" data-plugin="dataTable">
-            <thead>
-              <tr>
-                <th>Thumbnail</th>
-                <th>Title</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <?php print $searcher->renderTableMinerals(); ?>
-            </tbody>
-          </table>
-        </div>
+              <tbody>
+                <?php print $searcher->renderTable($media); ?>
+              </tbody>
+            </table>
+          </div>
+        <?php endforeach; ?>
       </div>
     </div>
   <?php endif; ?>
