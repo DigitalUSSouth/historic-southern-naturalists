@@ -42,11 +42,6 @@ a {
   font-size: 1.1em;
 }
 
-#BRtoolbar a {
-  color: #ccc;
-  text-decoration: underline;
-}
-
 #BRtoolbarbuttons {
   float: right;
 }

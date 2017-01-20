@@ -1,4 +1,10 @@
 <?php
+/**
+ * view-plant.php
+ *
+ * The viewer page for plants.
+ */
+
 require "includes/application.php";
 require "includes/planter.php";
 
@@ -6,46 +12,73 @@ $planter = new Planter($_GET["id"]);
 
 $application->setTitle("Plant Viewer - " . $planter->getData("scientific_name"));
 
+$details = array(
+  "event_date"    => "Date",
+  "family"        => "Family",
+  "genus"         => "Genus",
+  "habitat"       => "Habitat",
+  "identified_by" => "Identified By"
+);
+
+$location = array(
+  "locality"          => "Locality",
+  "county"            => "County",
+  "state_province"    => "State Province",
+  "country"           => "Country",
+  "decimal_latitude"  => "Latitude",
+  "decimal_longitude" => "decimal_longitude"
+);
+
+$hasDetails  = false;
+$hasLocation = false;
+
+foreach ($details as $key=>$label) {
+  if ($planter->hasData($key)) {
+    $hasDetails = true;
+
+    break;
+  }
+}
+
+foreach ($location as $key=>$label) {
+  if ($planter->hasData($key)) {
+    $hasLocation =true;
+
+    break;
+  }
+}
+
 require "includes/header.php";
 ?>
-<div class="row">
-  <div class="col-xs-12">
-    <h1><?php print $planter->getData("scientific_name"); ?></h1>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-6">
-    <h2>Details</h2>
-
-    <dl>
-      <?php print $planter->renderData("Date", "event_date"); ?>
-
-      <?php print $planter->renderData("Family", "family"); ?>
-
-      <?php print $planter->renderData("Genus", "genus"); ?>
-
-      <?php print $planter->renderData("Habitat", "habitat"); ?>
-
-      <?php print $planter->renderData("Identified By", "identified_by"); ?>
-    </dl>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1><?php print $planter->getData("scientific_name"); ?></h1>
+    </div>
   </div>
 
-  <div class="col-sm-6">
-    <h2>Location</h2>
+  <div class="row">
+    <?php if ($hasDetails): ?>
+      <div class="col-sm-6">
+        <h2>Details</h2>
 
-    <dl>
-      <?php print $planter->renderData("Locality", "locality"); ?>
+        <dl>
+          <?php foreach ($details as $key=>$label): ?>
+            <?php print $planter->renderData($label, $key); ?>
+          <?php endforeach; ?>
+        </dl>
+      </div>
+    <?php endif; ?>
 
-      <?php print $planter->renderData("County", "county"); ?>
+    <?php if ($hasLocation): ?>
+      <div class="col-sm-6">
+        <h2>Location</h2>
 
-      <?php print $planter->renderData("State", "state_province"); ?>
-
-      <?php print $planter->renderData("Country", "country"); ?>
-
-      <?php print $planter->renderData("Latitude", "decimal_latitude"); ?>
-
-      <?php print $planter->renderData("Longitude", "decimal_longitude"); ?>
-    </dl>
+        <dl>
+          <?php foreach ($location as $key=>$label): ?>
+            <?php print $planter->renderData($label, $key); ?>
+          <?php endforeach; ?>
+        </dl>
+      </div>
+    <?php endif; ?>
   </div>
-</div>
+<?php require "includes/footer.php"; ?>

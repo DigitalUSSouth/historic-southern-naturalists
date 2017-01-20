@@ -3,8 +3,6 @@
  * symbiota.php
  *
  * The data miner for the `plants` table within the `hsn` database.
- *
- * TODO: Handle if a plant was deleted remotely.
  */
 
 date_default_timezone_set("America/New_York");
@@ -12,6 +10,7 @@ date_default_timezone_set("America/New_York");
 class Symbiota {
   private $data;
   private $database;
+  private $deletions;
 
   /**
    * Step 0 - Constructor
@@ -24,8 +23,9 @@ class Symbiota {
 
     $contents = json_decode(file_get_contents("pg-connect.json"), true)["php"];
 
-    $this->data     = array();
-    $this->database = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->data      = array();
+    $this->database  = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->deletions = array();
 
     $this->database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -65,7 +65,24 @@ class Symbiota {
   }
 
   /**
-   * Step 2 - Result Parser.
+   * Step 2 - Populate IDs
+   *
+   * Populates all plant ids into an array to cross-check if any plants were
+   * deleted remotely. This ALWAYS assumes if the id is not removed from the
+   * class-wide array, it was deleted remotely and therefore needs to be
+   * deleted locally.
+   */
+  public function populateLocal() {
+    $prepare = $this->database->prepare("
+      SELECT id
+      FROM   plants
+    ");
+
+    $this->deletions = $prepare->fetchAll(PDO::FETCH_COLUMN);
+  }
+
+  /**
+   * Step 3 - Result Parser.
    *
    * Parse the results from CSV to a PHP-acceptable array. Since PapaParse's
    * headers option is not an option here, remap the array to have proper keys.
@@ -140,7 +157,7 @@ class Symbiota {
   }
 
   /**
-   * Step 3 - Cross-Reference with Database.
+   * Step 4 - Cross-Reference with Database.
    *
    * Initially looks if the id is within the database, and if so, updates the
    * fields to match Symbiota, otherwise, insert new data.
@@ -149,8 +166,20 @@ class Symbiota {
     $this->logger("Manipulating database.");
 
     foreach ($this->data as $number=>$record) {
-      $prepare = $this->database->prepare("SELECT * FROM plants WHERE id = :id LIMIT 1");
-      $prepare->execute(array(":id" => strval($record["id"])));
+      $record["id"] = trim((string) $record["id"]);
+
+      if ($record["id"] === "") {
+        continue;
+      }
+
+      $prepare = $this->database->prepare("
+        SELECT *
+        FROM   plants
+        WHERE  id = :id
+        LIMIT  1
+      ");
+
+      $prepare->execute(array(":id" => $record["id"]));
 
       $results = (array) $prepare->fetchObject();
 
@@ -159,6 +188,10 @@ class Symbiota {
 
         // Update the database.
         $this->updateDatabase($results, $record);
+
+        // Remove the id from the deletion array to signal that this id still
+        // exists remotely.
+        unset($this->deletions[array_search(intval($record["id"]), $this->deletions)]);
       } else {
         $this->logger("Inserting " . $record["id"]);
 
@@ -169,24 +202,28 @@ class Symbiota {
   }
 
   /**
-   * Step 3.a - Update Fields
+   * Step 4.1 - Update Fields
    *
    * Updates the database with the assumption that Symbiota is more accurate.
    *
-   * @param {Array} $results -- The local plant.
-   * @param {Array} $record  -- The plant from Symbiota.
+   * @param Array $results -- The local plant.
+   * @param Array $record  -- The plant from Symbiota.
    */
   private function updateDatabase($results, $record) {
     $writer = "";
     $update = array();
 
     foreach ($record as $key=>$value) {
-      $value = trim(strval($value));
+      // Assure value is a string and trimmed.
+      $value = trim((string) $value);
 
-      if (array_key_exists($key, $results) && $value !== "" && $value != $results[$key]) {
-        $writer .= $key . " = :" . $key . ", ";
-        $update[":" . $key] = $value;
+      // No point in populating empty or same data.
+      if ($value === "" || $value === $results[$key]) {
+        continue;
       }
+
+      $writer .= $key . " = :" . $key . ", ";
+      $update[":" . $key] = $value;
     }
 
     if ($writer === "") {
@@ -198,19 +235,24 @@ class Symbiota {
     $writer = substr($writer, 0, -2);
     $update[":id"] = $record["id"];
 
+    $this->logger("Query: UPDATE plants SET (" . $writer . ") WHERE id = " . $record["id"]);
+    $this->logger(print_r($update, true));
 
-    $this->logger("Attempting to update " . $writer . " -- " . print_r($update, true));
+    $prepare = $this->database->prepare("
+      UPDATE plants
+      SET    $writer
+      WHERE  id = :id
+    ");
 
-    $prepare = $this->database->prepare("UPDATE plants SET $writer WHERE id = :id");
     $prepare->execute($update);
   }
 
   /**
-   * Step 3.b - Insert Fields
+   * Step 4.2 - Insert Fields
    *
    * Creates a new row in the database.
    *
-   * @param {Object} $record -- The plant from Symbiota.
+   * @param Array $record -- The plant from Symbiota.
    */
   private function insertDatabase($record) {
     $array  = array();
@@ -218,28 +260,59 @@ class Symbiota {
     $values = "";
 
     foreach ($record as $key=>$value) {
-      $value = trim(strval($value));
+      // Assure value is a string and trimmed.
+      $value = trim((string) $value);
 
-      if ($value !== "") {
-        $insert .= $key . ", ";
-        $values .= ":" . $key . ", ";
-
-        $array[":" . $key] = $value;
+      // No point in populating empty data.
+      if ($value === "") {
+        continue;
       }
+
+      $insert .= $key . ", ";
+      $values .= ":" . $key . ", ";
+
+      $array[":" . $key] = $value;
     }
 
     $insert = substr($insert, 0, -2);
     $values = substr($values, 0, -2);
 
     $this->logger("Query: INSERT INTO plants ($insert) VALUES ($values)");
-    $this->logger("Here's an " . print_r($array, true));
+    $this->logger(print_r($array, true));
 
-    $prepare = $this->database->prepare("INSERT INTO plants ($insert) VALUES ($values)");
+    $prepare = $this->database->prepare("
+      INSERT INTO plants ($insert)
+      VALUES      ($values)
+    ");
+
     $prepare->execute($array);
   }
 
   /**
-   * Step 4 - Shutdown
+   * Step 5 - Local/Remote Deletion
+   *
+   * If applicable, delete any local plants that no longer exist remotely.
+   */
+  public function localDeletion() {
+    $this->logger("There are " . count($this->deletions) . " plants deleted remotely.");
+
+    foreach ($this->deletions as $key=>$id) {
+      $id = trim($id);
+
+      $this->logger("Deleting id " . $id);
+
+      $prepare = $this->database->prepare("
+        DELETE FROM plants
+        WHERE       id = :id
+        LIMIT       1
+      ");
+
+      $prepare->execute(array(":id" => $id));
+    }
+  }
+
+  /**
+   * Step 6 - Shutdown
    *
    * Closes the connection between this process and the database and then
    * removes the temporary folder.
@@ -300,6 +373,8 @@ class Symbiota {
 
 $symbiota = new Symbiota();
 $symbiota->retrieveResults();
+$symbiota->populateLocal();
 $symbiota->parseResults();
 $symbiota->manipulateDatabase();
+$symbiota->localDeletion();
 $symbiota->closeDatabaseConnection();

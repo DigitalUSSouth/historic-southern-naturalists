@@ -10,11 +10,12 @@
 function ManuscriptViewer() {
   // Assure it's interpreted as an integer before `getPageHeight()` and
   // `getPageWidth()`. It does not matter for `$.ajax()`.
-  this.pointer = parseInt($('#BookReader').attr('data-pointer'), 10);
+  this.pointer    = parseInt($('#BookReader').data('pointer'), 10);
+  this.collection = $('#BookReader').data('collection');
 
   // Request data without any need for callbacks.
   // XMLHttpRequest, $.ajax, and $.getJSON does not work for localhost.
-  const ajax = $.ajax('includes/manuscript-viewer-helper.php?pointer=' + this.pointer, {
+  const ajax = $.ajax('includes/manuscript-viewer-helper.php?pointer=' + this.pointer + '&collection=' + this.collection, {
     async: false
   });
 
@@ -86,7 +87,7 @@ ManuscriptViewer.prototype.functions = function () {
    * @return {String}
    */
   this.reader.getPageURI = function (index) {
-    const url     = 'http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=hsn';
+    const url     = 'http://digital.tcl.sc.edu/utils/ajaxhelper/?action=2&CISOROOT=' + self.collection;
     const width   = '&DMWIDTH='  + this.getPageWidth(index);
     const height  = '&DMHEIGHT=' + this.getPageHeight(index);
     const pointer = '&CISOPTR='  + (index + self.pointer);
@@ -153,6 +154,22 @@ ManuscriptViewer.prototype.adjustVisuals = function () {
       display:      'block',
       'text-align': 'center'
     });
+
+  // Add a back button.
+  $('<a href="browse-viewer.php" class="btn btn-sm btn-default back-button">Back</a>').insertAfter($('#BRtoolbar > span:first-child'));
+
+  // Add an inactivity timer.
+  let timeout = setTimeout(function () {
+    window.location = 'browse-viewer.php';
+  }, 300000);
+
+  $(document).on('click mousemove', function () {
+    clearTimeout(timeout);
+
+    timeout = setTimeout(function () {
+      window.location = 'browse-viewer.php';
+    }, 300000);
+  });
 };
 
 /**

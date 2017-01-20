@@ -109,7 +109,7 @@ class Content {
 
       this.client.query('SELECT pointer FROM manuscripts WHERE pointer = $1::character(5)', [item.pointer.toString()], (error, result) => {
         if (error) {
-          this._logger(item.pointer, 'Incoming error.');
+          this.logger(item.pointer, 'Incoming error.');
 
           throw error;
         }
@@ -139,18 +139,18 @@ class Content {
    * @param {Object} item -- The manuscript from CONTENTdm.
    */
   updateRow(item) {
-    this._logger(item.pointer, 'Detected a possible update.');
+    this.logger(item.pointer, 'Detected a possible update.');
 
     let update = '';
 
     this.client.query('SELECT * FROM manuscripts WHERE pointer = $1::character(5)', [item.pointer.toString()], (error, result) => {
       if (error) {
-        this._logger(item.pointer, 'Incoming error.');
+        this.logger(item.pointer, 'Incoming error.');
 
         throw error;
       }
 
-      this._logger(item.pointer, 'Successfully retrieved information.');
+      this.logger(item.pointer, 'Successfully retrieved information.');
 
       for (let key in result.rows[0]) {
         // Assign to variable to prevent false positives from incorrect apostrophe
@@ -165,23 +165,23 @@ class Content {
       }
 
       if (update === '') {
-        this._logger(item.pointer, 'Nothing to update.');
+        this.logger(item.pointer, 'Nothing to update.');
 
         return;
       }
 
       update = update.substring(0, update.length - 2);
 
-      this._logger(item.pointer, 'Attempting to update: ' + update);
+      this.logger(item.pointer, 'Attempting to update: ' + update);
 
       this.client.query('UPDATE manuscripts SET ' + update + ' WHERE pointer = $1::character(5)', [item.pointer.toString()], (error, result) => {
         if (error) {
-          this._logger(item.pointer, 'Incoming error.');
+          this.logger(item.pointer, 'Incoming error.');
 
           throw error;
         }
 
-        this._logger(item.pointer, 'Successfully updated information.');
+        this.logger(item.pointer, 'Successfully updated information.');
       });
     });
   }
@@ -194,7 +194,7 @@ class Content {
    * @param {Object} item -- The manuscript from CONTENTdm.
    */
   insertRow(item) {
-    this._logger(item.pointer, 'Detected an insert.');
+    this.logger(item.pointer, 'Detected an insert.');
 
     let insert = '';
     let values = '';
@@ -210,17 +210,17 @@ class Content {
     insert = insert.substring(0, insert.length - 2);
     values = values.substring(0, values.length - 2);
 
-    this._logger(item.pointer, 'Attempting to insert: ' + insert);
-    this._logger(item.pointer, 'Attempting to values: ' + values);
+    this.logger(item.pointer, 'Attempting to insert: ' + insert);
+    this.logger(item.pointer, 'Attempting to values: ' + values);
 
     this.client.query('INSERT INTO manuscripts (' + insert + ') VALUES (' + values + ')', (error, result) => {
       if (error) {
-        this._logger(item.pointer, 'Incoming error.');
+        this.logger(item.pointer, 'Incoming error.');
 
         throw error;
       }
 
-      this._logger(item.pointer, 'Successfully inserted information.');
+      this.logger(item.pointer, 'Successfully inserted information.');
     });
   }
 
@@ -245,7 +245,7 @@ class Content {
    * @param {String} pointer -- The pointer of the Manuscript.
    * @param {String} text    -- The text regarding the Manuscript.
    */
-  _logger(pointer, text) {
+  logger(pointer, text) {
     console.log(new Date() + ' (' + pointer + ') - ' + text);
   }
 }

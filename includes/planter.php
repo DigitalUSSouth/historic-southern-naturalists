@@ -1,5 +1,7 @@
 <?php
 /**
+ * planter.php
+ *
  * Plant class. Utilized only on /view-plant
  */
 class Planter {
@@ -12,11 +14,29 @@ class Planter {
   public function __construct($id) {
     global $application;
 
-    $prepare = $application->getConnection()->prepare("SELECT * FROM plants WHERE id = :id LIMIT 1");
+    $prepare = $application->getConnection()->prepare("
+      SELECT *
+      FROM   plants
+      WHERE  id = :id
+      LIMIT  1
+    ");
+
     $prepare->execute(array(":id" => $id));
 
     $this->id   = $id;
     $this->data = (array) $prepare->fetchObject();
+  }
+
+  /**
+   * Data Determiner
+   *
+   * Determines if the current plant has data within the given key.
+   *
+   * @param  String  $key -- Key for the database.
+   * @return Boolean
+   */
+  public function hasData($key) {
+    return trim($this->data[$key]) !== "";
   }
 
   /**
@@ -27,9 +47,11 @@ class Planter {
    * @return String
    */
   public function renderData($label, $key) {
-    return trim($this->data[$key]) === ""
-      ? ''
-      : '<dt>' . $label . '</dt><dd>' . $this->getData($key) . '</dd>';
+    if (trim($this->data[$key]) === "") {
+      return "";
+    } else {
+      return "<dt>" . $label . "</dt><dd>" . $this->getData($key) . "</dd>";
+    }
   }
 
   /**
