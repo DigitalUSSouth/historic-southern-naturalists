@@ -4,3 +4,4 @@ css/*.min.css
 css/*.map
 node_modules/
 js/bootstrap-*.min.js
+videos/*.mp4

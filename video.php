@@ -24,7 +24,7 @@ require "includes/header.php";
 <div class="row">
   <div class="col-xs-4">
     <video class="thumbnail" width=200 height=200>
-      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
+      <source src="/videos/vignette1.mp4">
       Your browser does not support HTML5 video
     </video>
   </div>
