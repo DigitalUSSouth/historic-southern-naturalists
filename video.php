@@ -24,7 +24,7 @@ require "includes/header.php";
 <div class="row">
   <div class="col-xs-4">
     <video class="thumbnail" width=200 height=200>
-      <source src="/videos/vignette1.mp4">
+      <source src="videos/vignette1.mp4">
       Your browser does not support HTML5 video
     </video>
   </div>
@@ -39,7 +39,7 @@ require "includes/header.php";
 <div class="row">
   <div class="col-xs-4">
     <video class="thumbnail" width=200 height=200>
-      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
+      <source src="videos/vignette2.mp4">
       Your browser does not support HTML5 video
     </video>
   </div>
@@ -54,12 +54,27 @@ require "includes/header.php";
 <div class="row">
   <div class="col-xs-4">
     <video class="thumbnail" width=200 height=200>
-      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
+      <source src="videos/vignette3.mp4">
       Your browser does not support HTML5 video
     </video>
   </div>
   <div class="col-xs-8">
     <h5>Big Buck Bunny</h5>
+    <p>Description goes here</p>
+  </div>
+</div>
+<hr />
+<!-- End of row for thumbnail -->
+<!-- Row for thumbnail -->
+<div class="row">
+  <div class="col-xs-4">
+    <video class="thumbnail" width=200 height=200>
+      <source src="videos/vignette4.mp4">
+      Your browser does not support HTML5 video
+    </video>
+  </div>
+  <div class="col-xs-8">
+    <h5>Title goes here</h5>
     <p>Description goes here</p>
   </div>
 </div>
