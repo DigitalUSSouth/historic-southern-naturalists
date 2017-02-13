@@ -12,6 +12,13 @@
   <title><?php print $application->renderTitle(); ?></title>
 
   <?php print $application->renderCSS(); ?>
+
+  <link href="http://vjs.zencdn.net/5.11/video-js.min.css" rel="stylesheet">
+  <script src="http://vjs.zencdn.net/5.11/video.min.js"></script>
+  <script src="js/videojs-playlist-ui.js"></script>
+  <script src="js/videojs-playlist.js"></script>
+  <link href="css/videojs-playlist-ui.vertical.css" rel="stylesheet">
+
 </head>
 <body>
   <?php if (!$application->isManuscriptViewer()): ?>
