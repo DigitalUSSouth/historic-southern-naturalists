@@ -253,10 +253,6 @@ during ads and capture click events on IE<11 */
       We include some minimal custom CSS to make the playlist UI look good
       in this context.
     */
-    .player-container {
-      overflow: auto;
-      width: 934px;
-    }
     .video-js {
       float: left;
     }
