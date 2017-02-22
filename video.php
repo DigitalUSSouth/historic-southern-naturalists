@@ -11,6 +11,13 @@ $application->setTitle("Timeline");
 require "includes/header.php";
 
 ?>
+<div class="row page-header">
+  <div class="col-xs-12">
+    <h1>Video</h1>
+
+    <p class="lead">To view a video click on the thumbnails on the right.</p>
+  </div>
+</div>
 <!-- VideoJS playlist -->
 
 <div class="player-container">
@@ -19,8 +26,8 @@ require "includes/header.php";
    <video
      id="video"
      class="video-js"
-     height='500px'
-     width='700px'
+     height='600px'
+     width='850px'
      controls
      autoplay="false">
      <source src="videos/vignette1.mp4" type="video/mp4">
@@ -92,9 +99,14 @@ require "includes/header.php";
    // Initialize the playlist-ui plugin with no option (i.e. the defaults).
    player.playlistUi();
  </script>
-
 <!-- END VideoJS playlist -->
 
+<!-- HACK: This is so that you can scroll down and the video isnt hugging the bottom of the page -->
+<br/><br/><br/>
+<br/><br/><br/>
+<br/><br/><br/>
+<br/><br/><br/>
+<br/><br/><br/>
 
 
 <?php

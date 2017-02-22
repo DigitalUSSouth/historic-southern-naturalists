@@ -257,7 +257,15 @@ during ads and capture click events on IE<11 */
       float: left;
     }
     .vjs-playlist {
-      float: left;
-      width: 300px;
+      /*float: left;*/
+      width: 250px;
+      background-color:#ddd !important;
+    }
+    .vjs-playlist-item{
+      margin:10px;
+    }
+    .player-container{
+      padding:10px;
+      overflow: auto;
     }
 }
