@@ -16,7 +16,7 @@ class Application {
   public function __construct() {
     $contents = json_decode(file_get_contents(dirname(__FILE__) . "/../.scripts/pg-connect.json"), true)["php"];
 
-    $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/hsn/";
+    $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/";
     $this->title      = "";
     $this->connection = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
 
@@ -154,7 +154,10 @@ class Application {
    */
   public function renderCSS() {
     $html  = "";
-    $files = array("bootstrap-3.3.7.min.css", "font-awesome-4.6.3.min.css", "hsn-1.0.0.min.css");
+    $files = array("bootstrap-3.3.7.min.css",
+    "font-awesome-4.6.3.min.css",
+    "hsn-1.0.0.min.css",
+    "video-js.min.css");
 
     // Append files that need to be rendered for manuscript-viewer.php.
     if ($this->isManuscriptViewer) {
@@ -185,7 +188,11 @@ class Application {
       "bootstrap-3.3.7.min.js",
       "dataTables-1.10.12.min.js",
       "dataTables-bootstrap-1.10.12.min.js",
-      "hsn.js"
+      /*"video.min.js",*/
+      "hsn.js",
+      "hsn-videojs.js",
+      "videojs-playlist-ui.js",
+      "videojs-playlist.js"
     );
 
     // Append files that need to be rendered for manuscript-viewer.php.
