@@ -64,7 +64,3 @@ player.playlist([
 }]);
 // Initialize the playlist-ui plugin with no option (i.e. the defaults).
 player.playlistUi();
-
-// Mute the player on default
-//(HACK: Remove this in production but the audio is annoying in debugging)
-player.volume(0);
