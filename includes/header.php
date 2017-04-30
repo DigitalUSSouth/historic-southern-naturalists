@@ -7,6 +7,7 @@
 
 $navigation = array(
   'Home',
+  'About',
   'Browse All',
   'Search',
   'Gallery',
