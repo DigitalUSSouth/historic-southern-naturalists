@@ -1,6 +1,6 @@
 <?php
 /**
- * browse-viewer.php
+ * browse-all.php
  *
  * Browse page before the Manuscript Viewer page.
  */

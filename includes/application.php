@@ -46,7 +46,7 @@ class Application {
    * that is located within CONTENTdm.
    *
    * The default collection is 'hsn' due to the collection parameter only
-   * necessary on the browse-viewer page.
+   * necessary on the browse-all page.
    *
    * @param  String $pointer    -- Manuscript pointer.
    * @param  String $collection -- Collection the manuscript is in.
