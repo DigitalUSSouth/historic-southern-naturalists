@@ -17,7 +17,7 @@ require "includes/searcher.php";
 
 if (isset($_GET["search"])) {
   if (trim($_GET["search"]) === "") {
-    header("Location: /search");
+    header("Location: /search.php");
 
     return;
   }
