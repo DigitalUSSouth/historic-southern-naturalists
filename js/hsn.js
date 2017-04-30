@@ -1,6 +1,6 @@
 /**
  * hsn.js v1.0.0
- * Copyright (c) 2016. Center for Digital Humanities.
+ * Copyright (c) 2017. Center for Digital Humanities.
  * Licensed under MIT.
  */
 

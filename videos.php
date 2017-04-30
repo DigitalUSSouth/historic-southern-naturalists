@@ -5,13 +5,14 @@
  * The video gallery page of the website.
  */
 
-require "includes/application.php";
+require_once "includes/application.php";
+
 $application->setTitle("Timeline");
 
-require "includes/header.php";
-
+require_once "includes/header.php";
 ?>
 <div id="scroll-here"></div>
+
 <div class="row page-header">
   <div class="col-xs-12">
     <h1>Video</h1>
@@ -28,10 +29,11 @@ require "includes/header.php";
       <div class="embed-responsive embed-responsive-4by3">
         <video id="mainVideo" autoplay controls style="margin-top:0px;"></video>
         <h3 class="text-center" style="margin-top:30%">Click on a video below to view</h3>
-    </div>
+      </div>
     </div>
   </div>
 </div>
+
 <br />
 
 <!-- Video Listing -->
@@ -81,12 +83,14 @@ require "includes/header.php";
       Your browser does not support HTML5 video
     </video>
   </div>
+
   <div class="col-xs-8">
     <h5>Big Buck Bunny</h5>
+
     <p>Description goes here</p>
   </div>
 </div>
+
 <hr />
-<?php
-require "includes/footer.php";
-?>
+
+<?php require_once "includes/footer.php"; ?>

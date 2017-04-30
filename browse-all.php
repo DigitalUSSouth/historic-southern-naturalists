@@ -5,7 +5,7 @@
  * Browse page before the Manuscript Viewer page.
  */
 
-require "includes/application.php";
+require_once "includes/application.php";
 
 $application->setTitle("Manuscript Viewer Browse");
 
@@ -27,7 +27,7 @@ $prepare = $application->getConnection()->prepare("
 
 $prepare->execute();
 
-require "includes/header.php";
+require_once "includes/header.php";
 ?>
   <div class="row page-header">
     <div class="col-xs-12">
@@ -73,4 +73,4 @@ require "includes/header.php";
       </table>
     </div>
   </div>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

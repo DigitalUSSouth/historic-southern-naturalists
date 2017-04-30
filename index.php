@@ -5,8 +5,8 @@
  * Home-base of the entire website.
  */
 
-require "includes/application.php";
-require "includes/header.php";
+require_once "includes/application.php";
+require_once "includes/header.php";
 
 // TODO: Find better images.
 // TODO: Need a portrait of Gibbes.
@@ -74,4 +74,4 @@ $info = array(
       <p>A student of Cooper’s and 1829 graduate of South Carolina College, Gibbes became a professor at the College of Charleston, and was well connected to many prominent scientists in the United States and abroad through his membership in the AAAS.  During the mid-19th-century, he was a leading expert on American crabs, and authored the first publications on South Carolina’s marine algae.  An avid collector of the natural world, he described his own cabinet of crustaceans in 1850 as “the largest I believe at the South,” and Gibbes was considered by many to have been South Carolina’s most versatile scientist.  While his interest in mineralogy is overshadowed by his other accomplishments, Gibbes’ large collection of minerals was significant enough that USC purchased it shortly after his death.</p>
     </div>
   </div>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

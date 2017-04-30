@@ -2,7 +2,7 @@
 /**
  * manuscript-viewer-helper.php
  *
- * Because XMLHttpRequest, $.ajax, and $.getJSON won't work on localhost.
+ * Because `XMLHttpRequest`, `$.ajax`, and `$.getJSON` won't work on localhost.
  */
 
 // Redirect if not giving the proper parameters.
@@ -10,7 +10,7 @@ if (!isset($_GET["pointer"], $_GET["collection"])) {
   header("Location: /");
 }
 
-require "./application.php";
+require_once "application.php";
 
 class Helper {
   private $pages;
@@ -25,8 +25,11 @@ class Helper {
   /**
    * Constructor
    *
-   * @param String $pointer    -- The manuscript pointer.
-   * @param String $collection -- Collection the manuscript is in.
+   * @param String $pointer
+   *   The manuscript pointer.
+   *
+   * @param String $collection
+   *   Collection the manuscript is in.
    */
   public function __construct($pointer, $collection) {
     global $application;
@@ -49,8 +52,8 @@ class Helper {
    *
    * This function should only be called once for the starting manuscript.
    *
-   * The collection column is appended in the event pointer numbers will
-   * overlap in different collections.
+   * The collection column is appended in the event pointer numbers will overlap
+   * in different collections.
    *
    * @return PDOStatement Object
    */
@@ -80,8 +83,8 @@ class Helper {
    * function for optimization. It's better to return two columns rather than
    * return four columns and only needing two.
    *
-   * The collection column is appended in the event pointer numbers will
-   * overlap in different collections.
+   * The collection column is appended in the event pointer numbers will overlap
+   * in different collections.
    *
    * @return Array
    */

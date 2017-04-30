@@ -5,7 +5,7 @@
  * View the layout of the museum and interact with it.
  */
 
-require "includes/application.php";
+require_once "includes/application.php";
 
 $application->setTitle("Gallery");
 
@@ -38,7 +38,7 @@ $exhibits = array(
 
 );
 
-require "includes/header.php";
+require_once "includes/header.php";
 ?>
   <div class="row page-header">
     <div class="col-xs-12">
@@ -73,4 +73,4 @@ require "includes/header.php";
       </svg>
     </div>
   </div>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

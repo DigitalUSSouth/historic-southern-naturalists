@@ -1,6 +1,6 @@
 /**
  * hsn-book-reader.js v1.0.0
- * Copyright (c) 2016. Center for Digital Humanities.
+ * Copyright (c) 2017. Center for Digital Humanities.
  * Licensed under MIT.
  */
 
@@ -14,7 +14,7 @@ function ManuscriptViewer() {
   this.collection = $('#BookReader').data('collection');
 
   // Request data without any need for callbacks.
-  // XMLHttpRequest, $.ajax, and $.getJSON does not work for localhost.
+  // `XMLHttpRequest`, `$.ajax`, and `$.getJSON` does not work for localhost.
   const ajax = $.ajax('includes/manuscript-viewer-helper.php?pointer=' + this.pointer + '&collection=' + this.collection, {
     async: false
   });
@@ -46,7 +46,9 @@ ManuscriptViewer.prototype.functions = function () {
    *
    * Returns the height of the page of the given index.
    *
-   * @param  {Integer} index -- Index of the book.
+   * @param {Integer} index
+   *   Index of the book.
+   *
    * @return {Integer}
    */
   this.reader.getPageHeight = function (index) {
@@ -60,14 +62,16 @@ ManuscriptViewer.prototype.functions = function () {
   /**
    * Page Side
    *
-   * Determines if the page index is even or odd. If it is even, it is on
-   * the left, otherwise, it is on the right.
+   * Determines if the page index is even or odd. If it is even, it is on the
+   * left, otherwise, it is on the right.
    *
-   * Originally, it was programmed the other way around. This was done with
-   * the intention of having a book cover be first. Since these do not have
-   * book covers (yet, or if ever), it is done this way.
+   * Originally, it was programmed the other way around. This was done with the
+   * intention of having a book cover be first. Since these do not have book
+   * covers (yet, or if ever), it is done this way.
    *
-   * @param  {Integer} index -- The page index.
+   * @param {Integer} index
+   *   The page index.
+   *
    * @return {String}
    */
   this.reader.getPageSide = function (index) {
@@ -83,7 +87,9 @@ ManuscriptViewer.prototype.functions = function () {
    *
    * Returns the URL of dynamic parameters based on the given index.
    *
-   * @param  {Integer} index -- Index of the book.
+   * @param {Integer} index
+   *   Index of the book.
+   *
    * @return {String}
    */
   this.reader.getPageURI = function (index) {
@@ -100,7 +106,9 @@ ManuscriptViewer.prototype.functions = function () {
    *
    * Returns the width of the page of the given index.
    *
-   * @param  {Integer} index -- Index of the book.
+   * @param {Integer} index
+   *   Index of the book.
+   *
    * @return {Integer}
    */
   this.reader.getPageWidth = function (index) {

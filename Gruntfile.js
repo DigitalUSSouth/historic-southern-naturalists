@@ -1,9 +1,18 @@
+/**
+ * Gruntfile.js
+ */
+
 module.exports = function (grunt) {
   grunt.initConfig({
     browserSync: {
       default: {
         bsFiles: {
-          src: ['css/*.css', 'js/*.js', '**/*.php', '!.scripts/*']
+          src: [
+            'css/*.css',
+            'js/*.js',
+            '**/*.php',
+            '!.scripts/*'
+          ]
         },
 
         options: {
@@ -59,6 +68,14 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-php');
 
-  grunt.registerTask('dev', ['php', 'browserSync', 'watch']);
-  grunt.registerTask('default', ['concat', 'less']);
+  grunt.registerTask('dev', [
+    'php',
+    'browserSync',
+    'watch'
+  ]);
+
+  grunt.registerTask('default', [
+    'concat',
+    'less'
+  ]);
 };

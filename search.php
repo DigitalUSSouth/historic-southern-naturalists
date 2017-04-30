@@ -5,7 +5,7 @@
  * The search page and its possible results.
  */
 
-require "includes/application.php";
+require_once "includes/application.php";
 
 if (isset($_GET["search"])) {
   $application->setTitle("Search - " . $_GET["search"]);
@@ -13,7 +13,7 @@ if (isset($_GET["search"])) {
   $application->setTitle("Search");
 }
 
-require "includes/searcher.php";
+require_once "includes/searcher.php";
 
 if (isset($_GET["search"])) {
   if (trim($_GET["search"]) === "") {
@@ -52,7 +52,7 @@ $types = array(
   )
 );
 
-require "includes/header.php";
+require_once "includes/header.php";
 ?>
   <div class="row page-header">
     <div class="col-xs-12">
@@ -123,4 +123,4 @@ require "includes/header.php";
       </div>
     </div>
   <?php endif; ?>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>
