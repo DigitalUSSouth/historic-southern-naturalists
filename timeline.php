@@ -6,13 +6,13 @@
  * folder. Contact an administrator if you do not have access to it.
  */
 
-require "includes/application.php";
+require_once "includes/application.php";
 
 $application->setTitle("Timeline");
 
-require "includes/header.php";
+require_once "includes/header.php";
 ?>
-  <div class="row">
+  <div class="row page-header">
     <div class="col-xs-12">
       <h1>Timeline</h1>
 
@@ -25,4 +25,4 @@ require "includes/header.php";
       <iframe src="https://cdn.knightlab.com/libs/timeline3/latest/embed/index.html?source=1suOy5pdYL1R6eD9ssildwnSdxXoFSFda8wy2uRkIlQc&font=Default&lang=en&initial_zoom=2&height=650" width="100%" height="650" frameborder="0"></iframe>
     </div>
   </div>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

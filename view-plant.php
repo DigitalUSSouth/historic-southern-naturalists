@@ -5,8 +5,8 @@
  * The viewer page for plants.
  */
 
-require "includes/application.php";
-require "includes/planter.php";
+require_once "includes/application.php";
+require_once "includes/planter.php";
 
 $planter = new Planter($_GET["id"]);
 
@@ -42,13 +42,13 @@ foreach ($details as $key=>$label) {
 
 foreach ($location as $key=>$label) {
   if ($planter->hasData($key)) {
-    $hasLocation =true;
+    $hasLocation = true;
 
     break;
   }
 }
 
-require "includes/header.php";
+require_once "includes/header.php";
 ?>
   <div class="row">
     <div class="col-xs-12">
@@ -81,4 +81,4 @@ require "includes/header.php";
       </div>
     <?php endif; ?>
   </div>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

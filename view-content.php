@@ -5,8 +5,8 @@
  * The viewer page for manuscripts.
  */
 
-require "includes/application.php";
-require "includes/content.php";
+require_once "includes/application.php";
+require_once "includes/content.php";
 
 $content = new Content($_GET["pointer"]);
 
@@ -31,7 +31,7 @@ foreach ($details as $key=>$label) {
   }
 }
 
-require "includes/header.php";
+require_once "includes/header.php";
 ?>
   <div class="row">
     <div class="col-xs-12">
@@ -84,4 +84,4 @@ require "includes/header.php";
       <img src="<?php print $content->getImage(); ?>" class="img-responsive" alt="<?php print $content->getData("title"); ?>">
     </div>
   </div>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

@@ -12,12 +12,15 @@ class Content {
   /**
    * Constructor
    *
-   * @param String $pointer -- The pointer of the manuscript.
+   * @param String $pointer
+   *   The pointer of the manuscript.
    */
   public function __construct($pointer) {
     global $application;
 
-    $info    = json_decode(file_get_contents("http://digital.tcl.sc.edu/utils/ajaxhelper/?CISOROOT=hsn&CISOPTR=" . $pointer), true)["imageinfo"];
+    $info = json_decode(file_get_contents("http://digital.tcl.sc.edu/utils/ajaxhelper/?CISOROOT=hsn&CISOPTR=" . $pointer), true);
+    $info = $info["imageinfo"];
+
     $prepare = $application->getConnection()->prepare("
       SELECT *
       FROM   manuscripts
@@ -40,7 +43,9 @@ class Content {
    * In CONTENTdm's data, it is assumed that semicolons means a new entry, or
    * line break, of new data within the same field.
    *
-   * @param  String $data -- Data comprised of at least one semicolon.
+   * @param String $data
+   *   Data comprised of at least one semicolon.
+   *
    * @return String
    */
   private function explodeData($data) {
@@ -63,7 +68,9 @@ class Content {
    *
    * Determines if the current manuscript has data within the given key.
    *
-   * @param  String  $key -- Key for the database.
+   * @param String $key
+   *   Key for the database.
+   *
    * @return Boolean
    */
   public function hasData($key) {
@@ -76,14 +83,16 @@ class Content {
    * Renders the data either in a paragraph format or a listed format based
    * on whether the data has semicolons within the text.
    *
-   * @param  String $key -- The data key for the database.
+   * @param String $key
+   *   The data key for the database.
+   *
    * @return String
    */
   public function renderBasicData($key) {
     if (strpos($this->data[$key], ";") !== false) {
       return $this->explodeData($this->data[$key]);
     } else {
-      return "<p class=\"text-justify\">" . $this->data[$key] . "</p>";
+      return '<p class="text-justify">' . $this->data[$key] . '</p>';
     }
   }
 
@@ -93,8 +102,12 @@ class Content {
    * Renders the data within the detail section. If applicable, render the data
    * within a list.
    *
-   * @param  String $label -- The human-readable label of the data.
-   * @param  String $key   -- The data key for the database.
+   * @param String $label
+   *   The human-readable label of the data.
+   *
+   * @param String $key
+   *   The data key for the database.
+   *
    * @return String
    */
   public function renderDetailData($label, $key) {

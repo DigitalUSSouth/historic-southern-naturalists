@@ -31,8 +31,12 @@ class Application {
    * Constructs a URL based on the given pointer and image information for a
    * manuscript image that is located within CONTENTdm.
    *
-   * @param  String $pointer -- Manuscript pointer.
-   * @param  Array  $info    -- Image information.
+   * @param String $pointer
+   *   Manuscript pointer.
+   *
+   * @param Array $info
+   *   Image information.
+   *
    * @return String
    */
   public function buildManuscriptImageURL($pointer, $info) {
@@ -42,14 +46,18 @@ class Application {
   /**
    * Manuscript Thumbnail URL Constructor
    *
-   * Constructs a URL based on the given pointer for a manuscript thumbnail
-   * that is located within CONTENTdm.
+   * Constructs a URL based on the given pointer for a manuscript thumbnail that
+   * is located within CONTENTdm.
    *
-   * The default collection is 'hsn' due to the collection parameter only
-   * necessary on the browse-viewer page.
+   * The default collection is `hsn` due to the collection parameter only
+   * necessary on the browse-all page.
    *
-   * @param  String $pointer    -- Manuscript pointer.
-   * @param  String $collection -- Collection the manuscript is in.
+   * @param String $pointer
+   *   Manuscript pointer.
+   *
+   * @param String $collection
+   *   Collection the manuscript is in. Defaults to `hsn`.
+   *
    * @return String
    */
   public function buildManuscriptThumbURL($pointer, $collection = "hsn") {
@@ -61,8 +69,12 @@ class Application {
    *
    * Constructs a CONTENTdm URL based on the given API call and pointer.
    *
-   * @param  String $parameter -- The API call.
-   * @param  String $pointer   -- The pointer being utilized.
+   * @param String $parameter
+   *   The API call.
+   *
+   * @param String $pointer
+   *   The pointer being utilized.
+   *
    * @return String
    */
   public function constructParameterURL($parameter, $pointer) {
@@ -75,8 +87,12 @@ class Application {
    * Renders an element that belongs within an SVG and its associated
    * attributes.
    *
-   * @param  String $element -- Type of HTML element.
-   * @param  Array  $object  -- Element's attributes.
+   * @param String $element
+   *   Type of HTML element.
+   *
+   * @param Array  $object
+   *   Element's attributes.
+   *
    * @return String
    */
   public function galleryObjectHelper($element, $object) {
@@ -91,7 +107,7 @@ class Application {
       $html .= " " . $name . '="' . $value . '"';
     }
 
-    // Adjust if it's a <text> element.
+    // Adjust if it's a `<text>` element.
     if (array_key_exists("text", $object)) {
       return "<" . $element . $html . ">" . $object["text"] . "</" . $element . ">";
     } else {
@@ -122,9 +138,19 @@ class Application {
    */
   public function renderMeta() {
     $metadata = array(
-      array("charset" => "utf-8"),
-      array("http-equiv" => "x-ua-compatible", "content" => "ie=edge"),
-      array("name" => "viewport", "content" => "width=device-width, initial-scale=1")
+      array(
+        "charset" => "utf-8"
+      ),
+
+      array(
+        "http-equiv" => "x-ua-compatible",
+        "content"    => "ie=edge"
+      ),
+
+      array(
+        "name"    => "viewport",
+        "content" => "width=device-width, initial-scale=1"
+      )
     );
 
     $html = "";
@@ -154,10 +180,12 @@ class Application {
    */
   public function renderCSS() {
     $html  = "";
-    $files = array("bootstrap-3.3.7.min.css",
-    "font-awesome-4.6.3.min.css",
-    "hsn-1.0.0.min.css",
-    "video-js.min.css");
+    $files = array(
+      "bootstrap-3.3.7.min.css",
+      "font-awesome-4.6.3.min.css",
+      "hsn-1.0.0.min.css",
+      "video-js.min.css"
+    );
 
     // Append files that need to be rendered for manuscript-viewer.php.
     if ($this->isManuscriptViewer) {

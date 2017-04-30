@@ -4,6 +4,16 @@
  *
  * To be rendered at the beginning of every page.
  */
+
+$navigation = array(
+  'Home',
+  'About',
+  'Browse All',
+  'Search',
+  'Gallery',
+  'Timeline',
+  'Videos'
+);
 ?><!DOCTYPE html>
 <html>
 <head>
@@ -40,12 +50,12 @@
 
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="<?php print $application->getURL(); ?>">Home</a></li>
-            <li><a href="<?php print $application->getURL(); ?>browse-viewer.php">Flip Viewer</a></li>
-            <li><a href="<?php print $application->getURL(); ?>search.php">Search</a></li>
-            <li><a href="<?php print $application->getURL(); ?>gallery.php">Gallery</a></li>
-            <li><a href="<?php print $application->getURL(); ?>timeline.php">Timeline</a></li>
-            <li><a href="<?php print $application->getURL(); ?>video.php">Video</a></li>
+            <?php foreach ($navigation as $item): ?>
+              <?php $link = $item === 'Home' ? '' : str_replace(' ', '-', strtolower($item)) . ".php"; ?>
+              <li>
+                <a href="<?php print $application->getURL() . $link; ?>"><?php print $item; ?></a>
+              </li>
+            <?php endforeach; ?>
           </ul>
         </div>
       </div>

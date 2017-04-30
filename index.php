@@ -5,8 +5,8 @@
  * Home-base of the entire website.
  */
 
-require "includes/application.php";
-require "includes/header.php";
+require_once "includes/application.php";
+require_once "includes/header.php";
 
 // TODO: Find better images.
 // TODO: Need a portrait of Gibbes.
@@ -21,6 +21,18 @@ $info = array(
   )
 );
 ?>
+  <div class="row">
+    <div class="col-xs-12">
+      <?php // TODO: Expecting an image montage of some sort to insert here. ?>
+      <?php // TODO: This header needs to either leave or be stylized better, it's repeating the logo 50 pixels below the logo. ?>
+      <h1 class="text-center index-title">Historic Southern Naturalists</h1>
+
+      <p>During the colonial period in North America, centers of scientific thought were often associated with port cities such as Boston, New York and Philadelphia.  However, the southernmost port city of Charleston should not be overlooked, as it was the center of intense scientific investigations through the mid-1800s.  The founding of South Carolina College in 1801 drew the attention of scientific pursuits to the inland city of Columbia, and there began an important legacy of scientific collections.  Since that time, the University of South Carolina (formerly South Carolina College) has amassed a collection of both archives and objects dating to the earliest years of the field of natural history.  This website cross-references digitized images of object and archival collections documenting the work of significant naturalists associated with the University, who worked in the South.</p>
+    </div>
+  </div>
+
+  <hr>
+
   <div class="row">
     <div class="col-sm-2">
       <img src="<?php print $application->getURL(); ?>/img/<?php print $info[0]["image"]; ?>" class="img-responsive" alt="<?php print $info[0]["caption"]; ?>">
@@ -62,4 +74,4 @@ $info = array(
       <p>A student of Cooper’s and 1829 graduate of South Carolina College, Gibbes became a professor at the College of Charleston, and was well connected to many prominent scientists in the United States and abroad through his membership in the AAAS.  During the mid-19th-century, he was a leading expert on American crabs, and authored the first publications on South Carolina’s marine algae.  An avid collector of the natural world, he described his own cabinet of crustaceans in 1850 as “the largest I believe at the South,” and Gibbes was considered by many to have been South Carolina’s most versatile scientist.  While his interest in mineralogy is overshadowed by his other accomplishments, Gibbes’ large collection of minerals was significant enough that USC purchased it shortly after his death.</p>
     </div>
   </div>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

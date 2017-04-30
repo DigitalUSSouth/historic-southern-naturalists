@@ -13,7 +13,8 @@ class Searcher {
   /**
    * Constructor
    *
-   * @param String $search -- Search query.
+   * @param String $search
+   *   Search query.
    */
   public function __construct($search) {
     global $application;
@@ -50,12 +51,14 @@ class Searcher {
   /**
    * Table Renderer
    *
-   * With a given type, determines what type of table needs to be rendered
-   * on the search page.
+   * With a given type, determine what type of table needs to be rendered on the
+   * search page.
    *
    * All possible types are located at the top of the search page.
    *
-   * @param  String $type -- The table type.
+   * @param String $type
+   *   The table type.
+   *
    * @return String
    */
   public function renderTable($type) {
@@ -77,7 +80,9 @@ class Searcher {
    * - Title
    * - Description
    *
-   * @param  String $type -- The media type.
+   * @param String $type
+   *   The media type.
+   *
    * @return String
    */
   private function renderContentTable($type) {
@@ -180,13 +185,22 @@ class Searcher {
    *
    * All keys are static and declared within the constructor.
    *
-   * @param  String $type -- Table type.
+   * @param String $type
+   *   Table type.
+   *
    * @return Array
    */
   private function populateArray($type) {
+    $keys  = array();
     $array = array();
 
-    foreach ($type === "plants" ? $this->plantKeys : $this->contentKeys as $key) {
+    if ($type === 'plants') {
+      $keys = $this->plantKeys;
+    } else {
+      $keys = $this->contentKeys;
+    }
+
+    foreach ($keys as $key) {
       $array[":" . $key] = "%" . $this->search . "%";
     }
 
@@ -201,13 +215,21 @@ class Searcher {
    *
    * All keys are static and declared within the constructor.
    *
-   * @param  String $type -- Table type.
+   * @param String $type
+   *   Table type.
+   *
    * @return String
    */
   private function renderQuery($type) {
     $query = "";
 
-    foreach ($type === "plants" ? $this->plantKeys : $this->contentKeys as $key) {
+    if ($type === 'plants') {
+      $keys = $this->plantKeys;
+    } else {
+      $keys = $this->contentKeys;
+    }
+
+    foreach ($keys as $key) {
       $query .= $key . " ILIKE :" . $key . " OR ";
     }
 

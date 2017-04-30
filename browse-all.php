@@ -1,11 +1,11 @@
 <?php
 /**
- * browse-viewer.php
+ * browse-all.php
  *
  * Browse page before the Manuscript Viewer page.
  */
 
-require "includes/application.php";
+require_once "includes/application.php";
 
 $application->setTitle("Manuscript Viewer Browse");
 
@@ -27,11 +27,13 @@ $prepare = $application->getConnection()->prepare("
 
 $prepare->execute();
 
-require "includes/header.php";
+require_once "includes/header.php";
 ?>
-  <div class="row">
+  <div class="row page-header">
     <div class="col-xs-12">
       <h1>Manuscript Viewer Browse</h1>
+
+      <p class="lead">Type a keyword into the Search bar. Results are returned immediately.</p>
     </div>
   </div>
 
@@ -71,4 +73,4 @@ require "includes/header.php";
       </table>
     </div>
   </div>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

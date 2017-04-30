@@ -5,7 +5,7 @@
  * The search page and its possible results.
  */
 
-require "includes/application.php";
+require_once "includes/application.php";
 
 if (isset($_GET["search"])) {
   $application->setTitle("Search - " . $_GET["search"]);
@@ -13,11 +13,11 @@ if (isset($_GET["search"])) {
   $application->setTitle("Search");
 }
 
-require "includes/searcher.php";
+require_once "includes/searcher.php";
 
 if (isset($_GET["search"])) {
   if (trim($_GET["search"]) === "") {
-    header("Location: /search");
+    header("Location: /search.php");
 
     return;
   }
@@ -52,13 +52,13 @@ $types = array(
   )
 );
 
-require "includes/header.php";
+require_once "includes/header.php";
 ?>
-  <div class="row">
+  <div class="row page-header">
     <div class="col-xs-12">
       <h1>Search</h1>
 
-      <p class="lead">Search within a localized plant or rock collection.</p>
+      <p class="lead">Search by date, naturalist, geographic location, material type, etc. Just type in your term and click the SEARCH button. Then click the tabs to see results for each discipline.</p>
     </div>
   </div>
 
@@ -123,4 +123,4 @@ require "includes/header.php";
       </div>
     </div>
   <?php endif; ?>
-<?php require "includes/footer.php"; ?>
+<?php require_once "includes/footer.php"; ?>

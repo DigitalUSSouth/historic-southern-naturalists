@@ -32,7 +32,9 @@ class Planter {
    *
    * Determines if the current plant has data within the given key.
    *
-   * @param  String  $key -- Key for the database.
+   * @param String $key
+   *   Key for the database.
+   *
    * @return Boolean
    */
   public function hasData($key) {
@@ -42,8 +44,12 @@ class Planter {
   /**
    * Determines if the data requested does have a value. If so, render it.
    *
-   * @param  String $label -- The label of the data.
-   * @param  String $key   -- The data key for the database.
+   * @param String $label
+   *   The label of the data.
+   *
+   * @param String $key
+   *   The data key for the database.
+   *
    * @return String
    */
   public function renderData($label, $key) {
@@ -58,7 +64,9 @@ class Planter {
    * Same concept as any other accessor only this is a more specific
    * request, given by the website.
    *
-   * @param  String $key -- The type of data being requested.
+   * @param String $key
+   *   The type of data being requested.
+   *
    * @return String
    */
   public function getData($key) {
