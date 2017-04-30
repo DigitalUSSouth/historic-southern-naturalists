@@ -12,15 +12,17 @@ $application->setTitle("About");
 require "includes/header.php";
 ?>
 
-<div class="row">
+<div class="row page-header">
   <div class="col-xs-12">
     <h1>About</h1>
+
+    <p class="lead">This website is the result of an Advanced Support for Innovative Research Excellence grant from the University of South Carolina.</p>
   </div>
 </div>
 
 <div class="row">
   <div class="col-xs-12">
-    <p>This website is the result of an Advanced Support for Innovative Research Excellence grant from the University of South Carolina.  The project objectives were threefold:</p>
+    <p>The project objectives were threefold:</p>
 
     <ol>
       <li>digitize objects and associated archives of significant historic collections from the University of South Carolina’s collecting institutions  (A.C. Moore Herbarium, McKissick Museum, and South Caroliniana Library)</li>

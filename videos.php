@@ -12,12 +12,11 @@ require "includes/header.php";
 
 ?>
 <div id="scroll-here"></div>
-<div class="row">
+<div class="row page-header">
   <div class="col-xs-12">
-
     <h1>Video</h1>
 
-    <p class="lead">To play a video scroll down and click on the thumbnail of the video. Your video will start playing in the large video player at the top.</p>
+    <p class="lead">No, we don’t have videos of historic southern naturalists at work.  However, you can see how ordinary objects become museum artifacts in these video vignettes (starring modern southern naturalists).  Click on a video thumbnail to get started.</p>
   </div>
 </div>
 

@@ -12,7 +12,7 @@ $application->setTitle("Timeline");
 
 require "includes/header.php";
 ?>
-  <div class="row">
+  <div class="row page-header">
     <div class="col-xs-12">
       <h1>Timeline</h1>
 

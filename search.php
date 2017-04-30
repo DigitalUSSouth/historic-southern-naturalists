@@ -54,11 +54,11 @@ $types = array(
 
 require "includes/header.php";
 ?>
-  <div class="row">
+  <div class="row page-header">
     <div class="col-xs-12">
       <h1>Search</h1>
 
-      <p class="lead">Search within a localized plant or rock collection.</p>
+      <p class="lead">Search by date, naturalist, geographic location, material type, etc. Just type in your term and click the SEARCH button. Then click the tabs to see results for each discipline.</p>
     </div>
   </div>
 
