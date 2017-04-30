@@ -1,0 +1,234 @@
+// Color variables (appears count calculates by raw css)
+@color0: #1a1a1a; // Appears 4 times
+@color1: #141a21; // Appears 3 times
+@color2: #ffffff; // Appears 3 times
+
+// Width variables (appears count calculates by raw css)
+@width1: 100%; // Appears 5 times
+
+
+.vjs-playlist {
+	background-color: @color0;
+	background-color:#dddddd !important;
+	color: @color2;
+	font-size: 14px;
+	list-style-type: none;
+	overflow: scroll;
+	padding: 0;
+	width: 250px;
+	.vjs-playlist-item-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		position: relative;
+	}
+	.vjs-playlist-item {
+		cursor: pointer;
+		margin-bottom: 5px;
+		overflow: hidden;
+		position: relative;
+	}
+	.vjs-playlist-thumbnail {
+		display: block;
+		width: @width1;
+		.vjs-playlist-now-playing {
+			display: none;
+			left: 0;
+			margin: .5rem .8rem;
+			padding-left: 2px;
+			position: absolute;
+			top: 0;
+		}
+	}
+	.vjs-playlist-thumbnail-placeholder {
+		background: #303030;
+		height: 100px;
+	}
+	img {
+		display: block;
+		height: auto;
+		width: @width1;
+	}
+	.vjs-playlist-duration {
+		background-color: rgba(26, 26, 26, 0.8);
+		left: .5rem;
+		margin-left: 2px;
+		padding: 2px 5px 3px;
+		position: absolute;
+		top: .5rem;
+	}
+	.vjs-selected {
+		background-color: @color1;
+		.vjs-playlist-duration {
+			display: none;
+		}
+		.vjs-playlist-thumbnail {
+			img {
+				opacity: .2;
+			}
+			.vjs-playlist-now-playing {
+				display: block;
+			}
+		}
+		.vjs-playlist-title-container {
+			text-shadow: none;
+		}
+	}
+	.vjs-playlist-name {
+		display: block;
+		font-style: normal;
+		line-height: 20px;
+		line-height: 22px;
+		max-height: 2.5em;
+		overflow: hidden;
+		padding: 0 0 4px 2px;
+	}
+	.vjs-playlist-description {
+		height: 42px;
+		line-height: 21px;
+		margin: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.vjs-up-next-text {
+		display: none;
+	}
+	.vjs-up-next {
+		.vjs-up-next-text {
+			display: block;
+			font-size: .8em;
+			padding: .1rem 2px;
+			text-transform: uppercase;
+		}
+	}
+	time {
+		font-size: 1em;
+	}
+	.vjs-playlist-title-container {
+		bottom: 0;
+		padding: .5rem .8rem;
+		position: absolute;
+		text-shadow: 1px 1px 2px black, -1px 1px 2px black, 1px -1px 2px black, -1px -1px 2px black;
+	}
+}
+.vjs-playlist.vjs-ad-playing {
+	overflow: hidden;
+	.vjs-playlist-ad-overlay {
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		background-color: @color0;
+		background-color: rgba(0, 0, 0, 0.5);
+		display: block;
+		display: none;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: @width1;
+	}
+}
+.vjs-playlist.vjs-ad-playing.vjs-csspointerevents {
+	overflow: auto;
+	pointer-events: none;
+	.vjs-playlist-ad-overlay {
+		pointer-events: auto;
+	}
+}
+.vjs-mouse.vjs-playlist {
+	background-color: @color0;
+	color: @color2;
+	font-size: 15px;
+	padding: 0;
+	.vjs-playlist-thumbnail {
+		width: @width1;
+		width: @width1;
+		.vjs-playlist-now-playing {
+			display: none;
+			display: none;
+			left: 0;
+			left: 0;
+			margin: .5rem .8rem;
+			margin: .5rem .8rem;
+			padding-left: 2px;
+			padding-left: 2px;
+			position: absolute;
+			position: absolute;
+			top: 0;
+			top: 0;
+		}
+	}
+	.vjs-selected {
+		background-color: @color1;
+		background-color: @color1;
+		.vjs-playlist-thumbnail {
+			img {
+				opacity: .2;
+				opacity: .2;
+			}
+			.vjs-playlist-now-playing {
+				display: block;
+				display: block;
+			}
+		}
+		.vjs-playlist-title-container {
+			text-shadow: none;
+			text-shadow: none;
+		}
+	}
+	.vjs-up-next-text {
+		display: none;
+		display: none;
+	}
+	.vjs-up-next {
+		.vjs-up-next-text {
+			display: block;
+			display: block;
+			font-size: .8em;
+			font-size: .8em;
+			padding: .1rem 2px;
+			padding: .1rem 2px;
+			text-transform: uppercase;
+			text-transform: uppercase;
+		}
+	}
+	time {
+		font-size: 1em;
+		font-size: 1em;
+	}
+	.vjs-playlist-title-container {
+		bottom: 0;
+		bottom: 0;
+		padding: .5rem .8rem;
+		padding: .5rem .8rem;
+		position: absolute;
+		position: absolute;
+		text-shadow: 1px 1px 2px black, -1px 1px 2px black, 1px -1px 2px black, -1px -1px 2px black;
+		text-shadow: 1px 1px 2px black, -1px 1px 2px black, 1px -1px 2px black, -1px -1px 2px black;
+	}
+	.vjs-playlist-description {
+		height: 45px;
+		height: 51px;
+		line-height: 23px;
+		line-height: 26px;
+	}
+}
+.info {
+	background-color: #eeeeee;
+	border-radius: 3px;
+	border: thin solid #333333;
+	margin: 0 0 20px;
+	padding: 0 5px;
+}
+.video-js {
+	float: left;
+}
+.vjs-playlist-item {
+	margin:10px;
+}
+.player-container {
+	overflow: auto;
+	padding:10px;
+}
+#spacer {
+	margin-bottom:200px;
+	height:200px;
+}

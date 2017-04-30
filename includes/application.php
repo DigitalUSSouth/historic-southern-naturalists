@@ -183,7 +183,8 @@ class Application {
     $files = array(
       "bootstrap-3.3.7.min.css",
       "font-awesome-4.6.3.min.css",
-      "hsn-1.0.0.min.css"
+      "hsn-1.0.0.min.css",
+      "video-js.min.css"
     );
 
     // Append files that need to be rendered for manuscript-viewer.php.
@@ -215,7 +216,11 @@ class Application {
       "bootstrap-3.3.7.min.js",
       "dataTables-1.10.12.min.js",
       "dataTables-bootstrap-1.10.12.min.js",
-      "hsn.js"
+      /*"video.min.js",*/
+      "hsn.js",
+      "hsn-videojs.js",
+      "videojs-playlist-ui.js",
+      "videojs-playlist.js"
     );
 
     // Append files that need to be rendered for manuscript-viewer.php.
