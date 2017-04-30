@@ -12,7 +12,7 @@ $navigation = array(
   'Search',
   'Gallery',
   'Timeline',
-  'Video'
+  'Videos'
 );
 ?><!DOCTYPE html>
 <html>
