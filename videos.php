@@ -1,6 +1,6 @@
 <?php
 /**
- * video.php
+ * videos.php
  *
  * The video gallery page of the website.
  */
