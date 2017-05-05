@@ -36,4 +36,20 @@ require_once "includes/header.php";
       <p>Other features of this website include video vignettes, and a timeline of natural history investigation.  This resources is in no way complete, however, it focuses on the naturalists associated with the University and includes significant events in US and global history.  Rather than highlighting historic naturalists, the video vignettes feature modern researchers from the University as they demonstrate the collection, documentation, and preservation of objects for future generations.</p>
     </div>
   </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Outline: Videos</h3>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h3>Outline: Timeline</h3>
+    </div>
+  </div>
 <?php require_once "includes/footer.php"; ?>
