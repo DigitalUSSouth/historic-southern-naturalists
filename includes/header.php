@@ -5,15 +5,8 @@
  * To be rendered at the beginning of every page.
  */
 
-$navigation = array(
-  'Home',
-  'About',
-  'Browse All',
-  'Search',
-  'Gallery',
-  'Timeline',
-  'Videos'
-);
+$navigation = array('Home', 'About', 'Browse All', 'Search', 'Gallery','Timeline', 'Videos');
+
 ?><!DOCTYPE html>
 <html>
 <head>
