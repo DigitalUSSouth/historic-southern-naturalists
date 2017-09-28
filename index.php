@@ -2,7 +2,7 @@
 /**
  * index.php
  *
- * Home-base of the entire website.
+ * Home-base of the entire website. 
  */
 
 require_once "includes/application.php";
