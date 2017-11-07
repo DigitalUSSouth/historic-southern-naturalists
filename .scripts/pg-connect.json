@@ -1,9 +1,1 @@
-{
-  "js": "postgres://hsnUser@localhost:5432/hsn",
-  "php":{ 
-	"connection": "host=loalhost;port=5432;dbname=random",
-	"username":"postgres",
-	"password":"postgres"
-  }
-}
-
+ 
