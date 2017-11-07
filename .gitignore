@@ -1,4 +1,5 @@
 .scripts/tmp/
 .scripts/pg-connect.json
+.scripts/pg-connect2.json
 node_modules/
 videos/*.mp4
