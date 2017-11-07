@@ -14,7 +14,7 @@ class Application {
    * Constructor
    */
   public function __construct() {
-    $contents = json_decode(file_get_contents(dirname(__FILE__) . "/../.scripts/pg-connect.json"), true)["php"];
+    $contents = json_decode(file_get_contents(dirname(__FILE__) . "/../.scripts/pg-connect2.json"), true)["php"];
 
     $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/hsn/";
     $this->title      = "";
