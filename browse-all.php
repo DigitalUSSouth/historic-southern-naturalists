@@ -9,10 +9,10 @@ require_once "includes/application.php";
 
 $application->setTitle("Manuscript Viewer Browse");
 
-$prepare = $application->getConnection()->prepare("
-  SELECT * 
-  FROM manuscripts"
-);
+$manuscript = "SELECT *
+               FROM manuscripts";
+
+$prepare = $application->getConnection()->prepare($manuscript);
 
 $prepare->execute();
 
@@ -62,4 +62,8 @@ require_once "includes/header.php";
       </table>
     </div>
   </div>
+  while ($row = mysqli_fetch_array($manuscript) ){
+    echo "<tr>";
+    echo "<td><a href= 'manuscript-viewer.php'><img src=".$row['thumb']"</a>  "
+  }
 <?php require_once "includes/footer.php"; ?>
