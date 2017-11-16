@@ -18,7 +18,7 @@ class Application {
 
     $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/historicsouthernnaturalists/";
     $this->title      = "";
-    $this->connection = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->connection = new PDO("mysql:" . $contents["connection"], $contents["username"], $contents["password"]);
 
     $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
