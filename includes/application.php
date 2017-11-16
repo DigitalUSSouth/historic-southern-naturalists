@@ -16,7 +16,7 @@ class Application {
   public function __construct() {
     $contents = json_decode(file_get_contents(dirname(__FILE__) . "/../.scripts/pg-connect2.json"), true)["php"];
 
-    $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/hsn/";
+    $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/historicsouthernnaturalists/";
     $this->title      = "";
     $this->connection = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
 
