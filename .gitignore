@@ -5,3 +5,6 @@ css/*.map
 node_modules/
 js/bootstrap-*.min.js
 videos/*.mp4
+api/ENV/
+api/__pycache__
+.vscode
