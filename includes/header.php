@@ -15,12 +15,14 @@ $navigation = array(
   'Timeline',
   'Videos'
 );
-?><!DOCTYPE html>
+?>
+
+<!DOCTYPE html>
 <html>
 <head>
   <?php print $application->renderMeta(); ?>
 
-  <title><?php print $application->renderTitle(); ?></title>
+  <title></title>
 
   <?php print $application->renderCSS(); ?>
 
@@ -35,7 +37,6 @@ $navigation = array(
 
 </head>
 <body>
-  <?php if (!$application->isManuscriptViewer()): ?>
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -51,6 +52,7 @@ $navigation = array(
 
         <div class="collapse navbar-collapse" id="navbar">
           <ul class="nav navbar-nav navbar-right">
+            <li>Home</li>
             <?php foreach ($navigation as $item): ?>
               <?php $link = $item === 'Home' ? '' : str_replace(' ', '-', strtolower($item)) . ".php"; ?>
               <li>
@@ -61,6 +63,5 @@ $navigation = array(
         </div>
       </div>
     </nav>
-  <?php endif; ?>
 
   <div class="container">
