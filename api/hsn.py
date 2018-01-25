@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, Response
 from pprint import pprint
 import json
 app = Flask(__name__)
@@ -14,8 +14,6 @@ engine = create_engine("mysql+pymysql://user:p@localhost/hsn")
 # reflect the tables
 Base.prepare(engine, reflect=True)
 
-# mapped classes are now created with names by default
-# matching that of the table name.
 Manuscripts = Base.classes.manuscripts
 Plants = Base.classes.plants
 
@@ -23,16 +21,29 @@ session = Session(engine)
 
 @app.route('/getAllManuscripts')
 def get_manuscripts():
-    response = []
-    for doc in session.query(Manuscripts).order_by(Manuscripts.id):
-        response.append({'id':doc.id,'title':doc.title})
-    json_response = json.dumps(response,ensure_ascii=False,indent=4, sort_keys=True)
-    return json_response
-
-@app.route('/getAllPlants')
-def get_plants():
-    response = []
-    for doc in session.query(Plants).order_by(Plants.id):
-        response.append({'id':doc.id,'title':doc.title})
-    json_response = json.dumps(response,ensure_ascii=False,indent=4, sort_keys=True)
-    return json_response
+    items = []
+    for item in session.query(Manuscripts).order_by(Manuscripts.id):
+        items.append({
+            'collection':item.collection,
+            'compound_page':item.compound_page,
+            'contri':item.contri,
+            'covera':item.covera,
+            'date':item.date,
+            'descri':item.descri,
+            'image_height':item.image_height,
+            'image_width':item.image_width,
+            'is_compound_object':item.is_compound_object,
+            'media':item.media,
+            'parent_object':item.parent_object,
+            'pointer':item.pointer,
+            'publis':item.publis,
+            'relati':item.relati,
+            'subjec':item.subjec,
+            'title':item.title,
+            'transc':item.transc,
+            'id':item.id
+        })
+    json_response = json.dumps(items,ensure_ascii=False,indent=4, sort_keys=True)
+    response = Response(json_response)
+    response.headers['Content-Type'] = 'application/json'
+    return response
