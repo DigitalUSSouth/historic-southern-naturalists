@@ -20,7 +20,7 @@ require_once "includes/header.php";
 ?>
   <div class="row page-header">
     <div class="col-xs-12">
-      <h1>Manuscript Viewer Browse</h1>
+      <h1 style="color: #00747a; font-weight: bold;">Manuscript Viewer Browse</h1>
 
       <p class="lead">Type a keyword into the Search bar. Results are returned immediately.</p>
     </div>
