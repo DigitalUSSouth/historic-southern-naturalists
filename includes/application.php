@@ -15,10 +15,18 @@ class Application {
    */
   public function __construct() {
     $contents = json_decode(file_get_contents(dirname(__FILE__) . "/../.scripts/pg-connect2.json"), true)["php"];
-
-    $this->url        = "http://" . $_SERVER["HTTP_HOST"] . "/hsn/";
+    
+    //check protocol
+    if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+      isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+      $protocol = 'https://';
+    }
+    else {
+      $protocol = 'http://';
+    }
+    $this->url        = $protocol . $_SERVER["HTTP_HOST"] . "/historicsouthernnaturalists/";
     $this->title      = "";
-    $this->connection = new PDO("pgsql:" . $contents["connection"], $contents["username"], $contents["password"]);
+    $this->connection = new PDO("mysql:" . $contents["connection"], $contents["username"], $contents["password"]);
 
     $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
