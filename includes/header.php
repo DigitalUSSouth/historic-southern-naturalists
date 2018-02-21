@@ -99,5 +99,5 @@ $navigation = array(
         </div>
       </div>
     </nav>
-
+  <?php endif;?>
   <div class="container">
