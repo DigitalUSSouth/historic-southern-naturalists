@@ -36,7 +36,6 @@ $navigation = array(
   <link href="css/videojs-playlist-ui.vertical.css" rel="stylesheet">-->
 
 </head>
-<<<<<<< HEAD
 <style>
   body {
     background-color: #d3bf96;
@@ -48,10 +47,6 @@ $navigation = array(
 <body >
   <?php if (!$application->isManuscriptViewer()): ?>
     <nav class="navbar navbar-default navbar-fixed-top" style="background-color: #9c6409;">
-=======
-<body>
-    <nav class="navbar navbar-default navbar-fixed-top">
->>>>>>> 1b4c823743e11d90e7df5dc68a71dbda296e425a
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -65,7 +60,6 @@ $navigation = array(
           <img src="img/filmstrip.png" alt="filmstrip" style="width: 400px; height: 100px; align: middle">
         </div>
 
-<<<<<<< HEAD
         <br><br>
         <div class="collapse navbar-collapse" id="navbar" style="align: center">
           <ul class="nav navbar-nav navbar-right nav-pills" style="text-align: center;">
@@ -96,12 +90,6 @@ $navigation = array(
 
 
             <?php /*foreach ($navigation as $item): ?>
-=======
-        <div class="collapse navbar-collapse" id="navbar">
-          <ul class="nav navbar-nav navbar-right">
-            <li>Home</li>
-            <?php foreach ($navigation as $item): ?>
->>>>>>> 1b4c823743e11d90e7df5dc68a71dbda296e425a
               <?php $link = $item === 'Home' ? '' : str_replace(' ', '-', strtolower($item)) . ".php"; ?>
               <li>
                 <a href="<?php print $application->getURL() . $link; ?>"><?php print $item; ?></a>
