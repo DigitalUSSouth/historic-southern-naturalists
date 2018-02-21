@@ -42,7 +42,7 @@ require_once "includes/header.php";
 ?>
   <div class="row page-header">
     <div class="col-xs-12">
-      <h1>Gallery</h1>
+      <h1 style="color: #00747a; font-weight: bold;">Gallery</h1>
 
       <p><button type="button" class="btn btn-sm" id="hideImage">Hide Image</button></p>
     </div>
@@ -51,9 +51,9 @@ require_once "includes/header.php";
   <div class="row">
     <div class="col-xs-12">
       <?php // TOOD - Production: Remove this image. ?>
-      <img src="<?php print $application->getURL(); ?>/img/temp-gallery-floor.png" class="img-responsive center-block" id="galleryImage">
+      <!-- <img src="<?php print $application->getURL(); ?>/img/temp-gallery-floor.png" class="img-responsive center-block" id="galleryImage"> -->
 
-      <?php // TODO - Production: Add class `center-block`, remove `style` attribute. ?>
+      <?php /*// TODO - Production: Add class `center-block`, remove `style` attribute. ?>
       <svg width="952" height="380" class="gallery-floor" style="position: absolute; top: 0; left: 109px;">
         <?php foreach ($objects as $key=>$object): ?>
           <g>
