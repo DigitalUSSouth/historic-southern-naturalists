@@ -14,7 +14,7 @@ require_once "includes/header.php";
 ?>
   <div class="row page-header">
     <div class="col-xs-12">
-      <h1>Timeline</h1>
+      <h1 style="color: #00747a; font-weight: bold;">Timeline</h1>
     </div>
   </div>
 
