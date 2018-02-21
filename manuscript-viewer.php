@@ -15,5 +15,7 @@ $application->setTitle("Manuscript Viewer");
 
 require_once "includes/header.php";
 ?>
-  <div id="BookReader" data-pointer="<?php print $_GET["pointer"]; ?>" data-collection="<?php print $_GET["collection"]; ?>"></div>
+  <!-- <div id="BookReader" data-pointer="</* ?php print $_GET["pointer"]; ?*/>" data-collection="</* ?php print $_GET["collection"]; ? */>"></div> -->
 <?php require_once "includes/footer.php"; ?>
+
+<!-- <div id="bookreader" data-pointer="php get information mation"> -->
