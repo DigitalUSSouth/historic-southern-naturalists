@@ -67,25 +67,25 @@ $navigation = array(
                <a class="nav-link active" href="<?php print $application->getURL(); ?>" style="color: #3cb6ce">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hsn/#about-naturalist" style="color: #3cb6ce">About the Naturalists</a>
+              <a class="nav-link" href="<?php $application->getURL();?>#about-naturalist" style="color: #3cb6ce">About the Naturalists</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hsn/#about-project" style="color: #3cb6ce">About the Project</a>
+              <a class="nav-link" href="<?php $application->getURL();?>#about-project" style="color: #3cb6ce">About the Project</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hsn/browse-all.php" style="color: #3cb6ce">Browse All</a>
+              <a class="nav-link" href="<?php $application->getURL();?>browse-all.php" style="color: #3cb6ce">Browse All</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hsn/search.php" style="color: #3cb6ce">Search</a>
+              <a class="nav-link" href="<?php $application->getURL();?>search.php" style="color: #3cb6ce">Search</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hsn/gallery.php" style="color: #3cb6ce">Gallery</a>
+              <a class="nav-link" href="<?php $application->getURL();?>gallery.php" style="color: #3cb6ce">Gallery</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hsn/timeline.php" style="color: #3cb6ce">Timeline</a>
+              <a class="nav-link" href="<?php $application->getURL();?>timeline.php" style="color: #3cb6ce">Timeline</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/hsn/videos.php" style="color: #3cb6ce">Videos</a>
+              <a class="nav-link" href="<?php $application->getURL();?>videos.php" style="color: #3cb6ce">Videos</a>
             </li>
 
 
