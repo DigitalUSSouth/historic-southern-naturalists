@@ -15,7 +15,7 @@ require_once "includes/header.php";
 
 <div class="row page-header">
   <div class="col-xs-12">
-    <h1>Video</h1>
+    <h1 style="color: #00747a; font-weight: bold;">Video</h1>
 
     <p class="lead">No, we don’t have videos of historic southern naturalists at work.  However, you can see how ordinary objects become museum artifacts in these video vignettes (starring modern southern naturalists).  Click on a video thumbnail to get started.</p>
   </div>
@@ -103,20 +103,6 @@ the middle of the page -->
     }
   }
 ?>
-<div class="row">
-  <div class="col-xs-4">
-    <video class="thumbnail" width=200 height=200>
-      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
-      Your browser does not support HTML5 video
-    </video>
-  </div>
-
-  <div class="col-xs-8">
-    <h5>Big Buck Bunny</h5>
-
-    <p>Description goes here</p>
-  </div>
-</div>
 
 <hr />
 
