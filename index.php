@@ -12,7 +12,7 @@ require_once "includes/header.php";
 $info = array(
   array(
     "image"   => "thomas-cooper.jpg",
-    "caption" => "Portrait of Thomas Cuper"
+    "caption" => "Portrait of Thomas Cooper"
   ),
 
   array(
