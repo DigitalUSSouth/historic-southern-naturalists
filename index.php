@@ -11,7 +11,7 @@ require_once "includes/header.php";
 // TODO: Find better images.
 $info = array(
   array(
-    "image"   => "thomas-cooper.jpg",
+    "image"   => "thomas-cuper.jpg",
     "caption" => "Portrait of Thomas Cooper"
   ),
 
