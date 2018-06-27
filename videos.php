@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * videos.php
  *
@@ -21,102 +21,50 @@ require_once "includes/header.php";
   </div>
 </div>
 
-<!-- Main Video -->
-<div class="row">
-  <div class="col-xs-12" style="margin:0px;padding:0px;">
-    <!---->
-    <div class="jumbotron" style="margin:0px;padding:0px;border-style:solid;">
-      <div class="embed-responsive embed-responsive-4by3">
-        <video id="mainVideo" autoplay controls style="margin-top:0px;"></video>
-        <h3 class="text-center" style="margin-top:30%">Click on a video below to view</h3>
-      </div>
-    </div>
-  </div>
-</div>
-
-<br />
-
-<!-- VideoJS Player -->
-<div class="player-container">
-  <div class="row">
-    <div class="col-md-9">
-<!-- Video Player -->
-      <video
-        id="video"
-        class="video-js"
-        height='600px'
-        width='850px'
-        controls
-        autoplay="false">
-        <source src="videos/vignette1.mp4" type="video/mp4">
-      </video>
-    </div><!-- End col-md-9 -->
-    <div class="col-md-3">
-<!-- Playlist -->
-      <div class="vjs-playlist">
-         <!--
-           The contents of this element will be filled based on the
-           currently loaded playlist
-         -->
-      </div>
-    </div><!-- End col-md-3 -->
- </div><!-- End row -->
-<div/><!-- End player-container -->
-<!-- END VideoJS Player -->
-
-<!-- This is to have some space below the video player so that the video is in
-the middle of the page -->
-<div id="spacer"/>
-
-<?php
-  $description = "Video description goes here";
-  // Check if the video directory exists
-  if(is_dir($dir))
-  {
-    // If the directory exists then attempt to open it
-    if($dh = opendir($dir))
-    {
-      // While there are file to read which are not . .. or .DS_Store
-      while (($file = readdir($dh)) !== false)
-      {
-        if($file != '.' && $file != '..' && $file != '.DS_Store')
-        {
-          $fileName = substr($file,0,-4);
-          // Display the video
-          echo "
-          <div class=\"row\">
-            <div class=\"col-xs-4\">
-              <video class=\"thumbnail\" width=200 height=200>
-                <source src=\"". $dir . $file ."\" type=\"video/mp4\">
-                Your browser does not support HTML5 video
-              </video>
-            </div>
-            <div class=\"col-xs-8\">
-              <h5>$fileName</h5>
-              <p>$description</p>
-            </div>
-          </div>
-          <hr />
-          ";
-        }
-      }
-    }
-  }
-?>
 <div class="row">
   <div class="col-xs-4">
-    <video class="thumbnail" width=200 height=200>
-      <source src="http://video.webmfiles.org/big-buck-bunny_trailer.webm">
-      Your browser does not support HTML5 video
+    <video width=500 height=400 controls>
+      <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette1.mp4">
+	  Your browser does not support the video tag.
     </video>
   </div>
 
   <div class="col-xs-8">
-    <h5>Big Buck Bunny</h5>
-
-    <p>Description goes here</p>
+    <h5>Video Vignette 1</h5>
   </div>
-</div>
+  
+    <div class="col-xs-4">
+    <video width=500 height=400 controls>
+      <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette2.mp4">
+	  Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="col-xs-8">
+    <h5>Preparing the Oven Press</h5>
+  </div>
+  
+    <div class="col-xs-4">
+    <video width=500 height=400 controls>
+      <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette3.mp4">
+	  Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="col-xs-8">
+    <h5>Removing Specimens From the Oven</h5>
+  </div>
+  
+    <div class="col-xs-4">
+    <video width=500 height=400 controls>
+      <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette4.mp4">
+	  Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="col-xs-8">
+    <h5>Digitizing Data</h5>
+  </div>
 
 <hr />
 
