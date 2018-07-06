@@ -21,50 +21,34 @@ require_once "includes/header.php";
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-4">
-    <video width=500 height=400 controls>
-      <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette1.mp4">
-	  Your browser does not support the video tag.
-    </video>
-  </div>
+<video id="mainVideo" width=520 height=440 autoplay controls></video>
+<h3>Click on a video below to view</h3>
+<br/>
+<video class="thumbnail" width=200 height=200>
+    <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette1.mp4" type="video/mp4">
+</video>
+<video class="thumbnail" width=200 height=200>
+    <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette2.mp4" type="video/mp4">
+</video>
+<video class="thumbnail" width=200 height=200>
+    <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette3.mp4#t=1" type="video/mp4">
+</video>
+<video class="thumbnail" width=200 height=200>
+    <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette4.mp4#t=1" type="video/mp4">
+</video>
 
-  <div class="col-xs-8">
-    <h5>Video Vignette 1</h5>
-  </div>
-  
-    <div class="col-xs-4">
-    <video width=500 height=400 controls>
-      <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette2.mp4">
-	  Your browser does not support the video tag.
-    </video>
-  </div>
 
-  <div class="col-xs-8">
-    <h5>Preparing the Oven Press</h5>
-  </div>
-  
-    <div class="col-xs-4">
-    <video width=500 height=400 controls>
-      <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette3.mp4">
-	  Your browser does not support the video tag.
-    </video>
-  </div>
+<script>
+var videos = document.querySelectorAll(".thumbnail");
+for (var i = 0; i < videos.length; i++) {
+    videos[i].addEventListener('click', clickHandler, false);
+}
 
-  <div class="col-xs-8">
-    <h5>Removing Specimens From the Oven</h5>
-  </div>
-  
-    <div class="col-xs-4">
-    <video width=500 height=400 controls>
-      <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette4.mp4">
-	  Your browser does not support the video tag.
-    </video>
-  </div>
-
-  <div class="col-xs-8">
-    <h5>Digitizing Data</h5>
-  </div>
+function clickHandler(el) {
+    var mainVideo = document.getElementById("mainVideo");
+    mainVideo.src = el.srcElement.currentSrc;
+}
+</script>
 
 <hr />
 
