@@ -17,7 +17,7 @@ require_once "includes/header.php";
   <div class="col-xs-12">
     <h1>Video</h1>
 
-    <p class="lead">No, we don’t have videos of historic southern naturalists at work.  However, you can see how ordinary objects become museum artifacts in these video vignettes (starring modern southern naturalists).  Click on a video thumbnail to get started.</p>
+    <p class="lead">We have videos of historic southern naturalists at work. Click on a video thumbnail to get started.</p>
   </div>
 </div>
 
