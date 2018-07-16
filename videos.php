@@ -11,6 +11,19 @@ $application->setTitle("Timeline");
 
 require_once "includes/header.php";
 ?>
+
+<head>
+	<style>
+		.row{text-align: center;}
+		
+		.thumbnail{
+			display: inline-block;
+			text-align: left;
+		}
+	</style>
+</head
+
+
 <div id="scroll-here"></div>
 
 <div class="row page-header">
@@ -21,21 +34,26 @@ require_once "includes/header.php";
   </div>
 </div>
 
-<video id="mainVideo" width=520 height=440 autoplay controls></video>
+<div class="row">
+<div class="thumbnail>
+<video id="mainVideo" width=920 height=840 autoplay controls></video>
 <h3>Click on a video below to view</h3>
 <br/>
-<video class="thumbnail" width=200 height=200>
+<video class="thumbnail" width=300 height=300>
     <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette1.mp4" type="video/mp4">
 </video>
-<video class="thumbnail" width=200 height=200>
+<video class="thumbnail" width=300 height=300>
     <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette2.mp4" type="video/mp4">
 </video>
-<video class="thumbnail" width=200 height=200>
+<video class="thumbnail" width=300 height=300>
     <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette3.mp4#t=1" type="video/mp4">
 </video>
-<video class="thumbnail" width=200 height=200>
+<video class="thumbnail" width=300 height=300>
     <source src="https://s3.amazonaws.com/dussstoragebucket/HSNVideos/vignette4.mp4#t=1" type="video/mp4">
 </video>
+</div>
+</div>
+                                                                                                         
 
 
 <script>
