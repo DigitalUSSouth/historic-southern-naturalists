@@ -34,6 +34,14 @@ $navigation = array(
   <link href="css/videojs-playlist-ui.vertical.css" rel="stylesheet">-->
 
 </head>
+<style>
+  body {
+    background-color: #d3bf96;
+    color: black; 
+    font-size: 15px;
+    margin-top: 50px; 
+  }
+</style>
 <body>
   <?php if (!$application->isManuscriptViewer()): ?>
     <nav class="navbar navbar-default navbar-fixed-top">
