@@ -36,7 +36,7 @@ $navigation = array(
 </head>
 <style>
   body {
-    background-color: #d3bf96;
+    background-color: #695e4a;
     color: black; 
     font-size: 15px;
     margin-top: 50px; 
