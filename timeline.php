@@ -12,11 +12,6 @@ $application->setTitle("Timeline");
 
 require_once "includes/header.php";
 ?>
-  <div class="row page-header">
-    <div class="col-xs-12">
-      <h1>Timeline</h1>
-    </div>
-  </div>
 
   <div class="row">
     <div class="col-xs-12">
