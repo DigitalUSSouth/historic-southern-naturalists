@@ -54,8 +54,7 @@ $navigation = array(
             <span class="icon-bar"></span>
           </button>
 
-<a href="<?php print $application->getURL(); ?>" class="navbar-brand"><text style="color: #3cb6ce; align: center;">Historic Southern Naturalists</text></a>
-          <img src="img/filmstrip.png" alt="filmstrip" style="width: 400px; height: 100px; align: middle">
+<img src="img/Filmstrip_2.png" alt="filmstrip" style="width: 100%;">
         </div>
 
         <br><br>
