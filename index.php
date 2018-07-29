@@ -26,6 +26,13 @@ $info = array(
   )
 );
 ?>
+<head>
+  <style>
+    body {font-size: 16pt;}
+  </style>
+</head>
+
+<body>
   <div class="row">
     <div class="col-xs-12">
       <?php // TODO: Expecting an image montage of some sort to insert here. ?>
@@ -79,4 +86,5 @@ $info = array(
       <p>As a biologist, Moore was particularly interested in botany.  Among his research interests was the formulation of concepts on reduction division, as observed in liverworts.  Considerable evidence in the McKissick Museum collection exists for Moore's usage of the word "meiosis" in its modern context, as the first ever in biology.  Dr. Moore also founded the current herbarium with his own collections in 1907.</p>
     </div>
   </div>
+</body>
 <?php require_once "includes/footer.php"; ?>
