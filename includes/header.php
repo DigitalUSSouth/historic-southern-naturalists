@@ -54,21 +54,48 @@ $navigation = array(
             <span class="icon-bar"></span>
           </button>
 
-          <a href="<?php print $application->getURL(); ?>" class="navbar-brand">Historic Southern Naturalists</a>
+<a href="<?php print $application->getURL(); ?>" class="navbar-brand"><text style="color: #3cb6ce; align: center;">Historic Southern Naturalists</text></a>
+          <img src="img/filmstrip.png" alt="filmstrip" style="width: 400px; height: 100px; align: middle">
         </div>
 
-        <div class="collapse navbar-collapse" id="navbar">
-          <ul class="nav navbar-nav navbar-right">
-            <?php foreach ($navigation as $item): ?>
+        <br><br>
+        <div class="collapse navbar-collapse" id="navbar" style="align: center">
+          <ul class="nav navbar-nav navbar-right nav-pills" style="text-align: center;">
+            <li class="nav-item">
+               <a class="nav-link active" href="<?php print $application->getURL(); ?>" style="color: #3cb6ce">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php $application->getURL();?>#about-naturalist" style="color: #3cb6ce">About the Naturalists</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php $application->getURL();?>#about-project" style="color: #3cb6ce">About the Project</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php $application->getURL();?>browse-all.php" style="color: #3cb6ce">Browse All</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php $application->getURL();?>search.php" style="color: #3cb6ce">Search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php $application->getURL();?>gallery.php" style="color: #3cb6ce">Gallery</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php $application->getURL();?>timeline.php" style="color: #3cb6ce">Timeline</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php $application->getURL();?>videos.php" style="color: #3cb6ce">Videos</a>
+            </li>
+
+
+            <?php /*foreach ($navigation as $item): ?>
               <?php $link = $item === 'Home' ? '' : str_replace(' ', '-', strtolower($item)) . ".php"; ?>
               <li>
                 <a href="<?php print $application->getURL() . $link; ?>"><?php print $item; ?></a>
               </li>
-            <?php endforeach; ?>
+            <?php endforeach; */ ?>
           </ul>
         </div>
       </div>
     </nav>
-  <?php endif; ?>
-
+  <?php endif;?>
   <div class="container">
