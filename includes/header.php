@@ -71,7 +71,7 @@ $navigation = array(
               <a class="nav-link" href="<?php $application->getURL();?>#about-project" style="color: #3cb6ce">About the Project</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<?php $application->getURL();?>browse-all.php" style="color: #3cb6ce">Browse All</a>
+              <a class="nav-link" href="<?php $application->getURL();?>browse-all.php" style="color: #3cb6ce">Browse</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="<?php $application->getURL();?>search.php" style="color: #3cb6ce">Search</a>
